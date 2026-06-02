@@ -37,9 +37,9 @@ export const cardModuleCloseBtnClass = cn(
   'focus-visible:rounded focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--flowx-border)]',
 );
 
-export const cardModuleBodyClass = 'box-border flex min-w-0 flex-col gap-3 self-stretch';
+export const cardModuleBodyClass =
+  'box-border flex min-w-0 flex-col gap-3 self-stretch';
 
-/** Panels that use 18px vertical rhythm between body children (default body gap is 12px). */
 export const cardModuleBodyGap18Class = 'gap-[18px]';
 
 export const cardModuleBodyFlexFillClass = 'min-h-0 flex-1';

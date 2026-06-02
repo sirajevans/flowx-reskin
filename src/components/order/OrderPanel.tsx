@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
-import { SwapCurrencyIcon, RiskCheckIcon, OrderWarningIcon } from '../icons';
+import { SwapCurrencyIcon, RiskManagementExpandIcon, OrderWarningIcon } from '../icons';
 import {
   CardModule,
   CardModuleTabContent,
@@ -9,32 +9,28 @@ import {
 } from '../ui';
 import { cn } from '../../lib/utils';
 import {
+  orderPanelBodyGapClass,
   orderPanelAmountPrefixClass,
   orderPanelCurrencyClass,
   orderPanelCurrencyCodeClass,
   orderPanelFieldAmountClass,
   orderPanelFieldClass,
-  orderPanelFieldPercentClass,
   orderPanelFieldShellAmountClass,
   orderPanelFieldShellLimitClass,
   orderPanelFieldShellRiskClass,
-  orderPanelFieldSuffixClass,
   orderPanelLabelClass,
   orderPanelLimitFieldClass,
   orderPanelLimitFieldsClass,
+  orderPanelRiskExpandIconClass,
+  orderPanelRiskFieldsInnerClass,
+  orderPanelRiskFieldsSlotClass,
+  orderPanelRiskHeaderBtnClass,
   orderPanelRiskRowClass,
-  orderPanelRiskToggleCheckClass,
-  orderPanelRiskToggleClass,
-  orderPanelRiskToggleIndicatorClass,
-  orderPanelRiskToggleLabelClass,
   orderPanelRootClass,
   orderPanelSectionClass,
   orderPanelSectionHeaderClass,
   orderPanelSideBtnClass,
   orderPanelSideToggleClass,
-  orderPanelStatClass,
-  orderPanelStatRightClass,
-  orderPanelStatsClass,
   orderPanelSubmitClass,
   orderPanelSubmitNoteClass,
   orderPanelSubmitNoteIconClass,
@@ -42,6 +38,7 @@ import {
   orderPanelSubmitWrapClass,
   orderPanelSwapBtnClass,
 } from './orderPanelClasses';
+import { OrderPanelStats } from './OrderPanelStats';
 import type { OrderPanelProps, OrderCurrency, OrderSide, OrderTab } from './types';
 
 const TABS: { id: OrderTab; label: string }[] = [
@@ -51,8 +48,9 @@ const TABS: { id: OrderTab; label: string }[] = [
 
 const TAB_IDS = TABS.map((tab) => tab.id);
 
-function formatPlaceOrderLabel(side: OrderSide, price: string) {
-  return `Place ${side} order @ ${price}`;
+function formatPlaceOrderLabel(side: OrderSide, tab: OrderTab, price: string) {
+  const orderType = tab === 'limit' ? 'limit' : 'order';
+  return `Place ${side} ${orderType} @ ${price}`;
 }
 
 export function OrderPanel({
@@ -70,18 +68,16 @@ export function OrderPanel({
   onAmountChange,
   limitPrice: limitPriceProp,
   onLimitPriceChange,
-  stopLossEnabled: stopLossEnabledProp,
-  defaultStopLossEnabled = false,
-  onStopLossEnabledChange,
-  takeProfitEnabled: takeProfitEnabledProp,
-  defaultTakeProfitEnabled = false,
-  onTakeProfitEnabledChange,
   stopLossValue: stopLossValueProp,
   onStopLossChange,
   takeProfitValue: takeProfitValueProp,
   onTakeProfitChange,
-  riskReward = 'RR 1:3',
-  margin = 'MARGIN $21.4 (21%)',
+  equity,
+  liqPrice,
+  max,
+  rrRatio,
+  cost,
+  margin,
   price = '73,244.6',
   onClose,
   onPlaceOrder,
@@ -91,24 +87,19 @@ export function OrderPanel({
   const [internalSide, setInternalSide] = useState<OrderSide>(defaultSide);
   const [internalAmount, setInternalAmount] = useState('');
   const [internalLimitPrice, setInternalLimitPrice] = useState('');
-  const [internalStopLossEnabled, setInternalStopLossEnabled] = useState(defaultStopLossEnabled);
-  const [internalTakeProfitEnabled, setInternalTakeProfitEnabled] = useState(
-    defaultTakeProfitEnabled,
-  );
   const [internalStopLossValue, setInternalStopLossValue] = useState('');
   const [internalTakeProfitValue, setInternalTakeProfitValue] = useState('');
   const [internalCurrency, setInternalCurrency] = useState<OrderCurrency>(defaultCurrency);
+  const [riskExpanded, setRiskExpanded] = useState(true);
 
   const activeTab = activeTabProp ?? internalTab;
   const side = sideProp ?? internalSide;
   const currency = currencyProp ?? internalCurrency;
   const amount = amountProp ?? internalAmount;
   const limitPrice = limitPriceProp ?? internalLimitPrice;
-  const stopLossEnabled = stopLossEnabledProp ?? internalStopLossEnabled;
-  const takeProfitEnabled = takeProfitEnabledProp ?? internalTakeProfitEnabled;
   const stopLossValue = stopLossValueProp ?? internalStopLossValue;
   const takeProfitValue = takeProfitValueProp ?? internalTakeProfitValue;
-  const showRiskWarning = !stopLossEnabled;
+  const showRiskWarning = !stopLossValue.trim();
 
   const handleTabChange = (tab: OrderTab) => {
     if (activeTabProp === undefined) setInternalTab(tab);
@@ -125,19 +116,9 @@ export function OrderPanel({
     onAmountChange?.(value);
   };
 
-  const handleStopLossEnabledChange = (enabled: boolean) => {
-    if (stopLossEnabledProp === undefined) setInternalStopLossEnabled(enabled);
-    onStopLossEnabledChange?.(enabled);
-  };
-
   const handleLimitPriceChange = (value: string) => {
     if (limitPriceProp === undefined) setInternalLimitPrice(value);
     onLimitPriceChange?.(value);
-  };
-
-  const handleTakeProfitEnabledChange = (enabled: boolean) => {
-    if (takeProfitEnabledProp === undefined) setInternalTakeProfitEnabled(enabled);
-    onTakeProfitEnabledChange?.(enabled);
   };
 
   const handleStopLossChange = (value: string) => {
@@ -196,9 +177,39 @@ export function OrderPanel({
   </>
   );
 
+  const riskFieldsRow = (
+    <div className={orderPanelRiskRowClass}>
+      <div className={orderPanelFieldShellRiskClass} data-enabled={riskExpanded}>
+        <input
+          type="text"
+          inputMode="decimal"
+          className={orderPanelFieldClass}
+          value={stopLossValue}
+          placeholder="SL Price"
+          onChange={(event) => handleStopLossChange(event.target.value)}
+          aria-label="Stop loss price"
+          disabled={!riskExpanded}
+        />
+      </div>
+      <div className={orderPanelFieldShellRiskClass} data-enabled={riskExpanded}>
+        <input
+          type="text"
+          inputMode="decimal"
+          className={orderPanelFieldClass}
+          value={takeProfitValue}
+          placeholder="TP Price"
+          onChange={(event) => handleTakeProfitChange(event.target.value)}
+          aria-label="Take profit price"
+          disabled={!riskExpanded}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <CardModule
       className={cn(orderPanelRootClass, className)}
+      bodyClassName={orderPanelBodyGapClass}
       ariaLabel="Order widget"
       onClose={onClose}
       header={
@@ -274,81 +285,36 @@ export function OrderPanel({
       </CardModuleTabContent>
 
       <div className={orderPanelSectionClass}>
-        <div className={orderPanelSectionHeaderClass}>
+        <button
+          type="button"
+          className={orderPanelRiskHeaderBtnClass}
+          data-expanded={riskExpanded}
+          aria-expanded={riskExpanded}
+          onClick={() => setRiskExpanded((expanded) => !expanded)}
+        >
           <span className={orderPanelLabelClass}>RISK MANAGEMENT</span>
-        </div>
-        <div className={orderPanelRiskRowClass}>
-          <button
-            type="button"
-            className={orderPanelRiskToggleClass}
-            data-enabled={stopLossEnabled}
-            aria-pressed={stopLossEnabled}
-            onClick={() => handleStopLossEnabledChange(!stopLossEnabled)}
-          >
-            <span className={orderPanelRiskToggleLabelClass}>Stop loss</span>
-            <span className={orderPanelRiskToggleIndicatorClass} aria-hidden>
-              <RiskCheckIcon className={orderPanelRiskToggleCheckClass} />
-            </span>
-          </button>
-          <button
-            type="button"
-            className={orderPanelRiskToggleClass}
-            data-enabled={takeProfitEnabled}
-            aria-pressed={takeProfitEnabled}
-            onClick={() => handleTakeProfitEnabledChange(!takeProfitEnabled)}
-          >
-            <span className={orderPanelRiskToggleLabelClass}>Take profit</span>
-            <span className={orderPanelRiskToggleIndicatorClass} aria-hidden>
-              <RiskCheckIcon className={orderPanelRiskToggleCheckClass} />
-            </span>
-          </button>
-        </div>
-        <div className={orderPanelRiskRowClass}>
-          <div
-            className={orderPanelFieldShellRiskClass}
-            data-enabled={stopLossEnabled}
-          >
-            <input
-              type="text"
-              inputMode="decimal"
-              className={cn(orderPanelFieldClass, orderPanelFieldPercentClass)}
-              value={stopLossValue}
-              placeholder="0.00"
-              onChange={(event) =>
-                handleStopLossChange(event.target.value.replace(/%/g, '').trim())
-              }
-              aria-label="Stop loss percentage"
-              disabled={!stopLossEnabled}
-            />
-            <span className={orderPanelFieldSuffixClass} aria-hidden>
-              {' %'}
-            </span>
-          </div>
-          <div
-            className={orderPanelFieldShellRiskClass}
-            data-enabled={takeProfitEnabled}
-          >
-            <input
-              type="text"
-              inputMode="decimal"
-              className={orderPanelFieldClass}
-              value={takeProfitValue}
-              onChange={(event) => handleTakeProfitChange(event.target.value)}
-              aria-label="Take profit price"
-              disabled={!takeProfitEnabled}
-            />
-          </div>
+          <RiskManagementExpandIcon className={orderPanelRiskExpandIconClass} />
+        </button>
+        <div
+          className={orderPanelRiskFieldsSlotClass}
+          data-expanded={riskExpanded ? '' : undefined}
+        >
+          <div className={orderPanelRiskFieldsInnerClass}>{riskFieldsRow}</div>
         </div>
       </div>
 
-      <div className={orderPanelStatsClass}>
-        <span className={orderPanelStatClass}>{riskReward}</span>
-        <span className={cn(orderPanelStatClass, orderPanelStatRightClass)}>{margin}</span>
-      </div>
+      <OrderPanelStats
+        equity={equity}
+        liqPrice={liqPrice}
+        max={max}
+        rrRatio={rrRatio}
+        cost={cost}
+        margin={margin}
+      />
 
       <div className={orderPanelSubmitWrapClass} data-warning-visible={showRiskWarning}>
         <button type="button" className={orderPanelSubmitClass} onClick={onPlaceOrder}>
-          {formatPlaceOrderLabel(side, price)}
+          {formatPlaceOrderLabel(side, activeTab, price)}
         </button>
         <div
           className={orderPanelSubmitNoteClass}
@@ -357,7 +323,7 @@ export function OrderPanel({
         >
           <OrderWarningIcon className={orderPanelSubmitNoteIconClass} />
           <span className={orderPanelSubmitNoteTextClass}>
-            Your risk is high, trade with caution.
+            You have no stop loss, trade with caution.
           </span>
         </div>
       </div>

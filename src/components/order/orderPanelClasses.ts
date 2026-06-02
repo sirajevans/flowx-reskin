@@ -1,22 +1,20 @@
 import { cn } from '../../lib/utils';
 import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
 
-const fieldGradientBorder =
-  '[--gradient-border:linear-gradient(180deg,oklch(25%_0_0)_0%,oklch(22.5%_0_0)_50%,oklch(20%_0_0)_100%)]';
-
 const fieldShellBase = cn(
-  'box-border flex h-7 min-w-0 items-center self-stretch overflow-clip rounded-lg bg-[#1d1d1d80]',
+  'order-panel-field-shell box-border flex h-8 min-w-0 items-center self-stretch overflow-clip rounded-lg bg-[#1d1d1d80]',
   'gradient-border',
-  fieldGradientBorder,
 );
 
 export const orderPanelRootClass = cardModuleWidth365Class;
+
+export const orderPanelBodyGapClass = 'gap-[16px]';
 
 export const orderPanelSideToggleClass =
   'box-border flex w-full min-w-0 items-center gap-[5px] self-stretch';
 
 export const orderPanelSideBtnClass = cn(
-  'box-border flex h-7 min-w-0 flex-1 cursor-pointer items-center justify-center overflow-clip rounded-lg border-0',
+  'box-border flex h-8 min-w-0 flex-1 cursor-pointer items-center justify-center overflow-clip rounded-lg border-0',
   'bg-[#1d1d1d80] p-0 font-inherit text-xs leading-4 text-[var(--flowx-text)] outline-none',
   'transition-colors duration-150 ease-in-out motion-reduce:transition-none',
   'focus-visible:shadow-[0_0_0_1px_var(--flowx-border)]',
@@ -35,6 +33,24 @@ export const orderPanelLimitFieldClass =
 
 export const orderPanelSectionHeaderClass =
   'box-border flex min-h-3.5 min-w-0 items-center justify-between self-stretch';
+
+export const orderPanelRiskHeaderBtnClass = cn(
+  orderPanelSectionHeaderClass,
+  'group/risk-header w-full cursor-pointer border-0 bg-transparent p-0 font-inherit outline-none',
+  'focus-visible:rounded focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--flowx-border)]',
+);
+
+export const orderPanelRiskExpandIconClass = cn(
+  'block h-3.5 w-3.5 shrink-0 text-[#868686] transition-transform duration-200 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] motion-reduce:transition-none',
+  'group-data-[expanded=true]/risk-header:rotate-180',
+);
+
+export const orderPanelRiskFieldsSlotClass = cn(
+  'grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] motion-reduce:transition-none',
+  'data-[expanded]:grid-rows-[1fr] motion-reduce:grid-rows-[1fr]',
+);
+
+export const orderPanelRiskFieldsInnerClass = 'min-h-0 overflow-hidden';
 
 export const orderPanelLabelClass =
   'shrink-0 text-[10px] leading-3 tracking-[0.02em] text-[var(--widget-tab-inactive)]';
@@ -65,7 +81,7 @@ export const orderPanelFieldShellAmountClass = cn(fieldShellBase, 'px-2.5');
 
 export const orderPanelFieldShellRiskClass = cn(
   fieldShellBase,
-  'min-w-0 flex-1 px-2.5 opacity-50 transition-opacity duration-150 ease-in-out',
+  'min-w-0 flex-1 px-2.5 opacity-50 transition-opacity duration-200 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]',
   'data-[enabled=true]:opacity-100 motion-reduce:transition-none',
 );
 
@@ -80,54 +96,42 @@ export const orderPanelFieldClass = cn(
 
 export const orderPanelFieldAmountClass = 'pl-1';
 
-export const orderPanelFieldPercentClass = 'w-0 min-w-[1.8rem] flex-[0_1_auto]';
-
-export const orderPanelFieldSuffixClass =
-  'pointer-events-none shrink-0 select-none text-[11px] leading-[14px] text-[var(--flowx-text)]';
-
 export const orderPanelRiskRowClass =
   'box-border flex min-w-0 items-center gap-[5px] self-stretch';
 
-export const orderPanelRiskToggleClass = cn(
-  'group/risk relative h-7 min-w-0 flex-1 cursor-pointer overflow-clip rounded-lg border-0 bg-[#1d1d1d80] p-0 outline-none',
-  'transition-colors duration-150 ease-in-out motion-reduce:transition-none',
-  '[@media(hover:hover)]:hover:bg-[color-mix(in_srgb,#1d1d1d80_98%,white)]',
-  'focus-visible:shadow-[0_0_0_1px_var(--flowx-border)]',
-);
+export const orderPanelStatsRootClass =
+  'box-border flex min-w-0 flex-col gap-1 self-stretch';
 
-export const orderPanelRiskToggleLabelClass =
-  'pointer-events-none absolute top-1/2 left-[9.49px] -translate-y-1/2 font-inherit text-[11px] leading-[14px] text-[var(--flowx-text)]';
+export const orderPanelStatsRowClass =
+  'box-border flex h-3.75 min-w-0 shrink-0 items-center justify-between self-stretch';
 
-export const orderPanelRiskToggleIndicatorClass = cn(
-  'absolute top-1/2 right-2.5 flex h-3.5 w-3.5 -translate-y-1/2 items-center justify-center rounded border border-[#212121]',
-  'box-border bg-[var(--widget-chrome-bg)] text-[#fdfffe] transition-colors duration-150 ease-in-out',
-  'motion-reduce:transition-none group-data-[enabled=true]/risk:bg-[#06b470]',
-  '[&_svg]:translate-x-[0.3px]',
-);
+export const orderPanelStatPairClass = 'flex min-w-0 items-center gap-1';
 
-export const orderPanelRiskToggleCheckClass = cn(
-  'opacity-0 scale-95 transition-[opacity,transform] duration-150 ease-out',
-  'group-data-[enabled=true]/risk:scale-100 group-data-[enabled=true]/risk:opacity-100 motion-reduce:transition-none',
-);
+export const orderPanelStatPairRightClass = 'justify-end';
 
-export const orderPanelStatsClass =
-  'box-border flex min-w-0 items-center justify-between self-stretch';
-
-export const orderPanelStatClass = cn(
+export const orderPanelStatLabelClass = cn(
   orderPanelLabelClass,
   orderPanelLabelWideClass,
+  'w-max',
 );
 
-export const orderPanelStatRightClass = 'text-right';
+export const orderPanelStatLabelRightClass = 'text-right';
+
+export const orderPanelStatValueClass = cn(
+  orderPanelLabelWideClass,
+  'w-max shrink-0 text-[10px] leading-3 text-[var(--flowx-text)]',
+);
+
+export const orderPanelStatValueRightClass = 'text-right';
 
 export const orderPanelSubmitWrapClass = cn(
-  'group/submit box-border flex h-[30px] min-w-0 flex-col items-center gap-[7px] self-stretch overflow-clip rounded-lg',
+  'group/submit box-border flex h-8 min-w-0 flex-col items-center gap-[7px] self-stretch overflow-clip rounded-lg',
   'bg-[#1d1d1d80] p-0 transition-[height,padding,border-radius] duration-[220ms] ease-in-out motion-reduce:transition-none',
   'data-[warning-visible=true]:h-16 data-[warning-visible=true]:rounded-[10px] data-[warning-visible=true]:p-[3px]',
 );
 
 export const orderPanelSubmitClass = cn(
-  'box-border flex h-[30px] min-w-0 shrink-0 cursor-pointer items-center justify-center self-stretch overflow-clip rounded-lg',
+  'box-border flex h-8 min-w-0 shrink-0 cursor-pointer items-center justify-center self-stretch overflow-clip rounded-lg',
   'border-0 bg-white px-[61px] py-1 font-inherit text-center text-xs leading-4 text-black outline-none',
   'transition-opacity duration-150 ease-in-out motion-reduce:transition-none',
   '[@media(hover:hover)]:hover:opacity-[0.92]',

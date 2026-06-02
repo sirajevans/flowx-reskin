@@ -47,6 +47,28 @@ export function RiskCheckIcon({ className = '' }: IconProps) {
   );
 }
 
+/** Order form: expand/collapse risk management */
+export function RiskManagementExpandIcon({ className = '' }: IconProps) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path
+        d="M6.99882 9.2449L12.1465 4.75472M7.00119 9.2449L1.85353 4.75472"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /** Order form: submit warning icon */
 export function OrderWarningIcon({ className = '' }: IconProps) {
   return (
