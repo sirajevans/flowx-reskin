@@ -90,7 +90,7 @@ export function OrderPanel({
   const [internalStopLossValue, setInternalStopLossValue] = useState('');
   const [internalTakeProfitValue, setInternalTakeProfitValue] = useState('');
   const [internalCurrency, setInternalCurrency] = useState<OrderCurrency>(defaultCurrency);
-  const [riskExpanded, setRiskExpanded] = useState(true);
+  const [riskExpanded, setRiskExpanded] = useState(false);
 
   const activeTab = activeTabProp ?? internalTab;
   const side = sideProp ?? internalSide;

@@ -14,7 +14,7 @@ export const positionsPanelTabPanelClass = 'min-h-0 overflow-hidden';
 
 export const positionsPanelGridClass = cn(
   'box-border grid w-full items-center justify-between px-[9px]',
-  'grid-cols-[64px_34px_56px_120px_52px_52px_128px_44px_82px_120px]',
+  'grid-cols-[64px_34px_56px_120px_52px_52px_128px_44px_82px_96px]',
 );
 
 export const positionsPanelGridHeaderClass = 'min-h-[15px]';

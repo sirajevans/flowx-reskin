@@ -18,7 +18,8 @@
     "react": "^19.2.0",
     "react-aria-components": "^1.14.0",
     "react-chartjs-2": "^5.3.1",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-grid-layout": "^2.2.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

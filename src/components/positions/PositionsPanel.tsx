@@ -6,7 +6,6 @@ import {
   FullCloseIcon,
   MoveToBreakevenIcon,
   PartialCloseIcon,
-  TrailingSlIcon,
 } from '../icons';
 import {
   AnimatedCounterValue,
@@ -104,13 +103,6 @@ const ROW_ACTIONS = [
     className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
   },
   {
-    id: 'trailingSl',
-    label: 'Trailing SL',
-    shortcut: 'T',
-    icon: TrailingSlIcon,
-    className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
-  },
-  {
     id: 'breakeven',
     label: 'Move SL to BE',
     shortcut: 'B',
@@ -172,6 +164,13 @@ function RowActions({
 function parsePrice(value: string): number {
   const parsed = parseFloat(value.replace(/,/g, ''));
   return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatFilledAt(value: string): string {
+  if (value === '—') return value;
+
+  const withoutSeconds = value.replace(/(\d{2}:\d{2}):\d{2}/, '$1');
+  return withoutSeconds.replace(/(\d{2}\/\d{2}\/)(\d{4})/, (_, prefix, year) => `${prefix}${year.slice(-2)}`);
 }
 
 function isMarketFavorable(side: PositionSide, entryPrice: string, marketPrice: string): boolean {
@@ -254,7 +253,7 @@ function PositionRowView({
         <span className={positionsPanelCellTextClass}>{row.takeProfit}</span>
       </div>
       <div className={positionsPanelCellClass}>
-        <span className={positionsPanelCellTextClass}>{row.filledAt}</span>
+        <span className={positionsPanelCellTextClass}>{formatFilledAt(row.filledAt)}</span>
       </div>
       <div className={positionsPanelCellClass}>
         <span className={positionsPanelCellTextClass}>{row.fees}</span>

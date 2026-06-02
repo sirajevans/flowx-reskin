@@ -53,3 +53,39 @@ export function CloseModuleIcon({ className = ICON_CLASS }: IconProps) {
     </svg>
   );
 }
+
+/** Module chrome: bottom-left resize handle */
+export function ResizeHandleLeftIcon({ className = ICON_CLASS }: IconProps) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <rect width="14" height="14" fill="#FF6868" fillOpacity="0" />
+      <circle cx="2.71338" cy="11.2866" r="2.71338" fill="white" fillOpacity="0.2" />
+    </svg>
+  );
+}
+
+/** Module chrome: bottom-right resize handle */
+export function ResizeHandleRightIcon({ className = ICON_CLASS }: IconProps) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <rect width="14" height="14" fill="#FF6868" fillOpacity="0" />
+      <circle cx="11.2866" cy="11.2866" r="2.71338" fill="white" fillOpacity="0.2" />
+    </svg>
+  );
+}

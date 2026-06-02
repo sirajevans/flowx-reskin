@@ -10,7 +10,7 @@ export const cardModuleWidth365Class = '[--card-module-width:365px]';
 export const cardModuleWidth960Class = '[--card-module-width:960px]';
 
 export const cardModuleRootClass = cn(
-  'box-border flex w-[var(--card-module-width,auto)] flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
+  'box-border flex w-[var(--card-module-width,auto)] select-none flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
   'bg-[var(--widget-chrome-bg)] p-3',
   "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
   'gradient-border',
@@ -24,7 +24,7 @@ export const cardModuleHeaderMainClass =
   'box-border flex min-w-0 flex-1 items-center gap-2';
 
 export const cardModuleDragHandleClass = cn(
-  'flex shrink-0 cursor-grab items-center justify-center text-[var(--widget-icon-dim)] transition-colors duration-150 ease-in-out',
+  'module-drag-handle flex shrink-0 cursor-grab items-center justify-center text-[var(--widget-icon-dim)] transition-colors duration-150 ease-in-out active:cursor-grabbing',
   '[&_svg]:text-inherit [&_svg]:transition-colors motion-reduce:transition-none',
   '[@media(hover:hover)]:hover:text-[var(--widget-icon-muted)]',
 );

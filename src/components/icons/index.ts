@@ -1,4 +1,9 @@
-export { CloseModuleIcon, DragModuleIcon } from './ModuleIcons';
+export {
+  CloseModuleIcon,
+  DragModuleIcon,
+  ResizeHandleLeftIcon,
+  ResizeHandleRightIcon,
+} from './ModuleIcons';
 export { MoneyFlowBearishIcon, MoneyFlowBullishIcon } from './MoneyFlowIcons';
 export { ExchangeLiquidationIcon } from './ExchangeLiquidationIcons';
 export {

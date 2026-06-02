@@ -4,7 +4,7 @@ const gradientBorder =
   '[--gradient-border:linear-gradient(180deg,oklch(25%_0_0)_0%,oklch(22.5%_0_0)_50%,oklch(20%_0_0)_100%)]';
 
 export const terminalStatsRootClass = cn(
-  'gradient-border box-border flex items-center justify-between gap-6 overflow-clip rounded-[10px]',
+  'gradient-border box-border flex select-none items-center justify-between gap-6 overflow-clip rounded-[10px]',
   'bg-[var(--widget-chrome-bg)] py-2.5 px-4',
   "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
   gradientBorder,
