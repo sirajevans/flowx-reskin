@@ -26,5 +26,16 @@ export {
   tooltipContentInnerClass,
   tooltipContentShortcutClass,
 } from './tooltip';
+export {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from './dropdown-menu';
 export { AnimatedCounterValue } from './odometer/AnimatedCounterValue';
 export type { AnimatedCounterFormat, AnimatedCounterValueProps } from './odometer/AnimatedCounterValue';

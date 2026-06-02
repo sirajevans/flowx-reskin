@@ -7,6 +7,15 @@ export type TerminalStat = {
   valueTone?: 'default' | 'positive';
 };
 
+export type TerminalStatsUserMenuItem = {
+  id: string;
+  label: string;
+  shortcut?: string;
+  variant?: 'default' | 'destructive';
+  disabled?: boolean;
+  onSelect?: () => void;
+};
+
 export type TerminalStatsModuleProps = {
   className?: string;
   tabs?: ReadonlyArray<{ id: TerminalStatsTab; label: string }>;
@@ -15,5 +24,7 @@ export type TerminalStatsModuleProps = {
   onTabChange?: (tab: TerminalStatsTab) => void;
   stats?: ReadonlyArray<TerminalStat>;
   userName?: string;
-  onUserMenuClick?: () => void;
+  userAvatarSrc?: string;
+  userMenuItems?: ReadonlyArray<TerminalStatsUserMenuItem>;
+  onUserMenuSelect?: (itemId: string) => void;
 };

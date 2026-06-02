@@ -1,7 +1,18 @@
 import { useState } from 'react';
+import profilePlaceholder from '../../assets/profile-placeholder.png';
 import { cn } from '../../lib/utils';
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import {
   terminalStatsAvatarClass,
+  terminalStatsAvatarShellClass,
   terminalStatsDividerClass,
   terminalStatsRightClass,
   terminalStatsRootClass,
@@ -13,11 +24,16 @@ import {
   terminalStatsStatValuePositiveClass,
   terminalStatsTabClass,
   terminalStatsTabsClass,
-  terminalStatsUserChevronClass,
   terminalStatsUserClass,
-  terminalStatsUserMenuClass,
+  terminalStatsUserNameClass,
+  terminalStatsUserTriggerClass,
 } from './terminalStatsClasses';
-import type { TerminalStat, TerminalStatsModuleProps, TerminalStatsTab } from './types';
+import type {
+  TerminalStat,
+  TerminalStatsModuleProps,
+  TerminalStatsTab,
+  TerminalStatsUserMenuItem,
+} from './types';
 
 const DEFAULT_TABS: ReadonlyArray<{ id: TerminalStatsTab; label: string }> = [
   { id: 'terminal', label: 'Terminal' },
@@ -26,8 +42,8 @@ const DEFAULT_TABS: ReadonlyArray<{ id: TerminalStatsTab; label: string }> = [
 ];
 
 const DEFAULT_STATS: ReadonlyArray<TerminalStat> = [
-  { id: 'return', label: 'RETURN', value: '+82.34%' },
-  { id: 'win_rate', label: 'WIN RATE', value: '67.81%' },
+  { id: 'return', label: 'RETURN', value: '+82.34%', valueTone: 'positive' },
+  { id: 'win_rate', label: 'WINS', value: '67.81%' },
   { id: 'max_dd', label: 'MAX DD', value: '5.27%' },
   { id: 'avg_fee', label: 'AVG FEE', value: '$43.10' },
   { id: 'equity', label: 'EQUITY', value: '$13,239.21' },
@@ -35,27 +51,12 @@ const DEFAULT_STATS: ReadonlyArray<TerminalStat> = [
   { id: 'pnl', label: 'PNL', value: '$10,239.21', valueTone: 'positive' },
 ];
 
-function UserMenuChevron() {
-  return (
-    <span className={terminalStatsUserChevronClass} aria-hidden>
-      <svg
-        viewBox="0 0 3.17 7.27"
-        width="3.17"
-        height="7.27"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-90"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0 3.635L3.171 0M0 3.633L3.171 7.268"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </span>
-  );
-}
+const DEFAULT_USER_MENU_ITEMS: ReadonlyArray<TerminalStatsUserMenuItem> = [
+  { id: 'profile', label: 'Profile', shortcut: '⇧⌘P' },
+  { id: 'billing', label: 'Billing', shortcut: '⌘B' },
+  { id: 'settings', label: 'Settings', shortcut: '⌘S' },
+  { id: 'logout', label: 'Log out', shortcut: '⇧⌘Q', variant: 'destructive' },
+];
 
 export function TerminalStatsModule({
   className = '',
@@ -65,7 +66,9 @@ export function TerminalStatsModule({
   onTabChange,
   stats = DEFAULT_STATS,
   userName = 'Chento',
-  onUserMenuClick,
+  userAvatarSrc = profilePlaceholder,
+  userMenuItems = DEFAULT_USER_MENU_ITEMS,
+  onUserMenuSelect,
 }: TerminalStatsModuleProps) {
   const [internalTab, setInternalTab] = useState<TerminalStatsTab>(defaultTab);
   const activeTab = activeTabProp ?? internalTab;
@@ -74,6 +77,14 @@ export function TerminalStatsModule({
     if (activeTabProp === undefined) setInternalTab(tab);
     onTabChange?.(tab);
   };
+
+  const handleUserMenuSelect = (item: TerminalStatsUserMenuItem) => {
+    item.onSelect?.();
+    onUserMenuSelect?.(item.id);
+  };
+
+  const defaultItems = userMenuItems.filter((item) => item.variant !== 'destructive');
+  const destructiveItems = userMenuItems.filter((item) => item.variant === 'destructive');
 
   return (
     <section
@@ -118,17 +129,65 @@ export function TerminalStatsModule({
         <div className={terminalStatsDividerClass} aria-hidden />
 
         <div className={terminalStatsUserClass}>
-          <button
-            type="button"
-            className={terminalStatsUserMenuClass}
-            aria-haspopup="menu"
-            aria-label={`${userName} account menu`}
-            onClick={onUserMenuClick}
-          >
-            <span>{userName}</span>
-            <UserMenuChevron />
-          </button>
-          <div className={terminalStatsAvatarClass} aria-hidden />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className={terminalStatsUserTriggerClass}
+                aria-label={`${userName} account menu`}
+              >
+                <span className={terminalStatsUserNameClass}>{userName}</span>
+                <span className={terminalStatsAvatarShellClass}>
+                  <img
+                    src={userAvatarSrc}
+                    alt=""
+                    className={terminalStatsAvatarClass}
+                  />
+                </span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              alignOffset={-16}
+              sideOffset={16}
+              className="min-w-44"
+            >
+              <DropdownMenuGroup>
+                {defaultItems.map((item) => (
+                  <DropdownMenuItem
+                    key={item.id}
+                    disabled={item.disabled}
+                    onSelect={() => handleUserMenuSelect(item)}
+                  >
+                    {item.label}
+                    {item.shortcut ? (
+                      <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut>
+                    ) : null}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+              {destructiveItems.length > 0 ? (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    {destructiveItems.map((item) => (
+                      <DropdownMenuItem
+                        key={item.id}
+                        variant="destructive"
+                        disabled={item.disabled}
+                        onSelect={() => handleUserMenuSelect(item)}
+                      >
+                        {item.label}
+                        {item.shortcut ? (
+                          <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut>
+                        ) : null}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuGroup>
+                </>
+              ) : null}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </section>

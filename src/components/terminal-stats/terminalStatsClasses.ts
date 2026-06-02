@@ -5,7 +5,7 @@ const gradientBorder =
 
 export const terminalStatsRootClass = cn(
   'gradient-border box-border flex items-center justify-between gap-6 overflow-clip rounded-[10px]',
-  'bg-[var(--widget-chrome-bg)] py-2.5 px-[19px]',
+  'bg-[var(--widget-chrome-bg)] py-2.5 px-4',
   "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
   gradientBorder,
   'max-[1200px]:flex-col max-[1200px]:items-start max-[1200px]:gap-3',
@@ -38,17 +38,21 @@ export const terminalStatsDividerClass =
 
 export const terminalStatsUserClass = 'flex shrink-0 items-center gap-2.5';
 
-export const terminalStatsUserMenuClass = cn(
-  'flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-inherit text-[13px] leading-4 text-[var(--flowx-text)]',
+export const terminalStatsUserTriggerClass = cn(
+  'flex cursor-pointer items-center gap-[14px] border-0 bg-transparent p-0 font-inherit text-[13px] leading-4 text-[var(--flowx-text)] outline-none',
   'transition-opacity duration-150 ease-in-out motion-reduce:transition-none',
   '[@media(hover:hover)]:hover:opacity-80',
-  'focus-visible:rounded focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--flowx-border)] focus-visible:outline-offset-[3px]',
+  'data-[state=open]:opacity-80',
 );
 
-export const terminalStatsUserChevronClass = 'relative size-3.5 shrink-0';
+export const terminalStatsUserNameClass = 'whitespace-nowrap';
 
-export const terminalStatsAvatarClass =
-  'size-[24.06px] shrink-0 rounded-full p-px shadow-[inset_0_0_0_0.5px_var(--flowx-text)]';
+export const terminalStatsAvatarShellClass = cn(
+  'box-border size-[28px] shrink-0 overflow-clip rounded-lg',
+  'outline outline-1 -outline-offset-1 outline-[var(--widget-icon-dim)]',
+);
+
+export const terminalStatsAvatarClass = 'size-full rounded-lg object-cover';
 
 export const terminalStatsStatLabelClass =
   'text-right text-[10px] leading-3 tracking-[0.05em] text-[var(--widget-tab-inactive)]';
