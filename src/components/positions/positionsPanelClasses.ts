@@ -28,7 +28,13 @@ export const positionsPanelColClass = cn(
 export const positionsPanelColHeaderClass = 'overflow-y-visible';
 
 export const positionsPanelColPnlClass = 'justify-end text-right';
-export const positionsPanelColActionsClass = 'justify-end text-right';
+
+/** Header-only: base col styles without left alignment (cn does not merge Tailwind conflicts). */
+export const positionsPanelColActionsHeaderClass = cn(
+  'box-border flex min-w-0 max-w-full justify-end overflow-x-auto overflow-y-hidden',
+  'text-right text-[10px] leading-[15px] tracking-[0.02em] text-[var(--widget-tab-inactive)] whitespace-nowrap',
+  '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+);
 
 export const positionsPanelRowsClass = cn(
   'box-border flex h-full min-h-0 flex-col self-stretch overflow-y-auto',

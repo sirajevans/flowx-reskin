@@ -35,7 +35,7 @@ import {
   positionsPanelCellTextExchangeClass,
   positionsPanelCellTextPnlNegativeClass,
   positionsPanelCellTextPnlPositiveClass,
-  positionsPanelColActionsClass,
+  positionsPanelColActionsHeaderClass,
   positionsPanelColClass,
   positionsPanelColHeaderClass,
   positionsPanelColPnlClass,
@@ -81,13 +81,13 @@ const COLUMN_HEADERS_BASE: { key: string; label: string; className: string }[] =
 const ACTIONS_COLUMN_HEADER = {
   key: 'actions',
   label: 'ACTIONS',
-  className: cn(positionsPanelColClass, positionsPanelColActionsClass),
+  className: positionsPanelColActionsHeaderClass,
 };
 
 const EXCHANGE_COLUMN_HEADER = {
   key: 'exchange',
   label: 'EXCHANGE',
-  className: cn(positionsPanelColClass, positionsPanelColActionsClass),
+  className: positionsPanelColActionsHeaderClass,
 };
 
 function getColumnHeaders(tab: PositionsTab) {
