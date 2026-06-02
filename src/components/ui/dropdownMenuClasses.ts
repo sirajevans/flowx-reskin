@@ -5,7 +5,7 @@ const dropdownMenuGradientBorder =
 
 export const dropdownMenuContentClass = cn(
   'z-50 box-border min-w-40 overflow-clip rounded-[10px]',
-  'bg-[var(--widget-chrome-bg)] p-1.5',
+  'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_80%,transparent)] backdrop-blur-[8px] p-1.5',
   "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
   'gradient-border',
   dropdownMenuGradientBorder,
