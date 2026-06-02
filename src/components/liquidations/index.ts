@@ -2,7 +2,7 @@ export { AnimatedLiquidationValue } from './AnimatedLiquidationValue';
 export type { AnimatedLiquidationValueProps } from './AnimatedLiquidationValue';
 export { LiquidationsChart } from './LiquidationsChart';
 export { LiquidationsPanel } from './LiquidationsPanel';
-export { LiquidationsSegmentBar } from './LiquidationsSegmentBar';
+export { LiquidationsSegmentBar, LIQUIDATIONS_BAR_MAJORITY_THRESHOLD } from './LiquidationsSegmentBar';
 export type { LiquidationsSegmentBarProps } from './LiquidationsSegmentBar';
 export {
   formatLiquidationDisplay,

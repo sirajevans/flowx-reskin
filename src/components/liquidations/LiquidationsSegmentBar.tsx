@@ -4,14 +4,13 @@ import './LiquidationsSegmentBar.css';
 export type LiquidationsSegmentBarProps = {
   /** Longs share filled from the left (0–100). */
   fillPercent: number;
-  /** True when longs dollar value is strictly greater than shorts. */
-  longsDominate: boolean;
   segmentCount?: number;
   className?: string;
   'aria-label'?: string;
 };
 
 const MAX_ANIMATION_MS = 150;
+const MAJORITY_THRESHOLD = 50;
 
 function getFilledCount(fillPercent: number, segmentCount: number): number {
   const clamped = Math.min(100, Math.max(0, fillPercent));
@@ -30,12 +29,16 @@ function getAnimationStepCount(
   }
 
   if (fromThreshold) {
-    // Longs → shorts: drain filled-side color, then reveal unfilled-side color from the right.
+    // Green → red: drain green to zero, then reveal red from the right.
     return fromCount + (segmentCount - toCount);
   }
 
-  // Shorts → longs: drain unfilled-side color, then reveal filled-side color from the left.
+  // Red → green: drain red to zero, then reveal green from the left.
   return segmentCount - fromCount + toCount;
+}
+
+function isAboveThreshold(fillPercent: number): boolean {
+  return fillPercent >= MAJORITY_THRESHOLD;
 }
 
 function prefersReducedMotion(): boolean {
@@ -47,38 +50,37 @@ function prefersReducedMotion(): boolean {
 
 export function LiquidationsSegmentBar({
   fillPercent,
-  longsDominate,
   segmentCount = 80,
   className = '',
   'aria-label': ariaLabel = 'Liquidation distribution',
 }: LiquidationsSegmentBarProps) {
   const targetFilledCount = getFilledCount(fillPercent, segmentCount);
-  const targetLongsDominate = longsDominate;
+  const targetAboveThreshold = isAboveThreshold(fillPercent);
 
   const [displayFilledCount, setDisplayFilledCount] = useState(targetFilledCount);
-  const [displayLongsDominate, setDisplayLongsDominate] = useState(targetLongsDominate);
+  const [displayAboveThreshold, setDisplayAboveThreshold] = useState(targetAboveThreshold);
   const [isAnimating, setIsAnimating] = useState(false);
   const [stepMs, setStepMs] = useState(0);
 
   const displayFilledRef = useRef(displayFilledCount);
-  const displayLongsDominateRef = useRef(displayLongsDominate);
+  const displayThresholdRef = useRef(displayAboveThreshold);
 
   displayFilledRef.current = displayFilledCount;
-  displayLongsDominateRef.current = displayLongsDominate;
+  displayThresholdRef.current = displayAboveThreshold;
 
   useEffect(() => {
     const fromCount = displayFilledRef.current;
-    const fromLongsDominate = displayLongsDominateRef.current;
+    const fromThreshold = displayThresholdRef.current;
     const toCount = targetFilledCount;
-    const toLongsDominate = targetLongsDominate;
+    const toThreshold = targetAboveThreshold;
 
-    if (fromCount === toCount && fromLongsDominate === toLongsDominate) {
+    if (fromCount === toCount && fromThreshold === toThreshold) {
       return;
     }
 
     if (prefersReducedMotion()) {
       setDisplayFilledCount(toCount);
-      setDisplayLongsDominate(toLongsDominate);
+      setDisplayAboveThreshold(toThreshold);
       setIsAnimating(false);
       return;
     }
@@ -98,8 +100,8 @@ export function LiquidationsSegmentBar({
     const totalSteps = getAnimationStepCount(
       fromCount,
       toCount,
-      fromLongsDominate,
-      toLongsDominate,
+      fromThreshold,
+      toThreshold,
       segmentCount,
     );
     const intervalMs = totalSteps > 0 ? MAX_ANIMATION_MS / totalSteps : 0;
@@ -112,8 +114,8 @@ export function LiquidationsSegmentBar({
       elapsed += intervalMs;
     };
 
-    if (fromLongsDominate === toLongsDominate) {
-      // Same dominance mode — step directly toward target
+    if (fromThreshold === toThreshold) {
+      // Same color mode — step directly toward target
       if (toCount > fromCount) {
         for (let i = fromCount + 1; i <= toCount; i += 1) {
           scheduleCount(i);
@@ -123,13 +125,13 @@ export function LiquidationsSegmentBar({
           scheduleCount(i);
         }
       }
-    } else if (fromLongsDominate) {
-      // Longs → shorts: drain red (filled) to zero, flip, then reveal green from the right.
+    } else if (fromThreshold) {
+      // Green → red: drain green to zero, flip, then reveal red from the right.
       for (let i = fromCount - 1; i >= 0; i -= 1) {
         scheduleCount(i);
       }
       schedule(() => {
-        setDisplayLongsDominate(false);
+        setDisplayAboveThreshold(false);
         setDisplayFilledCount(segmentCount);
       }, elapsed);
       elapsed += intervalMs;
@@ -137,12 +139,12 @@ export function LiquidationsSegmentBar({
         scheduleCount(i);
       }
     } else {
-      // Shorts → longs: drain green (unfilled) to zero, flip, then reveal red from the left.
+      // Red → green: drain red to zero, flip, then reveal green from the left.
       for (let i = fromCount + 1; i <= segmentCount; i += 1) {
         scheduleCount(i);
       }
       schedule(() => {
-        setDisplayLongsDominate(true);
+        setDisplayAboveThreshold(true);
         setDisplayFilledCount(0);
       }, elapsed);
       elapsed += intervalMs;
@@ -162,12 +164,12 @@ export function LiquidationsSegmentBar({
       setIsAnimating(false);
       setStepMs(0);
     };
-  }, [targetFilledCount, targetLongsDominate, segmentCount]);
+  }, [targetFilledCount, targetAboveThreshold, segmentCount]);
 
   return (
     <div
       className={`liquidations-segment-bar ${className}`.trim()}
-      data-longs-dominate={displayLongsDominate}
+      data-above-threshold={displayAboveThreshold}
       data-animating={isAnimating}
       style={
         isAnimating
@@ -189,3 +191,4 @@ export function LiquidationsSegmentBar({
   );
 }
 
+export { MAJORITY_THRESHOLD as LIQUIDATIONS_BAR_MAJORITY_THRESHOLD };

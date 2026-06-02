@@ -3,7 +3,7 @@ import { CardModule } from '../ui';
 import { DEFAULT_LIQUIDATION_STATS_BY_TIMEFRAME } from './mockData';
 import { AnimatedLiquidationValue } from './AnimatedLiquidationValue';
 import { LiquidationsSegmentBar } from './LiquidationsSegmentBar';
-import { getLongsSharePercent, longsLiquidationsDominate } from './utils';
+import { getShortsSharePercent, longsLiquidationsDominate } from './utils';
 import './LiquidationsPanel.css';
 import type {
   LiquidationSideStats,
@@ -95,13 +95,12 @@ export function LiquidationsPanel({
     statsByTimeframe[timeframe] ??
     DEFAULT_LIQUIDATION_STATS_BY_TIMEFRAME[timeframe] ??
     DEFAULT_LIQUIDATION_STATS_BY_TIMEFRAME['24h'];
-  const longsSharePercent = getLongsSharePercent(
+  const barFillPercent = getShortsSharePercent(
     stats.longs.value,
     stats.shorts.value,
-    stats.longs.percent,
+    stats.shorts.percent,
   );
-  const longsDominate = longsLiquidationsDominate(stats.longs.value, stats.shorts.value);
-  const isGreenBar = !longsDominate;
+  const isGreenBar = !longsLiquidationsDominate(stats.longs.value, stats.shorts.value);
 
   const handleTimeframeChange = (next: LiquidationTimeframe) => {
     if (timeframeProp === undefined) {
@@ -137,8 +136,7 @@ export function LiquidationsPanel({
       </div>
 
       <LiquidationsSegmentBar
-        fillPercent={longsSharePercent}
-        longsDominate={longsDominate}
+        fillPercent={barFillPercent}
         aria-label={`Long liquidations ${stats.longs.percent}, short liquidations ${stats.shorts.percent}`}
       />
     </CardModule>

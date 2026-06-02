@@ -22,14 +22,14 @@
   transition-duration: var(--liquidations-step-ms, 8ms);
 }
 
-/* Longs $ > shorts: filled (left) red */
-.liquidations-segment-bar[data-longs-dominate='true'] .liquidations-segment-bar__segment[data-filled='true'] {
-  background-color: var(--liquidations-negative, #f23645);
+/* ≥50%: filled (left) green, unfilled (right) gray */
+.liquidations-segment-bar[data-above-threshold='true'] .liquidations-segment-bar__segment[data-filled='true'] {
+  background-color: var(--liquidations-positive, #06b470);
 }
 
-/* Shorts $ > longs: unfilled (right) green */
-.liquidations-segment-bar[data-longs-dominate='false'] .liquidations-segment-bar__segment[data-filled='false'] {
-  background-color: var(--liquidations-positive, #06b470);
+/* <50%: filled (left) gray, unfilled (right) red */
+.liquidations-segment-bar[data-above-threshold='false'] .liquidations-segment-bar__segment[data-filled='false'] {
+  background-color: var(--liquidations-negative, #f23645);
 }
 
 @media (prefers-reduced-motion: reduce) {
