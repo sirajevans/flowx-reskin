@@ -1,4 +1,4 @@
-export type TerminalStatsTab = 'terminal' | 'discord' | 'algo_trading' | 'feedback';
+export type TerminalStatsTab = 'terminal' | 'discord' | 'algo_trading';
 
 export type TerminalStat = {
   id: string;
@@ -14,4 +14,6 @@ export type TerminalStatsModuleProps = {
   defaultTab?: TerminalStatsTab;
   onTabChange?: (tab: TerminalStatsTab) => void;
   stats?: ReadonlyArray<TerminalStat>;
+  userName?: string;
+  onUserMenuClick?: () => void;
 };
