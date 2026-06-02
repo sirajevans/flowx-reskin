@@ -1,6 +1,6 @@
 import { AnimatedLiquidationValue } from '../AnimatedLiquidationValue';
 import { ExchangeLiquidationIcon } from '../../icons';
-import { CardModule } from '../../ui';
+import { CardModule, cardModuleHeaderTextClass } from '../../ui';
 import { getComparisonBarWidths } from './comparisonBars';
 import { DEFAULT_EXCHANGE_LIQUIDATIONS } from './mockData';
 import './ExchangeLiquidationsPanel.css';
@@ -73,7 +73,7 @@ export function ExchangeLiquidationsPanel({
       className={`exchange-liquidations-panel ${className}`.trim()}
       ariaLabel="Exchange liquidations"
       onClose={onClose}
-      header={<span className="card-module__header-text">Exchange liq.</span>}
+      header={<span className={cardModuleHeaderTextClass}>Exchange liq.</span>}
     >
       <div className="exchange-liquidations-panel__list">
         {exchanges.map((entry) => (

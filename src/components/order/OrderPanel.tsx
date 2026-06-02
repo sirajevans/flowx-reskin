@@ -1,8 +1,47 @@
 import { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
 import { SwapCurrencyIcon, RiskCheckIcon, OrderWarningIcon } from '../icons';
-import { CardModule, CardModuleTabContent } from '../ui';
-import './OrderPanel.css';
+import {
+  CardModule,
+  CardModuleTabContent,
+  cardModuleTabClass,
+  cardModuleTabListClass,
+} from '../ui';
+import { cn } from '../../lib/utils';
+import {
+  orderPanelAmountPrefixClass,
+  orderPanelCurrencyClass,
+  orderPanelCurrencyCodeClass,
+  orderPanelFieldAmountClass,
+  orderPanelFieldClass,
+  orderPanelFieldPercentClass,
+  orderPanelFieldShellAmountClass,
+  orderPanelFieldShellLimitClass,
+  orderPanelFieldShellRiskClass,
+  orderPanelFieldSuffixClass,
+  orderPanelLabelClass,
+  orderPanelLimitFieldClass,
+  orderPanelLimitFieldsClass,
+  orderPanelRiskRowClass,
+  orderPanelRiskToggleCheckClass,
+  orderPanelRiskToggleClass,
+  orderPanelRiskToggleIndicatorClass,
+  orderPanelRiskToggleLabelClass,
+  orderPanelRootClass,
+  orderPanelSectionClass,
+  orderPanelSectionHeaderClass,
+  orderPanelSideBtnClass,
+  orderPanelSideToggleClass,
+  orderPanelStatClass,
+  orderPanelStatRightClass,
+  orderPanelStatsClass,
+  orderPanelSubmitClass,
+  orderPanelSubmitNoteClass,
+  orderPanelSubmitNoteIconClass,
+  orderPanelSubmitNoteTextClass,
+  orderPanelSubmitWrapClass,
+  orderPanelSwapBtnClass,
+} from './orderPanelClasses';
 import type { OrderPanelProps, OrderCurrency, OrderSide, OrderTab } from './types';
 
 const TABS: { id: OrderTab; label: string }[] = [
@@ -118,9 +157,48 @@ export function OrderPanel({
     onSwapCurrency?.();
   };
 
+  const currencyIsBtc = currency === 'BTC';
+
+  const amountField = (
+  <>
+    <div className={orderPanelSectionHeaderClass}>
+      <span className={orderPanelLabelClass}>AMOUNT</span>
+      <button
+        type="button"
+        className={orderPanelCurrencyClass}
+        aria-label={`Quote currency: ${currency}. Click to switch.`}
+        onClick={handleSwapCurrency}
+      >
+        <span className={orderPanelSwapBtnClass} aria-hidden>
+          <SwapCurrencyIcon className={cn(currencyIsBtc && 'rotate-180')} />
+        </span>
+        <span className={orderPanelCurrencyCodeClass}>{currency}</span>
+      </button>
+    </div>
+    <div className={orderPanelFieldShellAmountClass}>
+      <span className={orderPanelAmountPrefixClass} aria-hidden>
+        {currencyIsBtc ? 'BTC' : '$'}
+      </span>
+      <input
+        type="text"
+        inputMode="decimal"
+        className={cn(orderPanelFieldClass, orderPanelFieldAmountClass)}
+        value={amount}
+        placeholder="0.00"
+        onChange={(event) => {
+          let value = event.target.value;
+          if (!currencyIsBtc) value = value.replace(/^\$+/, '');
+          handleAmountChange(value);
+        }}
+        aria-label={currencyIsBtc ? 'Order amount in BTC' : 'Order amount in dollars'}
+      />
+    </div>
+  </>
+  );
+
   return (
     <CardModule
-      className={`order-panel ${className}`.trim()}
+      className={cn(orderPanelRootClass, className)}
       ariaLabel="Order widget"
       onClose={onClose}
       header={
@@ -129,9 +207,9 @@ export function OrderPanel({
           onSelectionChange={(key) => handleTabChange(key as OrderTab)}
           className="min-w-0"
         >
-          <TabList aria-label="Order type" className="card-module__tabs">
+          <TabList aria-label="Order type" className={cardModuleTabListClass}>
             {TABS.map((tab) => (
-              <Tab key={tab.id} id={tab.id} className="card-module__tab">
+              <Tab key={tab.id} id={tab.id} className={cardModuleTabClass}>
                 {tab.label}
               </Tab>
             ))}
@@ -142,10 +220,10 @@ export function OrderPanel({
         </Tabs>
       }
     >
-        <div className="order-panel__side-toggle" role="group" aria-label="Order side">
+      <div className={orderPanelSideToggleClass} role="group" aria-label="Order side">
         <button
           type="button"
-          className="order-panel__side-btn"
+          className={orderPanelSideBtnClass}
           data-side="sell"
           data-selected={side === 'sell'}
           aria-pressed={side === 'sell'}
@@ -155,7 +233,7 @@ export function OrderPanel({
         </button>
         <button
           type="button"
-          className="order-panel__side-btn"
+          className={orderPanelSideBtnClass}
           data-side="buy"
           data-selected={side === 'buy'}
           aria-pressed={side === 'buy'}
@@ -167,18 +245,18 @@ export function OrderPanel({
 
       <CardModuleTabContent activeTab={activeTab} tabIds={TAB_IDS}>
         {(tabId) => (
-          <div className="order-panel__section">
+          <div className={orderPanelSectionClass}>
             {tabId === 'limit' ? (
-              <div className="order-panel__limit-fields">
-                <div className="order-panel__limit-field">
-                  <div className="order-panel__section-header">
-                    <span className="order-panel__label">PRICE</span>
+              <div className={orderPanelLimitFieldsClass}>
+                <div className={orderPanelLimitFieldClass}>
+                  <div className={orderPanelSectionHeaderClass}>
+                    <span className={orderPanelLabelClass}>PRICE</span>
                   </div>
-                  <div className="order-panel__field-shell order-panel__field-shell--limit gradient-border">
+                  <div className={orderPanelFieldShellLimitClass}>
                     <input
                       type="text"
                       inputMode="decimal"
-                      className="order-panel__field"
+                      className={orderPanelFieldClass}
                       value={limitPrice}
                       placeholder="0.00"
                       onChange={(event) => handleLimitPriceChange(event.target.value)}
@@ -186,124 +264,54 @@ export function OrderPanel({
                     />
                   </div>
                 </div>
-                <div className="order-panel__limit-field">
-                  <div className="order-panel__section-header">
-                    <span className="order-panel__label">AMOUNT</span>
-                    <button
-                      type="button"
-                      className={`order-panel__currency ${
-                        currency === 'BTC' ? 'order-panel__currency--flipped' : ''
-                      }`.trim()}
-                      aria-label={`Quote currency: ${currency}. Click to switch.`}
-                      onClick={handleSwapCurrency}
-                    >
-                      <span className="order-panel__swap-btn" aria-hidden>
-                        <SwapCurrencyIcon />
-                      </span>
-                      <span className="order-panel__currency-code">{currency}</span>
-                    </button>
-                  </div>
-                  <div className="order-panel__field-shell order-panel__field-shell--amount gradient-border">
-                    <span className="order-panel__amount-prefix" aria-hidden>
-                      {currency === 'BTC' ? 'BTC' : '$'}
-                    </span>
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      className="order-panel__field order-panel__field--amount"
-                      value={amount}
-                      placeholder="0.00"
-                      onChange={(event) => {
-                        let value = event.target.value;
-                        if (currency === 'USDT') value = value.replace(/^\$+/, '');
-                        handleAmountChange(value);
-                      }}
-                      aria-label={currency === 'BTC' ? 'Order amount in BTC' : 'Order amount in dollars'}
-                    />
-                  </div>
-                </div>
+                <div className={orderPanelLimitFieldClass}>{amountField}</div>
               </div>
             ) : (
-              <>
-                <div className="order-panel__section-header">
-                  <span className="order-panel__label">AMOUNT</span>
-                  <button
-                    type="button"
-                    className={`order-panel__currency ${
-                      currency === 'BTC' ? 'order-panel__currency--flipped' : ''
-                    }`.trim()}
-                    aria-label={`Quote currency: ${currency}. Click to switch.`}
-                    onClick={handleSwapCurrency}
-                  >
-                    <span className="order-panel__swap-btn" aria-hidden>
-                      <SwapCurrencyIcon />
-                    </span>
-                    <span className="order-panel__currency-code">{currency}</span>
-                  </button>
-                </div>
-                <div className="order-panel__field-shell order-panel__field-shell--amount gradient-border">
-                  <span className="order-panel__amount-prefix" aria-hidden>
-                    {currency === 'BTC' ? 'BTC' : '$'}
-                  </span>
-                  <input
-                    type="text"
-                    inputMode="decimal"
-                    className="order-panel__field order-panel__field--amount"
-                    value={amount}
-                    placeholder="0.00"
-                    onChange={(event) => {
-                      let value = event.target.value;
-                      if (currency === 'USDT') value = value.replace(/^\$+/, '');
-                      handleAmountChange(value);
-                    }}
-                    aria-label={currency === 'BTC' ? 'Order amount in BTC' : 'Order amount in dollars'}
-                  />
-                </div>
-              </>
+              amountField
             )}
           </div>
         )}
       </CardModuleTabContent>
 
-      <div className="order-panel__section">
-        <div className="order-panel__section-header">
-          <span className="order-panel__label">RISK MANAGEMENT</span>
+      <div className={orderPanelSectionClass}>
+        <div className={orderPanelSectionHeaderClass}>
+          <span className={orderPanelLabelClass}>RISK MANAGEMENT</span>
         </div>
-        <div className="order-panel__risk-row">
+        <div className={orderPanelRiskRowClass}>
           <button
             type="button"
-            className="order-panel__risk-toggle"
+            className={orderPanelRiskToggleClass}
             data-enabled={stopLossEnabled}
             aria-pressed={stopLossEnabled}
             onClick={() => handleStopLossEnabledChange(!stopLossEnabled)}
           >
-            <span className="order-panel__risk-toggle-label">Stop loss</span>
-            <span className="order-panel__risk-toggle-indicator" aria-hidden>
-              <RiskCheckIcon className="order-panel__risk-toggle-check" />
+            <span className={orderPanelRiskToggleLabelClass}>Stop loss</span>
+            <span className={orderPanelRiskToggleIndicatorClass} aria-hidden>
+              <RiskCheckIcon className={orderPanelRiskToggleCheckClass} />
             </span>
           </button>
           <button
             type="button"
-            className="order-panel__risk-toggle"
+            className={orderPanelRiskToggleClass}
             data-enabled={takeProfitEnabled}
             aria-pressed={takeProfitEnabled}
             onClick={() => handleTakeProfitEnabledChange(!takeProfitEnabled)}
           >
-            <span className="order-panel__risk-toggle-label">Take profit</span>
-            <span className="order-panel__risk-toggle-indicator" aria-hidden>
-              <RiskCheckIcon className="order-panel__risk-toggle-check" />
+            <span className={orderPanelRiskToggleLabelClass}>Take profit</span>
+            <span className={orderPanelRiskToggleIndicatorClass} aria-hidden>
+              <RiskCheckIcon className={orderPanelRiskToggleCheckClass} />
             </span>
           </button>
         </div>
-        <div className="order-panel__risk-row">
+        <div className={orderPanelRiskRowClass}>
           <div
-            className="order-panel__field-shell order-panel__field-shell--risk gradient-border"
+            className={orderPanelFieldShellRiskClass}
             data-enabled={stopLossEnabled}
           >
             <input
               type="text"
               inputMode="decimal"
-              className="order-panel__field order-panel__field--percent"
+              className={cn(orderPanelFieldClass, orderPanelFieldPercentClass)}
               value={stopLossValue}
               placeholder="0.00"
               onChange={(event) =>
@@ -312,18 +320,18 @@ export function OrderPanel({
               aria-label="Stop loss percentage"
               disabled={!stopLossEnabled}
             />
-            <span className="order-panel__field-suffix" aria-hidden>
+            <span className={orderPanelFieldSuffixClass} aria-hidden>
               {' %'}
             </span>
           </div>
           <div
-            className="order-panel__field-shell order-panel__field-shell--risk gradient-border"
+            className={orderPanelFieldShellRiskClass}
             data-enabled={takeProfitEnabled}
           >
             <input
               type="text"
               inputMode="decimal"
-              className="order-panel__field"
+              className={orderPanelFieldClass}
               value={takeProfitValue}
               onChange={(event) => handleTakeProfitChange(event.target.value)}
               aria-label="Take profit price"
@@ -333,20 +341,24 @@ export function OrderPanel({
         </div>
       </div>
 
-      <div className="order-panel__stats">
-        <span className="order-panel__stat order-panel__label--wide">{riskReward}</span>
-        <span className="order-panel__stat order-panel__stat--right order-panel__label--wide">
-          {margin}
-        </span>
+      <div className={orderPanelStatsClass}>
+        <span className={orderPanelStatClass}>{riskReward}</span>
+        <span className={cn(orderPanelStatClass, orderPanelStatRightClass)}>{margin}</span>
       </div>
 
-      <div className="order-panel__submit-wrap" data-warning-visible={showRiskWarning}>
-        <button type="button" className="order-panel__submit" onClick={onPlaceOrder}>
+      <div className={orderPanelSubmitWrapClass} data-warning-visible={showRiskWarning}>
+        <button type="button" className={orderPanelSubmitClass} onClick={onPlaceOrder}>
           {formatPlaceOrderLabel(side, price)}
         </button>
-        <div className="order-panel__submit-note" aria-hidden={!showRiskWarning} aria-live="polite">
-          <OrderWarningIcon className="order-panel__submit-note-icon" />
-          <span className="order-panel__submit-note-text">Your risk is high, trade with caution.</span>
+        <div
+          className={orderPanelSubmitNoteClass}
+          aria-hidden={!showRiskWarning}
+          aria-live="polite"
+        >
+          <OrderWarningIcon className={orderPanelSubmitNoteIconClass} />
+          <span className={orderPanelSubmitNoteTextClass}>
+            Your risk is high, trade with caution.
+          </span>
         </div>
       </div>
     </CardModule>

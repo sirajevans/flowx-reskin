@@ -11,6 +11,8 @@ import {
   AnimatedCounterValue,
   CardModule,
   CardModuleTabContent,
+  cardModuleTabClass,
+  cardModuleTabListClass,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -313,9 +315,9 @@ export function PositionsPanel({
           onSelectionChange={(key) => handleTabChange(key as PositionsTab)}
           className="min-w-0"
         >
-          <TabList aria-label="Positions sections" className="card-module__tabs">
+          <TabList aria-label="Positions sections" className={cardModuleTabListClass}>
             {TABS.map((tab) => (
-              <Tab key={tab.id} id={tab.id} className="card-module__tab">
+              <Tab key={tab.id} id={tab.id} className={cardModuleTabClass}>
                 {tab.label}
               </Tab>
             ))}

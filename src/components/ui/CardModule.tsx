@@ -1,6 +1,14 @@
 import type { ReactNode } from 'react';
 import { CloseModuleIcon, DragModuleIcon } from '../icons';
-import './CardModule.css';
+import { cn } from '../../lib/utils';
+import {
+  cardModuleBodyClass,
+  cardModuleCloseBtnClass,
+  cardModuleDragHandleClass,
+  cardModuleHeaderClass,
+  cardModuleHeaderMainClass,
+  cardModuleRootClass,
+} from './cardModuleClasses';
 
 export type CardModuleProps = {
   className?: string;
@@ -10,12 +18,19 @@ export type CardModuleProps = {
   children: ReactNode;
 };
 
+export {
+  cardModuleHeaderLabelsClass,
+  cardModuleHeaderTextClass,
+  cardModuleTabClass,
+  cardModuleTabListClass,
+} from './cardModuleClasses';
+
 export function CardModule({ className = '', ariaLabel, header, onClose, children }: CardModuleProps) {
   return (
-    <section className={`card-module gradient-border ${className}`.trim()} aria-label={ariaLabel}>
-      <header className="card-module__header">
-        <div className="card-module__header-main">
-          <span className="card-module__drag-handle" aria-hidden>
+    <section className={cn(cardModuleRootClass, className)} aria-label={ariaLabel}>
+      <header className={cardModuleHeaderClass}>
+        <div className={cardModuleHeaderMainClass}>
+          <span className={cardModuleDragHandleClass} aria-hidden>
             <DragModuleIcon />
           </span>
           {header}
@@ -23,7 +38,7 @@ export function CardModule({ className = '', ariaLabel, header, onClose, childre
         {onClose ? (
           <button
             type="button"
-            className="card-module__close-btn"
+            className={cardModuleCloseBtnClass}
             aria-label="Close module"
             onClick={onClose}
           >
@@ -33,7 +48,7 @@ export function CardModule({ className = '', ariaLabel, header, onClose, childre
           <CloseModuleIcon />
         )}
       </header>
-      <div className="card-module__body">{children}</div>
+      <div className={cardModuleBodyClass}>{children}</div>
     </section>
   );
 }

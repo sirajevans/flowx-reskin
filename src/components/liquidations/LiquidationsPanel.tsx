@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CardModule } from '../ui';
+import { CardModule, cardModuleHeaderTextClass } from '../ui';
 import { DEFAULT_LIQUIDATION_STATS_BY_TIMEFRAME } from './mockData';
 import { AnimatedLiquidationValue } from './AnimatedLiquidationValue';
 import { LiquidationsSegmentBar } from './LiquidationsSegmentBar';
@@ -114,7 +114,7 @@ export function LiquidationsPanel({
       className={`liquidations-panel ${className}`.trim()}
       ariaLabel="Liquidations"
       onClose={onClose}
-      header={<span className="card-module__header-text">Liquidations</span>}
+      header={<span className={cardModuleHeaderTextClass}>Liquidations</span>}
     >
       <div className="liquidations-panel__row">
         <StatBlock label="OVERALL" value={stats.overall} />

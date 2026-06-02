@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { MoneyFlowBearishIcon, MoneyFlowBullishIcon } from '../icons';
-import { CardModule } from '../ui';
+import { CardModule, cardModuleHeaderTextClass } from '../ui';
 import { MoneyFlowChart } from './MoneyFlowChart';
 import { DEFAULT_MONEY_FLOW_TIERS } from './mockData';
 import './MoneyFlowPanel.css';
@@ -62,7 +62,7 @@ export function MoneyFlowPanel({
       className={`money-flow-panel ${className}`.trim()}
       ariaLabel="Money flow"
       onClose={onClose}
-      header={<span className="card-module__header-text">Money flow</span>}
+      header={<span className={cardModuleHeaderTextClass}>Money flow</span>}
     >
       {tiers.map((tier, index) => (
         <Fragment key={tier.id}>

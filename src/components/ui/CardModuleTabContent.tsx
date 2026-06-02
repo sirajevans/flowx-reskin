@@ -1,4 +1,13 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { cn } from '../../lib/utils';
+import {
+  cardModuleTabPanelBaseClass,
+  cardModuleTabPanelEnterBackwardClass,
+  cardModuleTabPanelEnterForwardClass,
+  cardModuleTabPanelExitBackwardClass,
+  cardModuleTabPanelExitForwardClass,
+  cardModuleTabViewportClass,
+} from './cardModuleClasses';
 import { useTabSlideDirection } from './useTabSlideDirection';
 
 const TAB_TRANSITION_MS = 200;
@@ -59,7 +68,7 @@ export function CardModuleTabContent<T extends string>({
   if (exitingTab !== null) visibleTabs.add(exitingTab);
 
   return (
-    <div className={`card-module__tab-viewport ${className}`.trim()}>
+    <div className={cn(cardModuleTabViewportClass, className)}>
       {tabIds.map((tabId) => {
         if (!visibleTabs.has(tabId)) return null;
 
@@ -67,12 +76,18 @@ export function CardModuleTabContent<T extends string>({
         const isEntering = tabId === activeTab && exitingTab !== null;
         const isActive = tabId === activeTab && exitingTab === null;
 
-        let panelClass = 'card-module__tab-panel';
-        if (isExiting) {
-          panelClass += ` card-module__tab-panel--exit-${direction}`;
-        } else if (isEntering && enterReady) {
-          panelClass += ` card-module__tab-panel--enter-${direction}`;
-        }
+        const panelClass = cn(
+          cardModuleTabPanelBaseClass,
+          isExiting &&
+            (direction === 'forward'
+              ? cardModuleTabPanelExitForwardClass
+              : cardModuleTabPanelExitBackwardClass),
+          isEntering &&
+            enterReady &&
+            (direction === 'forward'
+              ? cardModuleTabPanelEnterForwardClass
+              : cardModuleTabPanelEnterBackwardClass),
+        );
 
         const state = isActive ? 'active' : isEntering ? 'enter' : 'exit';
 

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from 'react';
 import { OrderFeedAssetIcon } from '../icons';
-import { CardModule } from '../ui';
+import { CardModule, cardModuleHeaderTextClass } from '../ui';
 import {
   DEFAULT_LEFT_COLUMN,
   DEFAULT_PERPS_VOLUME,
@@ -142,7 +142,7 @@ export function OrderFeedPanel({
       className={`order-feed-panel ${className}`.trim()}
       ariaLabel="Order feed"
       onClose={onClose}
-      header={<span className="card-module__header-text">Order feed</span>}
+      header={<span className={cardModuleHeaderTextClass}>Order feed</span>}
     >
       <div className="order-feed-panel__volumes">
         <VolumeBlock volume={perpsVolume} align="left" />

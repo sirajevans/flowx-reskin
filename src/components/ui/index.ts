@@ -1,4 +1,10 @@
-export { CardModule } from './CardModule';
+export {
+  CardModule,
+  cardModuleHeaderLabelsClass,
+  cardModuleHeaderTextClass,
+  cardModuleTabClass,
+  cardModuleTabListClass,
+} from './CardModule';
 export type { CardModuleProps } from './CardModule';
 export { CardModuleTabContent } from './CardModuleTabContent';
 export type { CardModuleTabContentProps } from './CardModuleTabContent';
