@@ -29,6 +29,8 @@ export function OrderPanel({
   onCurrencyChange,
   amount: amountProp,
   onAmountChange,
+  limitPrice: limitPriceProp,
+  onLimitPriceChange,
   stopLossEnabled: stopLossEnabledProp,
   defaultStopLossEnabled = false,
   onStopLossEnabledChange,
@@ -49,6 +51,7 @@ export function OrderPanel({
   const [internalTab, setInternalTab] = useState<OrderTab>(defaultTab);
   const [internalSide, setInternalSide] = useState<OrderSide>(defaultSide);
   const [internalAmount, setInternalAmount] = useState('');
+  const [internalLimitPrice, setInternalLimitPrice] = useState('');
   const [internalStopLossEnabled, setInternalStopLossEnabled] = useState(defaultStopLossEnabled);
   const [internalTakeProfitEnabled, setInternalTakeProfitEnabled] = useState(
     defaultTakeProfitEnabled,
@@ -61,6 +64,7 @@ export function OrderPanel({
   const side = sideProp ?? internalSide;
   const currency = currencyProp ?? internalCurrency;
   const amount = amountProp ?? internalAmount;
+  const limitPrice = limitPriceProp ?? internalLimitPrice;
   const stopLossEnabled = stopLossEnabledProp ?? internalStopLossEnabled;
   const takeProfitEnabled = takeProfitEnabledProp ?? internalTakeProfitEnabled;
   const stopLossValue = stopLossValueProp ?? internalStopLossValue;
@@ -84,6 +88,11 @@ export function OrderPanel({
   const handleStopLossEnabledChange = (enabled: boolean) => {
     if (stopLossEnabledProp === undefined) setInternalStopLossEnabled(enabled);
     onStopLossEnabledChange?.(enabled);
+  };
+
+  const handleLimitPriceChange = (value: string) => {
+    if (limitPriceProp === undefined) setInternalLimitPrice(value);
+    onLimitPriceChange?.(value);
   };
 
   const handleTakeProfitEnabledChange = (enabled: boolean) => {
@@ -132,9 +141,6 @@ export function OrderPanel({
         </Tabs>
       }
     >
-      <CardModuleTabContent activeTab={activeTab} tabIds={TAB_IDS}>
-        {() => (
-          <>
         <div className="order-panel__side-toggle" role="group" aria-label="Order side">
         <button
           type="button"
@@ -158,42 +164,105 @@ export function OrderPanel({
         </button>
       </div>
 
-      <div className="order-panel__section">
-        <div className="order-panel__section-header">
-          <span className="order-panel__label">AMOUNT</span>
-          <button
-            type="button"
-            className={`order-panel__currency ${
-              currency === 'BTC' ? 'order-panel__currency--flipped' : ''
-            }`.trim()}
-            aria-label={`Quote currency: ${currency}. Click to switch.`}
-            onClick={handleSwapCurrency}
-          >
-            <span className="order-panel__swap-btn" aria-hidden>
-              <SwapCurrencyIcon />
-            </span>
-            <span className="order-panel__currency-code">{currency}</span>
-          </button>
-        </div>
-        <div className="order-panel__field-shell order-panel__field-shell--amount gradient-border">
-          <span className="order-panel__amount-prefix" aria-hidden>
-            {currency === 'BTC' ? 'BTC' : '$'}
-          </span>
-          <input
-            type="text"
-            inputMode="decimal"
-            className="order-panel__field order-panel__field--amount"
-            value={amount}
-            placeholder="0.00"
-            onChange={(event) => {
-              let value = event.target.value;
-              if (currency === 'USDT') value = value.replace(/^\$+/, '');
-              handleAmountChange(value);
-            }}
-            aria-label={currency === 'BTC' ? 'Order amount in BTC' : 'Order amount in dollars'}
-          />
-        </div>
-      </div>
+      <CardModuleTabContent activeTab={activeTab} tabIds={TAB_IDS}>
+        {(tabId) => (
+          <div className="order-panel__section">
+            {tabId === 'limit' ? (
+              <div className="order-panel__limit-fields">
+                <div className="order-panel__limit-field">
+                  <div className="order-panel__section-header">
+                    <span className="order-panel__label">PRICE</span>
+                  </div>
+                  <div className="order-panel__field-shell order-panel__field-shell--limit gradient-border">
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      className="order-panel__field"
+                      value={limitPrice}
+                      placeholder="0.00"
+                      onChange={(event) => handleLimitPriceChange(event.target.value)}
+                      aria-label="Limit price"
+                    />
+                  </div>
+                </div>
+                <div className="order-panel__limit-field">
+                  <div className="order-panel__section-header">
+                    <span className="order-panel__label">AMOUNT</span>
+                    <button
+                      type="button"
+                      className={`order-panel__currency ${
+                        currency === 'BTC' ? 'order-panel__currency--flipped' : ''
+                      }`.trim()}
+                      aria-label={`Quote currency: ${currency}. Click to switch.`}
+                      onClick={handleSwapCurrency}
+                    >
+                      <span className="order-panel__swap-btn" aria-hidden>
+                        <SwapCurrencyIcon />
+                      </span>
+                      <span className="order-panel__currency-code">{currency}</span>
+                    </button>
+                  </div>
+                  <div className="order-panel__field-shell order-panel__field-shell--amount gradient-border">
+                    <span className="order-panel__amount-prefix" aria-hidden>
+                      {currency === 'BTC' ? 'BTC' : '$'}
+                    </span>
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      className="order-panel__field order-panel__field--amount"
+                      value={amount}
+                      placeholder="0.00"
+                      onChange={(event) => {
+                        let value = event.target.value;
+                        if (currency === 'USDT') value = value.replace(/^\$+/, '');
+                        handleAmountChange(value);
+                      }}
+                      aria-label={currency === 'BTC' ? 'Order amount in BTC' : 'Order amount in dollars'}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="order-panel__section-header">
+                  <span className="order-panel__label">AMOUNT</span>
+                  <button
+                    type="button"
+                    className={`order-panel__currency ${
+                      currency === 'BTC' ? 'order-panel__currency--flipped' : ''
+                    }`.trim()}
+                    aria-label={`Quote currency: ${currency}. Click to switch.`}
+                    onClick={handleSwapCurrency}
+                  >
+                    <span className="order-panel__swap-btn" aria-hidden>
+                      <SwapCurrencyIcon />
+                    </span>
+                    <span className="order-panel__currency-code">{currency}</span>
+                  </button>
+                </div>
+                <div className="order-panel__field-shell order-panel__field-shell--amount gradient-border">
+                  <span className="order-panel__amount-prefix" aria-hidden>
+                    {currency === 'BTC' ? 'BTC' : '$'}
+                  </span>
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    className="order-panel__field order-panel__field--amount"
+                    value={amount}
+                    placeholder="0.00"
+                    onChange={(event) => {
+                      let value = event.target.value;
+                      if (currency === 'USDT') value = value.replace(/^\$+/, '');
+                      handleAmountChange(value);
+                    }}
+                    aria-label={currency === 'BTC' ? 'Order amount in BTC' : 'Order amount in dollars'}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </CardModuleTabContent>
 
       <div className="order-panel__section">
         <div className="order-panel__section-header">
@@ -273,9 +342,6 @@ export function OrderPanel({
       <button type="button" className="order-panel__submit" onClick={onPlaceOrder}>
         {formatPlaceOrderLabel(side, price)}
       </button>
-          </>
-        )}
-      </CardModuleTabContent>
     </CardModule>
   );
 }

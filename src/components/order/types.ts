@@ -15,6 +15,8 @@ export type OrderPanelProps = {
   onCurrencyChange?: (currency: OrderCurrency) => void;
   amount?: string;
   onAmountChange?: (value: string) => void;
+  limitPrice?: string;
+  onLimitPriceChange?: (value: string) => void;
   stopLossEnabled?: boolean;
   defaultStopLossEnabled?: boolean;
   onStopLossEnabledChange?: (enabled: boolean) => void;

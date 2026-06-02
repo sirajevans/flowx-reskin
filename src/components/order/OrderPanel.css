@@ -66,6 +66,23 @@
   box-sizing: border-box;
 }
 
+.order-panel__limit-fields {
+  display: flex;
+  min-width: 0;
+  align-self: stretch;
+  align-items: flex-start;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.order-panel__limit-field {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .order-panel__section-header {
   display: flex;
   min-width: 0;
@@ -73,6 +90,7 @@
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  min-height: 14px;
 }
 
 .order-panel__label {
@@ -163,6 +181,10 @@
 }
 
 .order-panel__field-shell--amount {
+  padding-inline: 10px;
+}
+
+.order-panel__field-shell--limit {
   padding-inline: 10px;
 }
 
