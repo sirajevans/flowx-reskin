@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+@import 'gradient-border-plugin';
+
+/* ── FlowX token subset (keep in sync with flowx/src/index.css) ── */
+
+:root {
+  --color-buy: #22c55e;
+  --color-sell: #ef4444;
+  --color-buy-locked: #22c55e;
+  --color-sell-locked: #ef4444;
+  --color-signal-locked: #38bdf8;
+  --market-buy-locked: var(--color-buy-locked);
+  --market-sell-locked: var(--color-sell-locked);
+  --market-signal-locked: var(--color-signal-locked);
+  --brand-accent: #38bdf8;
+  --brand-accent-soft: rgba(56, 189, 248, 0.14);
+  --brand-accent-strong: #0ea5e9;
+}
+
+body[data-skin='flowx'],
+body:not([data-skin]) {
+  --brand-accent: #38bdf8;
+  --brand-accent-soft: rgba(56, 189, 248, 0.14);
+  --brand-accent-strong: #0ea5e9;
+}
+
+body[data-skin='kavi'] {
+  --brand-accent: #f7c948;
+  --brand-accent-soft: rgba(247, 201, 72, 0.16);
+  --brand-accent-strong: #f59e0b;
+}
+
+body[data-skin='whales'] {
+  --brand-accent: #2dd4bf;
+  --brand-accent-soft: rgba(45, 212, 191, 0.14);
+  --brand-accent-strong: #14b8a6;
+}
+
+:root,
+[data-theme='dark'] {
+  --flowx-shell: #030305;
+  --flowx-panel: rgba(8, 8, 10, 0.98);
+  --flowx-panel-strong: rgba(10, 10, 12, 0.98);
+  --flowx-border: rgba(63, 63, 70, 0.28);
+  --flowx-text: #f4f4f5;
+  --flowx-muted: #a1a1aa;
+  --flowx-faint: #71717a;
+  /* Paper chrome — merge target: align with --flowx-panel-strong */
+  --widget-chrome-bg: #0e0e0e;
+  --widget-row-selected: rgba(29, 29, 29, 0.5);
+  --widget-icon-muted: #4d4d4d;
+  --widget-icon-dim: #2b2b2b;
+  --widget-tab-inactive: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme='light'] {
+  --flowx-shell: #f4f4f5;
+  --flowx-panel: rgba(255, 255, 255, 0.92);
+  --flowx-panel-strong: #ffffff;
+  --flowx-border: rgba(113, 113, 122, 0.2);
+  --flowx-text: #18181b;
+  --flowx-muted: #52525b;
+  --flowx-faint: #71717a;
+  --widget-chrome-bg: #ffffff;
+  --widget-row-selected: rgba(24, 24, 27, 0.06);
+  --widget-icon-muted: #71717a;
+  --widget-icon-dim: #a1a1aa;
+  --widget-tab-inactive: rgba(24, 24, 27, 0.55);
+}
+
+@theme {
+  --color-background: #030305;
+  --color-surface: #08080a;
+  --color-text-primary: #f4f4f5;
+  --color-text-secondary: #a1a1aa;
+  --color-buy: var(--color-buy);
+  --color-sell: var(--color-sell);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  --text-label: 0.625rem;
+  --text-label-sm: 0.6875rem;
+  --text-body-sm: 0.8125rem;
+  --tracking-body-wide: 0.02em;
+  --leading-label: 1.2;
+  --leading-body: 1.4;
+}
+
+.text-buy {
+  color: var(--color-buy);
+}
+
+.text-sell {
+  color: var(--color-sell);
+}
+
+.bg-buy-5 {
+  background-color: color-mix(in srgb, var(--color-buy), transparent 95%);
+}
+
+.bg-sell-5 {
+  background-color: color-mix(in srgb, var(--color-sell), transparent 95%);
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  color-scheme: dark;
+  color: var(--flowx-text);
+  background: var(--flowx-shell);
+  font-family: var(--font-sans);
+}
+
+html[data-theme='light'],
+html[data-theme='light'] body {
+  color-scheme: light;
+}
+
+#root {
+  min-height: 100dvh;
+}

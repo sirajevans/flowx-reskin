@@ -1,0 +1,48 @@
+type IconProps = {
+  className?: string;
+};
+
+const ICON_CLASS = 'size-3.5 shrink-0';
+
+/** Order form: swap quote currency */
+export function SwapCurrencyIcon({ className = ICON_CLASS }: IconProps) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path
+        d="M3.20059 11.116V5.41694C3.20059 4.22267 3.20059 3.62617 3.57166 3.2551C3.94273 2.88403 4.53923 2.88403 5.73349 2.88403M5.10027 9.5329L3.20059 11.116L1.30091 9.5329M10.7993 2.88403V8.58306C10.7993 9.77733 10.7993 10.3738 10.4282 10.7449C10.0572 11.116 9.46066 11.116 8.26703 11.116M8.89962 4.4671L10.7993 2.88403L12.699 4.4671"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** Order form: risk toggle checkmark */
+export function RiskCheckIcon({ className = '' }: IconProps) {
+  return (
+    <svg
+      width="8"
+      height="6"
+      viewBox="0 0 8 6"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path
+        d="M2.75529 5.05737L0.5 2.80206M2.75326 5.05737L7.05418 0.500022"
+        stroke="currentColor"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}

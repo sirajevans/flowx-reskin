@@ -1,0 +1,39 @@
+.liquidations-segment-bar {
+  display: flex;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  height: 12px;
+  margin-bottom: 4px;
+  align-items: stretch;
+  gap: 2px;
+  box-sizing: border-box;
+}
+
+.liquidations-segment-bar__segment {
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: 999px;
+  background-color: var(--widget-icon-dim);
+  transition: background-color 320ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.liquidations-segment-bar[data-animating='true'] .liquidations-segment-bar__segment {
+  transition-duration: var(--liquidations-step-ms, 8ms);
+}
+
+/* Longs $ > shorts: filled (left) red */
+.liquidations-segment-bar[data-longs-dominate='true'] .liquidations-segment-bar__segment[data-filled='true'] {
+  background-color: var(--liquidations-negative, #f23645);
+}
+
+/* Shorts $ > longs: unfilled (right) green */
+.liquidations-segment-bar[data-longs-dominate='false'] .liquidations-segment-bar__segment[data-filled='false'] {
+  background-color: var(--liquidations-positive, #06b470);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquidations-segment-bar__segment {
+    transition: none;
+  }
+}

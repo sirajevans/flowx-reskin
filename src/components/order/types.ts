@@ -1,0 +1,34 @@
+export type OrderTab = 'market' | 'limit';
+export type OrderSide = 'buy' | 'sell';
+export type OrderCurrency = 'USDT' | 'BTC';
+
+export type OrderPanelProps = {
+  className?: string;
+  activeTab?: OrderTab;
+  defaultTab?: OrderTab;
+  onTabChange?: (tab: OrderTab) => void;
+  side?: OrderSide;
+  defaultSide?: OrderSide;
+  onSideChange?: (side: OrderSide) => void;
+  currency?: OrderCurrency;
+  defaultCurrency?: OrderCurrency;
+  onCurrencyChange?: (currency: OrderCurrency) => void;
+  amount?: string;
+  onAmountChange?: (value: string) => void;
+  stopLossEnabled?: boolean;
+  defaultStopLossEnabled?: boolean;
+  onStopLossEnabledChange?: (enabled: boolean) => void;
+  takeProfitEnabled?: boolean;
+  defaultTakeProfitEnabled?: boolean;
+  onTakeProfitEnabledChange?: (enabled: boolean) => void;
+  stopLossValue?: string;
+  onStopLossChange?: (value: string) => void;
+  takeProfitValue?: string;
+  onTakeProfitChange?: (value: string) => void;
+  riskReward?: string;
+  margin?: string;
+  price?: string;
+  onClose?: () => void;
+  onPlaceOrder?: () => void;
+  onSwapCurrency?: () => void;
+};

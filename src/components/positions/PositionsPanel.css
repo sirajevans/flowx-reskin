@@ -1,0 +1,292 @@
+/* Positions module — table content inside card-module */
+
+.positions-panel {
+  --card-module-width: 966px;
+  --positions-module-height: 255px;
+  --positions-row-bg: #1d1d1d80;
+  --positions-buy-fg: #04b97d;
+  --positions-buy-bg: #04b97d0d;
+  --positions-sell-fg: #f13c54;
+  --positions-sell-bg: rgba(241, 60, 84, 0.05);
+  --positions-pnl-positive: #06b470;
+  --positions-action-danger: #f23645;
+  box-sizing: border-box;
+  height: var(--positions-module-height);
+  min-height: var(--positions-module-height);
+  max-height: var(--positions-module-height);
+}
+
+.positions-panel .card-module__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.positions-panel .card-module__tab-viewport {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 0;
+  overflow: hidden;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.positions-panel .card-module__tab-panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Shared column grid — header and rows use identical track sizes */
+.positions-panel__grid {
+  display: grid;
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: 52px 33px 56px 115px 40px 41px 112px 34px 72px 92px;
+  column-gap: 30px;
+  padding-inline: 9px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.positions-panel__grid--header {
+  min-height: 15px;
+}
+
+.positions-panel__grid--header .positions-panel__col {
+  overflow-y: visible;
+}
+
+.positions-panel__col {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  text-align: left;
+  scrollbar-width: none;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.02em;
+  color: var(--widget-tab-inactive);
+}
+
+.positions-panel__col::-webkit-scrollbar {
+  display: none;
+}
+
+.positions-panel__col--pnl,
+.positions-panel__col--actions {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.positions-panel__rows {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.positions-panel__rows::-webkit-scrollbar {
+  display: none;
+}
+
+.positions-panel__rows [role='rowgroup'] {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 2px;
+}
+
+.positions-panel__row {
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: var(--positions-row-bg);
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+}
+
+.positions-panel__row:nth-child(even) {
+  background-color: transparent;
+}
+
+.positions-panel__row:focus-visible {
+  box-shadow: 0 0 0 1px var(--flowx-border);
+}
+
+.positions-panel__cell {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.positions-panel__cell::-webkit-scrollbar {
+  display: none;
+}
+
+.positions-panel__cell--side,
+.positions-panel__cell--pnl,
+.positions-panel__cell--actions {
+  overflow: visible;
+}
+
+.positions-panel__cell--pnl,
+.positions-panel__cell--actions {
+  align-items: flex-end;
+}
+
+.positions-panel__cell--actions {
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.positions-panel__cell-text {
+  flex-shrink: 0;
+  white-space: nowrap;
+  text-align: left;
+  font-size: 11px;
+  line-height: 14px;
+  color: var(--flowx-text);
+}
+
+.positions-panel__cell-text--pnl-positive,
+.positions-panel__cell-text--pnl-negative {
+  text-align: right;
+}
+
+.positions-panel__cell-text--pnl-positive {
+  color: var(--positions-pnl-positive);
+}
+
+.positions-panel__cell-text--pnl-negative {
+  color: var(--color-sell);
+}
+
+.positions-panel__cell-text--exchange {
+  text-align: right;
+  color: var(--flowx-text);
+}
+
+.positions-panel__entry-market {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.positions-panel__market-value {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.positions-panel__market-value--favorable {
+  color: var(--positions-pnl-positive);
+}
+
+.positions-panel__market-value--unfavorable {
+  color: var(--color-sell);
+}
+
+.positions-panel .odometer__digit-scroll {
+  height: 14px;
+}
+
+.positions-panel .odometer__digit-track span {
+  height: 14px;
+  line-height: 14px;
+}
+
+.positions-panel__side-badge {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 2px 5px;
+  font-size: 11px;
+  line-height: 14px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.positions-panel__side-badge--buy {
+  background-color: var(--positions-buy-bg);
+  color: var(--positions-buy-fg);
+}
+
+.positions-panel__side-badge--sell {
+  background-color: var(--positions-sell-bg);
+  color: var(--positions-sell-fg);
+}
+
+.positions-panel__row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.positions-panel__action-btn {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  overflow: clip;
+  position: relative;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--widget-icon-muted);
+  transition: color 150ms ease;
+}
+
+.positions-panel__action-btn--danger {
+  color: var(--positions-action-danger);
+}
+
+.positions-panel__action-btn svg {
+  color: inherit;
+  transition: color 150ms ease;
+}
+
+@media (hover: hover) {
+  .positions-panel__action-btn:not(.positions-panel__action-btn--danger):hover {
+    color: var(--flowx-muted);
+  }
+
+  .positions-panel__action-btn--danger:hover {
+    color: color-mix(in srgb, var(--positions-action-danger) 78%, white);
+  }
+}
+
+.positions-panel__action-btn:focus-visible {
+  border-radius: 4px;
+  outline: 1px solid var(--flowx-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .positions-panel__action-btn,
+  .positions-panel__action-btn svg {
+    transition: none;
+  }
+}
