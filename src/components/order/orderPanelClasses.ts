@@ -133,8 +133,8 @@ export const orderPanelSubmitWrapClass = cn(
 export const orderPanelSubmitClass = cn(
   'box-border flex h-8 min-w-0 shrink-0 cursor-pointer items-center justify-center self-stretch overflow-clip rounded-lg',
   'border-0 bg-white px-[61px] py-1 font-inherit text-center text-xs leading-4 text-black outline-none',
-  'transition-opacity duration-150 ease-in-out motion-reduce:transition-none',
-  '[@media(hover:hover)]:hover:opacity-[0.92]',
+  'opacity-80 transition-opacity duration-150 ease-in-out motion-reduce:transition-none',
+  '[@media(hover:hover)]:hover:opacity-90',
   'focus-visible:shadow-[0_0_0_1px_var(--flowx-border)]',
 );
 

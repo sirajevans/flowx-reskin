@@ -30,7 +30,7 @@ export const DEFAULT_LEFT_COLUMN: OrderFeedEntry[] = [
 export const DEFAULT_RIGHT_COLUMN: OrderFeedEntry[] = [
   { id: 'r1', side: 'buy', price: '73,245.8', value: '$5.1K' },
   { id: 'r2', side: 'buy', price: '73,244.6', value: '$15.6K' },
-  { id: 'r3', side: 'buy', price: '73,243.1', value: '$50K' },
+  { id: 'r3', side: 'buy', price: '73,243.1', value: '$50.0K' },
   { id: 'r4', side: 'sell', price: '73,242.0', value: '$8.7K' },
   { id: 'r5', side: 'buy', price: '73,240.5', value: '$22.8K' },
   { id: 'r6', side: 'sell', price: '73,239.2', value: '$4.2K' },

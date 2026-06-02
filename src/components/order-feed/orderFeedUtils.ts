@@ -37,9 +37,7 @@ export function formatOrderFeedPrice(price: number): string {
 
 export function formatOrderFeedValue(amountUsd: number): string {
   if (amountUsd >= 1000) {
-    const k = amountUsd / 1000;
-    const digits = k >= 10 ? 0 : 1;
-    return `$${k.toFixed(digits)}K`;
+    return `$${(amountUsd / 1000).toFixed(1)}K`;
   }
 
   return `$${Math.round(amountUsd)}`;
