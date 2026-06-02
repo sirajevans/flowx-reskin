@@ -56,6 +56,16 @@
   flex-shrink: 0;
 }
 
+/* Positions table — tighter digit line height */
+.positions-panel .odometer__digit-scroll {
+  height: 15px;
+}
+
+.positions-panel .odometer__digit-track span {
+  height: 15px;
+  line-height: 15px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .odometer__digit-scroll {
     -webkit-mask-image: none;

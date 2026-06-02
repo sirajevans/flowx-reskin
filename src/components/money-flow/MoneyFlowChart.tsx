@@ -1,4 +1,12 @@
-import './MoneyFlowChart.css';
+import { cn } from '../../lib/utils';
+import {
+  moneyFlowChartBarBaseClass,
+  moneyFlowChartBarBearClass,
+  moneyFlowChartBarBullClass,
+  moneyFlowChartBaselineClass,
+  moneyFlowChartClass,
+  moneyFlowChartSlotClass,
+} from './moneyFlowChartClasses';
 
 const MAX_BAR_HEIGHT_PERCENT = 50;
 
@@ -35,24 +43,27 @@ export function MoneyFlowChart({
 
   return (
     <div
-      className={`money-flow-chart ${className}`.trim()}
+      className={cn(moneyFlowChartClass, className)}
       role="img"
       aria-label={ariaLabel}
       style={{ ['--money-flow-bar-count' as string]: values.length }}
     >
-      <div className="money-flow-chart__baseline" aria-hidden />
+      <div className={moneyFlowChartBaselineClass} aria-hidden />
       {values.map((value, index) => {
         if (value === 0 || maxAbs === 0) {
-          return <div key={index} className="money-flow-chart__slot" aria-hidden />;
+          return <div key={index} className={moneyFlowChartSlotClass} aria-hidden />;
         }
 
         const heightPercent = (Math.abs(value) / maxAbs) * MAX_BAR_HEIGHT_PERCENT;
-        const tone = value > 0 ? 'bull' : 'bear';
+        const isBull = value > 0;
 
         return (
-          <div key={index} className="money-flow-chart__slot" aria-hidden>
+          <div key={index} className={moneyFlowChartSlotClass} aria-hidden>
             <span
-              className={`money-flow-chart__bar money-flow-chart__bar--${tone}`}
+              className={cn(
+                moneyFlowChartBarBaseClass,
+                isBull ? moneyFlowChartBarBullClass : moneyFlowChartBarBearClass,
+              )}
               style={{ height: `${heightPercent}%` }}
             />
           </div>

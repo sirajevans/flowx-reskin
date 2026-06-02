@@ -1,14 +1,43 @@
 import { useLayoutEffect, useState } from 'react';
 import { OrderFeedAssetIcon } from '../icons';
-import { CardModule, cardModuleHeaderTextClass } from '../ui';
+import {
+  CardModule,
+  cardModuleBodyFlexFillClass,
+  cardModuleHeaderTextClass,
+} from '../ui';
+import { cn } from '../../lib/utils';
 import {
   DEFAULT_LEFT_COLUMN,
   DEFAULT_PERPS_VOLUME,
   DEFAULT_RIGHT_COLUMN,
   DEFAULT_SPOT_VOLUME,
 } from './mockData';
+import {
+  orderFeedAssetClass,
+  orderFeedColumnClass,
+  orderFeedGridClass,
+  orderFeedPanelRootClass,
+  orderFeedRowClass,
+  orderFeedRowGradientLeftBuyClass,
+  orderFeedRowGradientLeftClass,
+  orderFeedRowGradientLeftSellClass,
+  orderFeedRowGradientRightBuyClass,
+  orderFeedRowGradientRightClass,
+  orderFeedRowGradientRightSellClass,
+  orderFeedRowMainClass,
+  orderFeedRowPriceClass,
+  orderFeedRowSlotClass,
+  orderFeedRowValueClass,
+  orderFeedVolumeClass,
+  orderFeedVolumeDividerClass,
+  orderFeedVolumeLabelClass,
+  orderFeedVolumeLabelRightClass,
+  orderFeedVolumesClass,
+  orderFeedVolumeValueClass,
+  orderFeedVolumeValueRightClass,
+  orderFeedVolumeRightClass,
+} from './orderFeedPanelClasses';
 import { getGradientWidthPercent } from './orderFeedUtils';
-import './OrderFeedPanel.css';
 import type { OrderFeedEntry, OrderFeedPanelProps, OrderFeedVolume } from './types';
 import { useOrderFeedStream } from './useOrderFeedStream';
 
@@ -22,13 +51,17 @@ function VolumeBlock({
   const isRight = align === 'right';
 
   return (
-    <div
-      className={`order-feed-panel__volume ${
-        isRight ? 'order-feed-panel__volume--right' : ''
-      }`.trim()}
-    >
-      <span className="order-feed-panel__volume-label">{volume.label}</span>
-      <span className="order-feed-panel__volume-value">{volume.value}</span>
+    <div className={cn(orderFeedVolumeClass, isRight && orderFeedVolumeRightClass)}>
+      <span
+        className={cn(orderFeedVolumeLabelClass, isRight && orderFeedVolumeLabelRightClass)}
+      >
+        {volume.label}
+      </span>
+      <span
+        className={cn(orderFeedVolumeValueClass, isRight && orderFeedVolumeValueRightClass)}
+      >
+        {volume.value}
+      </span>
     </div>
   );
 }
@@ -44,6 +77,8 @@ function FeedRow({
 }) {
   const gradientWidth = getGradientWidthPercent(entry.value);
   const [expanded, setExpanded] = useState(!isNew);
+  const isBuy = entry.side === 'buy';
+  const isLeft = align === 'left';
 
   useLayoutEffect(() => {
     if (!isNew) {
@@ -59,23 +94,30 @@ function FeedRow({
     return () => cancelAnimationFrame(frame);
   }, [isNew, entry.id]);
 
+  const gradientClass = cn(
+    isLeft ? orderFeedRowGradientLeftClass : orderFeedRowGradientRightClass,
+    isLeft
+      ? isBuy
+        ? orderFeedRowGradientLeftBuyClass
+        : orderFeedRowGradientLeftSellClass
+      : isBuy
+        ? orderFeedRowGradientRightBuyClass
+        : orderFeedRowGradientRightSellClass,
+  );
+
   return (
     <div
-      className="order-feed-panel__row-slot"
+      className={orderFeedRowSlotClass}
       data-new={isNew ? '' : undefined}
       data-expanded={expanded ? '' : undefined}
     >
-      <div className="order-feed-panel__row" data-side={entry.side}>
-        <div
-          className={`order-feed-panel__row-gradient order-feed-panel__row-gradient--${align}`.trim()}
-          style={{ width: `${gradientWidth}%` }}
-          aria-hidden
-        />
-        <div className="order-feed-panel__row-main">
-          <span className="order-feed-panel__row-price">{entry.price}</span>
-          <span className="order-feed-panel__row-value">{entry.value}</span>
+      <div className={orderFeedRowClass} data-side={entry.side}>
+        <div className={gradientClass} style={{ width: `${gradientWidth}%` }} aria-hidden />
+        <div className={orderFeedRowMainClass}>
+          <span className={orderFeedRowPriceClass}>{entry.price}</span>
+          <span className={orderFeedRowValueClass}>{entry.value}</span>
         </div>
-        <span className="order-feed-panel__asset" aria-hidden>
+        <span className={orderFeedAssetClass} aria-hidden>
           <OrderFeedAssetIcon />
         </span>
       </div>
@@ -93,7 +135,7 @@ function FeedColumn({
   newEntryIds: ReadonlySet<string>;
 }) {
   return (
-    <div className="order-feed-panel__column">
+    <div className={orderFeedColumnClass}>
       {entries.map((entry) => (
         <FeedRow
           key={entry.id}
@@ -139,18 +181,19 @@ export function OrderFeedPanel({
 
   return (
     <CardModule
-      className={`order-feed-panel ${className}`.trim()}
+      className={cn(orderFeedPanelRootClass, className)}
+      bodyClassName={cardModuleBodyFlexFillClass}
       ariaLabel="Order feed"
       onClose={onClose}
       header={<span className={cardModuleHeaderTextClass}>Order feed</span>}
     >
-      <div className="order-feed-panel__volumes">
+      <div className={orderFeedVolumesClass}>
         <VolumeBlock volume={perpsVolume} align="left" />
-        <hr className="order-feed-panel__volume-divider" aria-hidden />
+        <hr className={orderFeedVolumeDividerClass} aria-hidden />
         <VolumeBlock volume={spotVolume} align="right" />
       </div>
 
-      <div className="order-feed-panel__grid">
+      <div className={orderFeedGridClass}>
         <FeedColumn entries={leftColumn} align="left" newEntryIds={newEntryIds} />
         <FeedColumn entries={rightColumn} align="right" newEntryIds={newEntryIds} />
       </div>

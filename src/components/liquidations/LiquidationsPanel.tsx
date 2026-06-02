@@ -1,10 +1,28 @@
 import { useState } from 'react';
-import { CardModule, cardModuleHeaderTextClass } from '../ui';
+import {
+  CardModule,
+  cardModuleBodyGap18Class,
+  cardModuleHeaderTextClass,
+} from '../ui';
+import { cn } from '../../lib/utils';
 import { DEFAULT_LIQUIDATION_STATS_BY_TIMEFRAME } from './mockData';
 import { AnimatedLiquidationValue } from './AnimatedLiquidationValue';
 import { LiquidationsSegmentBar } from './LiquidationsSegmentBar';
+import {
+  liquidationsPanelRootClass,
+  liquidationsPanelRowClass,
+  liquidationsPanelStatClass,
+  liquidationsPanelStatLabelClass,
+  liquidationsPanelStatLabelRightClass,
+  liquidationsPanelStatRightClass,
+  liquidationsPanelStatValueClass,
+  liquidationsPanelStatValueNegativeClass,
+  liquidationsPanelStatValuePositiveClass,
+  liquidationsPanelStatValueRightClass,
+  liquidationsPanelTimeframeBtnClass,
+  liquidationsPanelTimeframeClass,
+} from './liquidationsPanelClasses';
 import { getShortsSharePercent, longsLiquidationsDominate } from './utils';
-import './LiquidationsPanel.css';
 import type {
   LiquidationSideStats,
   LiquidationsPanelProps,
@@ -31,20 +49,22 @@ function StatBlock({
   const isRight = align === 'right';
 
   return (
-    <div
-      className={`liquidations-panel__stat ${
-        isRight ? 'liquidations-panel__stat--right' : ''
-      }`.trim()}
-    >
-      <span className="liquidations-panel__stat-label">{label}</span>
+    <div className={cn(liquidationsPanelStatClass, isRight && liquidationsPanelStatRightClass)}>
       <span
-        className={`liquidations-panel__stat-value ${
-          valueTone === 'positive'
-            ? 'liquidations-panel__stat-value--positive'
-            : valueTone === 'negative'
-              ? 'liquidations-panel__stat-value--negative'
-              : ''
-        }`.trim()}
+        className={cn(
+          liquidationsPanelStatLabelClass,
+          isRight && liquidationsPanelStatLabelRightClass,
+        )}
+      >
+        {label}
+      </span>
+      <span
+        className={cn(
+          liquidationsPanelStatValueClass,
+          isRight && liquidationsPanelStatValueRightClass,
+          valueTone === 'positive' && liquidationsPanelStatValuePositiveClass,
+          valueTone === 'negative' && liquidationsPanelStatValueNegativeClass,
+        )}
       >
         <AnimatedLiquidationValue value={value} />
       </span>
@@ -60,12 +80,12 @@ function TimeframeToggle({
   onChange: (timeframe: LiquidationTimeframe) => void;
 }) {
   return (
-    <div className="liquidations-panel__timeframe" role="group" aria-label="Time range">
+    <div className={liquidationsPanelTimeframeClass} role="group" aria-label="Time range">
       {TIMEFRAMES.map((timeframe) => (
         <button
           key={timeframe.id}
           type="button"
-          className="liquidations-panel__timeframe-btn"
+          className={liquidationsPanelTimeframeBtnClass}
           data-selected={value === timeframe.id}
           aria-pressed={value === timeframe.id}
           onClick={() => onChange(timeframe.id)}
@@ -111,17 +131,18 @@ export function LiquidationsPanel({
 
   return (
     <CardModule
-      className={`liquidations-panel ${className}`.trim()}
+      className={cn(liquidationsPanelRootClass, className)}
+      bodyClassName={cardModuleBodyGap18Class}
       ariaLabel="Liquidations"
       onClose={onClose}
       header={<span className={cardModuleHeaderTextClass}>Liquidations</span>}
     >
-      <div className="liquidations-panel__row">
+      <div className={liquidationsPanelRowClass}>
         <StatBlock label="OVERALL" value={stats.overall} />
         <TimeframeToggle value={timeframe} onChange={handleTimeframeChange} />
       </div>
 
-      <div className="liquidations-panel__row">
+      <div className={liquidationsPanelRowClass}>
         <StatBlock
           label={formatSideLabel('SHORTS', stats.shorts)}
           value={stats.shorts.value}

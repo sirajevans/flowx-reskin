@@ -17,6 +17,8 @@ export type CardModuleTabContentProps<T extends string> = {
   tabIds: readonly T[];
   children: (tabId: T) => ReactNode;
   className?: string;
+  viewportClassName?: string;
+  panelClassName?: string;
 };
 
 export function CardModuleTabContent<T extends string>({
@@ -24,6 +26,8 @@ export function CardModuleTabContent<T extends string>({
   tabIds,
   children,
   className = '',
+  viewportClassName,
+  panelClassName,
 }: CardModuleTabContentProps<T>) {
   const prevTabRef = useRef(activeTab);
   const [exitingTab, setExitingTab] = useState<T | null>(null);
@@ -68,7 +72,7 @@ export function CardModuleTabContent<T extends string>({
   if (exitingTab !== null) visibleTabs.add(exitingTab);
 
   return (
-    <div className={cn(cardModuleTabViewportClass, className)}>
+    <div className={cn(cardModuleTabViewportClass, viewportClassName, className)}>
       {tabIds.map((tabId) => {
         if (!visibleTabs.has(tabId)) return null;
 
@@ -78,6 +82,7 @@ export function CardModuleTabContent<T extends string>({
 
         const panelClass = cn(
           cardModuleTabPanelBaseClass,
+          panelClassName,
           isExiting &&
             (direction === 'forward'
               ? cardModuleTabPanelExitForwardClass

@@ -1,4 +1,5 @@
 import { cn } from '../../lib/utils';
+import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
 
 const fieldGradientBorder =
   '[--gradient-border:linear-gradient(180deg,oklch(25%_0_0)_0%,oklch(22.5%_0_0)_50%,oklch(20%_0_0)_100%)]';
@@ -9,7 +10,7 @@ const fieldShellBase = cn(
   fieldGradientBorder,
 );
 
-export const orderPanelRootClass = 'w-[365px]';
+export const orderPanelRootClass = cardModuleWidth365Class;
 
 export const orderPanelSideToggleClass =
   'box-border flex w-full min-w-0 items-center gap-[5px] self-stretch';

@@ -1,7 +1,7 @@
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import type { ComponentProps } from 'react';
 import { cn } from '../../lib/utils';
-import './tooltip.css';
+import { tooltipContentClass } from './tooltipClasses';
 
 function TooltipProvider({
   delayDuration = 300,
@@ -27,7 +27,7 @@ function TooltipContent({
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
         sideOffset={sideOffset}
-        className={cn('tooltip-content', className)}
+        className={cn(tooltipContentClass, className)}
         {...props}
       />
     </TooltipPrimitive.Portal>
@@ -35,3 +35,4 @@ function TooltipContent({
 }
 
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
+export { tooltipContentInnerClass, tooltipContentShortcutClass } from './tooltipClasses';

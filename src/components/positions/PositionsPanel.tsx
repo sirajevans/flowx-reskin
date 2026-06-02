@@ -11,14 +11,48 @@ import {
   AnimatedCounterValue,
   CardModule,
   CardModuleTabContent,
+  cardModuleBodyFlexFillClass,
   cardModuleTabClass,
   cardModuleTabListClass,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
+  tooltipContentInnerClass,
+  tooltipContentShortcutClass,
 } from '../ui';
+import { cn } from '../../lib/utils';
 import { MOCK_ROWS_BY_TAB } from './mockData';
-import './PositionsPanel.css';
+import {
+  positionsPanelActionBtnClass,
+  positionsPanelActionBtnDangerClass,
+  positionsPanelCellActionsClass,
+  positionsPanelCellClass,
+  positionsPanelCellPnlClass,
+  positionsPanelCellSideClass,
+  positionsPanelCellTextClass,
+  positionsPanelCellTextExchangeClass,
+  positionsPanelCellTextPnlNegativeClass,
+  positionsPanelCellTextPnlPositiveClass,
+  positionsPanelColActionsClass,
+  positionsPanelColClass,
+  positionsPanelColHeaderClass,
+  positionsPanelColPnlClass,
+  positionsPanelEntryMarketClass,
+  positionsPanelGridClass,
+  positionsPanelGridHeaderClass,
+  positionsPanelMarketValueClass,
+  positionsPanelMarketValueFavorableClass,
+  positionsPanelMarketValueUnfavorableClass,
+  positionsPanelRootClass,
+  positionsPanelRowActionsClass,
+  positionsPanelRowClass,
+  positionsPanelRowsClass,
+  positionsPanelSideBadgeBuyClass,
+  positionsPanelSideBadgeClass,
+  positionsPanelSideBadgeSellClass,
+  positionsPanelTabPanelClass,
+  positionsPanelTabViewportClass,
+} from './positionsPanelClasses';
 import type { HistoryRow, PositionRow, PositionSide, PositionsPanelProps, PositionsTab } from './types';
 import { usePositionsStream } from './usePositionsStream';
 
@@ -31,35 +65,27 @@ const TABS: { id: PositionsTab; label: string }[] = [
 const TAB_IDS = TABS.map((tab) => tab.id);
 
 const COLUMN_HEADERS_BASE: { key: string; label: string; className: string }[] = [
-  { key: 'asset', label: 'ASSET', className: 'positions-panel__col positions-panel__col--asset' },
-  { key: 'side', label: 'SIDE', className: 'positions-panel__col positions-panel__col--side' },
-  { key: 'amount', label: 'AMOUNT', className: 'positions-panel__col positions-panel__col--amount' },
-  {
-    key: 'entry',
-    label: 'ENTRY / MARKET',
-    className: 'positions-panel__col positions-panel__col--entry',
-  },
-  { key: 'sl', label: 'SL', className: 'positions-panel__col positions-panel__col--sl' },
-  { key: 'tp', label: 'TP', className: 'positions-panel__col positions-panel__col--tp' },
-  {
-    key: 'filled',
-    label: 'FILLED AT',
-    className: 'positions-panel__col positions-panel__col--filled',
-  },
-  { key: 'fees', label: 'FEES', className: 'positions-panel__col positions-panel__col--fees' },
-  { key: 'pnl', label: 'PNL', className: 'positions-panel__col positions-panel__col--pnl' },
+  { key: 'asset', label: 'ASSET', className: positionsPanelColClass },
+  { key: 'side', label: 'SIDE', className: positionsPanelColClass },
+  { key: 'amount', label: 'AMOUNT', className: positionsPanelColClass },
+  { key: 'entry', label: 'ENTRY / MARKET', className: positionsPanelColClass },
+  { key: 'sl', label: 'SL', className: positionsPanelColClass },
+  { key: 'tp', label: 'TP', className: positionsPanelColClass },
+  { key: 'filled', label: 'FILLED AT', className: positionsPanelColClass },
+  { key: 'fees', label: 'FEES', className: positionsPanelColClass },
+  { key: 'pnl', label: 'PNL', className: cn(positionsPanelColClass, positionsPanelColPnlClass) },
 ];
 
 const ACTIONS_COLUMN_HEADER = {
   key: 'actions',
   label: 'ACTIONS',
-  className: 'positions-panel__col positions-panel__col--actions',
+  className: cn(positionsPanelColClass, positionsPanelColActionsClass),
 };
 
 const EXCHANGE_COLUMN_HEADER = {
   key: 'exchange',
   label: 'EXCHANGE',
-  className: 'positions-panel__col positions-panel__col--actions',
+  className: cn(positionsPanelColClass, positionsPanelColActionsClass),
 };
 
 function getColumnHeaders(tab: PositionsTab) {
@@ -73,28 +99,28 @@ const ROW_ACTIONS = [
     label: 'Edit position',
     shortcut: 'E',
     icon: EditPositionIcon,
-    className: 'positions-panel__action-btn',
+    className: positionsPanelActionBtnClass,
   },
   {
     id: 'breakeven',
     label: 'Move SL to BE',
     shortcut: 'B',
     icon: MoveToBreakevenIcon,
-    className: 'positions-panel__action-btn',
+    className: positionsPanelActionBtnClass,
   },
   {
     id: 'partialClose',
     label: 'Partial close',
     shortcut: 'P',
     icon: PartialCloseIcon,
-    className: 'positions-panel__action-btn',
+    className: positionsPanelActionBtnClass,
   },
   {
     id: 'fullClose',
     label: 'Full close',
     shortcut: 'F',
     icon: FullCloseIcon,
-    className: 'positions-panel__action-btn positions-panel__action-btn--danger',
+    className: positionsPanelActionBtnDangerClass,
   },
 ] as const;
 
@@ -109,7 +135,7 @@ function RowActions({
     tabId === 'openOrders' ? ROW_ACTIONS.filter((action) => action.id !== 'breakeven') : ROW_ACTIONS;
 
   return (
-    <div className="positions-panel__row-actions" onClick={(e) => e.stopPropagation()}>
+    <div className={positionsPanelRowActionsClass} onClick={(e) => e.stopPropagation()}>
       {actions.map(({ id, label, shortcut, icon: Icon, className }) => (
         <Tooltip key={id}>
           <TooltipTrigger asChild>
@@ -123,9 +149,9 @@ function RowActions({
             </button>
           </TooltipTrigger>
           <TooltipContent side="top">
-            <span className="tooltip-content__inner">
+            <span className={tooltipContentInnerClass}>
               <span>{label}</span>
-              <kbd className="tooltip-content__shortcut">{shortcut}</kbd>
+              <kbd className={tooltipContentShortcutClass}>{shortcut}</kbd>
             </span>
           </TooltipContent>
         </Tooltip>
@@ -149,9 +175,10 @@ function PositionsSideBadge({ side }: { side: PositionRow['side'] }) {
   const isBuy = side === 'buy';
   return (
     <span
-      className={`positions-panel__side-badge ${
-        isBuy ? 'positions-panel__side-badge--buy' : 'positions-panel__side-badge--sell'
-      }`}
+      className={cn(
+        positionsPanelSideBadgeClass,
+        isBuy ? positionsPanelSideBadgeBuyClass : positionsPanelSideBadgeSellClass,
+      )}
     >
       {isBuy ? 'BUY' : 'SELL'}
     </span>
@@ -170,6 +197,8 @@ function PositionRowView({
   'aria-selected'?: boolean;
 }) {
   const isHistoryTab = tabId === 'history';
+  const favorable = isMarketFavorable(row.side, row.entryPrice, row.marketPrice);
+
   return (
     <div
       role="row"
@@ -182,62 +211,64 @@ function PositionRowView({
           onSelect?.();
         }
       }}
-      className="positions-panel__grid positions-panel__row"
+      className={cn(positionsPanelGridClass, positionsPanelRowClass)}
     >
-      <div className="positions-panel__cell positions-panel__cell--asset">
-        <span className="positions-panel__cell-text">{row.asset}</span>
+      <div className={positionsPanelCellClass}>
+        <span className={positionsPanelCellTextClass}>{row.asset}</span>
       </div>
-      <div className="positions-panel__cell positions-panel__cell--side">
+      <div className={cn(positionsPanelCellClass, positionsPanelCellSideClass)}>
         <PositionsSideBadge side={row.side} />
       </div>
-      <div className="positions-panel__cell positions-panel__cell--amount">
-        <span className="positions-panel__cell-text">{row.amount}</span>
+      <div className={positionsPanelCellClass}>
+        <span className={positionsPanelCellTextClass}>{row.amount}</span>
       </div>
-      <div className="positions-panel__cell positions-panel__cell--entry">
-        <span className="positions-panel__cell-text positions-panel__entry-market">
+      <div className={positionsPanelCellClass}>
+        <span className={cn(positionsPanelCellTextClass, positionsPanelEntryMarketClass)}>
           <span>{row.entryPrice}</span>
           <EntryMarketArrowIcon />
           <AnimatedCounterValue
             value={row.marketPrice}
             format={{ mode: 'plain' }}
-            className={`positions-panel__market-value ${
-              isMarketFavorable(row.side, row.entryPrice, row.marketPrice)
-                ? 'positions-panel__market-value--favorable'
-                : 'positions-panel__market-value--unfavorable'
-            }`}
+            className={cn(
+              positionsPanelMarketValueClass,
+              favorable
+                ? positionsPanelMarketValueFavorableClass
+                : positionsPanelMarketValueUnfavorableClass,
+            )}
           />
         </span>
       </div>
-      <div className="positions-panel__cell positions-panel__cell--sl">
-        <span className="positions-panel__cell-text">{row.stopLoss}</span>
+      <div className={positionsPanelCellClass}>
+        <span className={positionsPanelCellTextClass}>{row.stopLoss}</span>
       </div>
-      <div className="positions-panel__cell positions-panel__cell--tp">
-        <span className="positions-panel__cell-text">{row.takeProfit}</span>
+      <div className={positionsPanelCellClass}>
+        <span className={positionsPanelCellTextClass}>{row.takeProfit}</span>
       </div>
-      <div className="positions-panel__cell positions-panel__cell--filled">
-        <span className="positions-panel__cell-text">{row.filledAt}</span>
+      <div className={positionsPanelCellClass}>
+        <span className={positionsPanelCellTextClass}>{row.filledAt}</span>
       </div>
-      <div className="positions-panel__cell positions-panel__cell--fees">
-        <span className="positions-panel__cell-text">{row.fees}</span>
+      <div className={positionsPanelCellClass}>
+        <span className={positionsPanelCellTextClass}>{row.fees}</span>
       </div>
-      <div className="positions-panel__cell positions-panel__cell--pnl">
+      <div className={cn(positionsPanelCellClass, positionsPanelCellPnlClass)}>
         {row.pnl === '—' ? (
-          <span className="positions-panel__cell-text">{row.pnl}</span>
+          <span className={positionsPanelCellTextClass}>{row.pnl}</span>
         ) : (
           <AnimatedCounterValue
             value={row.pnl}
             format={{ mode: 'signed-currency', decimalPlaces: 2 }}
-            className={`positions-panel__cell-text ${
+            className={cn(
+              positionsPanelCellTextClass,
               row.pnlPositive
-                ? 'positions-panel__cell-text--pnl-positive'
-                : 'positions-panel__cell-text--pnl-negative'
-            }`}
+                ? positionsPanelCellTextPnlPositiveClass
+                : positionsPanelCellTextPnlNegativeClass,
+            )}
           />
         )}
       </div>
-      <div className="positions-panel__cell positions-panel__cell--actions">
+      <div className={cn(positionsPanelCellClass, positionsPanelCellActionsClass)}>
         {isHistoryTab ? (
-          <span className="positions-panel__cell-text positions-panel__cell-text--exchange">
+          <span className={cn(positionsPanelCellTextClass, positionsPanelCellTextExchangeClass)}>
             {(row as HistoryRow).exchange}
           </span>
         ) : (
@@ -306,7 +337,8 @@ export function PositionsPanel({
 
   return (
     <CardModule
-      className={`positions-panel ${className}`.trim()}
+      className={cn(positionsPanelRootClass, className)}
+      bodyClassName={cardModuleBodyFlexFillClass}
       ariaLabel="Positions widget"
       onClose={onClose}
       header={
@@ -328,15 +360,27 @@ export function PositionsPanel({
         </Tabs>
       }
     >
-      <div className="positions-panel__grid positions-panel__grid--header" role="row">
+      <div
+        className={cn(positionsPanelGridClass, positionsPanelGridHeaderClass)}
+        role="row"
+      >
         {getColumnHeaders(activeTab).map((col) => (
-          <div key={col.key} className={col.className} role="columnheader">
+          <div
+            key={col.key}
+            className={cn(col.className, positionsPanelColHeaderClass)}
+            role="columnheader"
+          >
             {col.label}
           </div>
         ))}
       </div>
 
-      <CardModuleTabContent activeTab={activeTab} tabIds={TAB_IDS}>
+      <CardModuleTabContent
+        activeTab={activeTab}
+        tabIds={TAB_IDS}
+        viewportClassName={positionsPanelTabViewportClass}
+        panelClassName={positionsPanelTabPanelClass}
+      >
         {(tabId) => {
           const tabRows =
             rows ??
@@ -346,7 +390,7 @@ export function PositionsPanel({
                 ? openOrdersStream.rows
                 : MOCK_ROWS_BY_TAB[tabId]);
           return (
-            <div className="positions-panel__rows" role="table">
+            <div className={positionsPanelRowsClass} role="table">
               <div role="rowgroup">
                 {tabRows.map((row) => (
                   <PositionRowView

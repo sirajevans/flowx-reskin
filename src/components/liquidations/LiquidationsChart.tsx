@@ -7,7 +7,6 @@ import {
   Tooltip,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import './LiquidationsChart.css';
 import type { LiquidationChartPoint } from './types';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
@@ -116,7 +115,7 @@ const CHART_OPTIONS: ChartOptions<'bar'> = {
 
 export function LiquidationsChart({ points }: { points: LiquidationChartPoint[] }) {
   return (
-    <div className="liquidations-chart" aria-hidden>
+    <div className="box-border h-[140px] min-w-0 w-full self-stretch" aria-hidden>
       <Bar data={buildChartConfig(points)} options={CHART_OPTIONS} />
     </div>
   );

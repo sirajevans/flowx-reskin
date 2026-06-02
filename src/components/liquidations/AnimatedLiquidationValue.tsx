@@ -1,4 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
+import { cn } from '../../lib/utils';
+import {
+  liquidationDecimalPointClass,
+  liquidationDigitScrollClass,
+  liquidationDigitSlotClass,
+  liquidationDigitTrackClass,
+  liquidationDigitTrackSpanClass,
+  liquidationOdometerClass,
+  liquidationOdometerDigitsClass,
+  liquidationOdometerPrefixClass,
+  liquidationOdometerSuffixClass,
+} from './liquidationOdometerClasses';
 import {
   alignLiquidationDigitParts,
   decomposeLiquidationAmount,
@@ -43,14 +55,16 @@ function DigitColumn({
   const translateY = path.length === 1 ? 0 : -(scrollIndex / path.length) * 100;
 
   return (
-    <span className="liquidations-panel__digit-slot" aria-hidden>
-      <span className="liquidations-panel__digit-scroll">
+    <span className={liquidationDigitSlotClass} aria-hidden>
+      <span className={liquidationDigitScrollClass}>
         <span
-          className="liquidations-panel__digit-track"
+          className={liquidationDigitTrackClass}
           style={{ transform: `translateY(${translateY}%)` }}
         >
           {path.map((digit, index) => (
-            <span key={`${digit}-${index}`}>{digit}</span>
+            <span key={`${digit}-${index}`} className={liquidationDigitTrackSpanClass}>
+              {digit}
+            </span>
           ))}
         </span>
       </span>
@@ -67,16 +81,10 @@ function OdometerDisplay({
   fromParts: LiquidationDigitParts;
   progress: number;
 }) {
-  const isAnimating = progress < 1;
-
   return (
-    <span
-      className={`liquidations-panel__odometer ${
-        isAnimating ? 'liquidations-panel__odometer--animating' : ''
-      }`.trim()}
-    >
-      <span className="liquidations-panel__odometer-prefix">{parts.prefix}</span>
-      <span className="liquidations-panel__odometer-digits">
+    <span className={liquidationOdometerClass}>
+      <span className={liquidationOdometerPrefixClass}>{parts.prefix}</span>
+      <span className={liquidationOdometerDigitsClass}>
         {parts.integerDigits.map((toDigit, index) => {
           const fromDigit = fromParts.integerDigits[index] ?? -1;
           const hidden = fromDigit < 0 && toDigit < 0;
@@ -91,7 +99,7 @@ function OdometerDisplay({
             />
           );
         })}
-        <span className="liquidations-panel__decimal-point" aria-hidden>
+        <span className={liquidationDecimalPointClass} aria-hidden>
           .
         </span>
         <DigitColumn
@@ -101,7 +109,7 @@ function OdometerDisplay({
           hidden={false}
         />
       </span>
-      <span className="liquidations-panel__odometer-suffix">{parts.suffix}</span>
+      <span className={liquidationOdometerSuffixClass}>{parts.suffix}</span>
     </span>
   );
 }
@@ -165,7 +173,7 @@ export function AnimatedLiquidationValue({ value, className = '' }: AnimatedLiqu
   const displayParts = { ...toParts, suffix };
 
   return (
-    <span className={className} aria-label={displayValue}>
+    <span className={cn(className)} aria-label={displayValue}>
       <OdometerDisplay parts={displayParts} fromParts={fromParts} progress={progress} />
     </span>
   );

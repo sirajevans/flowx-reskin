@@ -1,9 +1,25 @@
 import { AnimatedLiquidationValue } from '../AnimatedLiquidationValue';
 import { ExchangeLiquidationIcon } from '../../icons';
-import { CardModule, cardModuleHeaderTextClass } from '../../ui';
+import { CardModule, cardModuleBodyGap18Class, cardModuleHeaderTextClass } from '../../ui';
+import { cn } from '../../../lib/utils';
 import { getComparisonBarWidths } from './comparisonBars';
+import {
+  exchangeLiquidationsAmountClass,
+  exchangeLiquidationsAmountLongClass,
+  exchangeLiquidationsAmountShortClass,
+  exchangeLiquidationsBarBaseClass,
+  exchangeLiquidationsBarLongClass,
+  exchangeLiquidationsBarShortClass,
+  exchangeLiquidationsBarsClass,
+  exchangeLiquidationsExchangeClass,
+  exchangeLiquidationsIconWrapClass,
+  exchangeLiquidationsListClass,
+  exchangeLiquidationsNameClass,
+  exchangeLiquidationsPanelRootClass,
+  exchangeLiquidationsRowClass,
+  exchangeLiquidationsStatsClass,
+} from './exchangeLiquidationsClasses';
 import { DEFAULT_EXCHANGE_LIQUIDATIONS } from './mockData';
-import './ExchangeLiquidationsPanel.css';
 import type { ExchangeLiquidationEntry, ExchangeLiquidationsPanelProps } from './types';
 import { useExchangeLiquidationsStream } from './useExchangeLiquidationsStream';
 
@@ -11,13 +27,13 @@ function ComparisonBars({ shorts, longs }: { shorts: string; longs: string }) {
   const { shortPx, longPx } = getComparisonBarWidths(shorts, longs);
 
   return (
-    <div className="exchange-liquidations-panel__bars" aria-hidden>
+    <div className={exchangeLiquidationsBarsClass} aria-hidden>
       <span
-        className="exchange-liquidations-panel__bar exchange-liquidations-panel__bar--short"
+        className={cn(exchangeLiquidationsBarBaseClass, exchangeLiquidationsBarShortClass)}
         style={{ width: `${shortPx}px` }}
       />
       <span
-        className="exchange-liquidations-panel__bar exchange-liquidations-panel__bar--long"
+        className={cn(exchangeLiquidationsBarBaseClass, exchangeLiquidationsBarLongClass)}
         style={{ width: `${longPx}px` }}
       />
     </div>
@@ -26,22 +42,22 @@ function ComparisonBars({ shorts, longs }: { shorts: string; longs: string }) {
 
 function ExchangeRow({ entry }: { entry: ExchangeLiquidationEntry }) {
   return (
-    <div className="exchange-liquidations-panel__row">
-      <div className="exchange-liquidations-panel__exchange">
-        <span className="exchange-liquidations-panel__icon-wrap">
+    <div className={exchangeLiquidationsRowClass}>
+      <div className={exchangeLiquidationsExchangeClass}>
+        <span className={exchangeLiquidationsIconWrapClass}>
           <ExchangeLiquidationIcon exchangeId={entry.id} />
         </span>
-        <span className="exchange-liquidations-panel__name">{entry.name}</span>
+        <span className={exchangeLiquidationsNameClass}>{entry.name}</span>
       </div>
-      <div className="exchange-liquidations-panel__stats">
+      <div className={exchangeLiquidationsStatsClass}>
         <AnimatedLiquidationValue
           value={entry.shorts}
-          className="exchange-liquidations-panel__amount exchange-liquidations-panel__amount--short"
+          className={cn(exchangeLiquidationsAmountClass, exchangeLiquidationsAmountShortClass)}
         />
         <ComparisonBars shorts={entry.shorts} longs={entry.longs} />
         <AnimatedLiquidationValue
           value={entry.longs}
-          className="exchange-liquidations-panel__amount exchange-liquidations-panel__amount--long"
+          className={cn(exchangeLiquidationsAmountClass, exchangeLiquidationsAmountLongClass)}
         />
       </div>
     </div>
@@ -70,12 +86,13 @@ export function ExchangeLiquidationsPanel({
 
   return (
     <CardModule
-      className={`exchange-liquidations-panel ${className}`.trim()}
+      className={cn(exchangeLiquidationsPanelRootClass, className)}
+      bodyClassName={cardModuleBodyGap18Class}
       ariaLabel="Exchange liquidations"
       onClose={onClose}
       header={<span className={cardModuleHeaderTextClass}>Exchange liq.</span>}
     >
-      <div className="exchange-liquidations-panel__list">
+      <div className={exchangeLiquidationsListClass}>
         {exchanges.map((entry) => (
           <ExchangeRow key={entry.id} entry={entry} />
         ))}

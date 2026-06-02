@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import './LiquidationsSegmentBar.css';
+import { cn } from '../../lib/utils';
+import {
+  liquidationsSegmentBarClass,
+  liquidationsSegmentBarSegmentClass,
+} from './liquidationsSegmentBarClasses';
 
 export type LiquidationsSegmentBarProps = {
   /** Longs share filled from the left (0–100). */
@@ -29,11 +33,9 @@ function getAnimationStepCount(
   }
 
   if (fromThreshold) {
-    // Green → red: drain green to zero, then reveal red from the right.
     return fromCount + (segmentCount - toCount);
   }
 
-  // Red → green: drain red to zero, then reveal green from the left.
   return segmentCount - fromCount + toCount;
 }
 
@@ -115,7 +117,6 @@ export function LiquidationsSegmentBar({
     };
 
     if (fromThreshold === toThreshold) {
-      // Same color mode — step directly toward target
       if (toCount > fromCount) {
         for (let i = fromCount + 1; i <= toCount; i += 1) {
           scheduleCount(i);
@@ -126,7 +127,6 @@ export function LiquidationsSegmentBar({
         }
       }
     } else if (fromThreshold) {
-      // Green → red: drain green to zero, flip, then reveal red from the right.
       for (let i = fromCount - 1; i >= 0; i -= 1) {
         scheduleCount(i);
       }
@@ -139,7 +139,6 @@ export function LiquidationsSegmentBar({
         scheduleCount(i);
       }
     } else {
-      // Red → green: drain red to zero, flip, then reveal green from the left.
       for (let i = fromCount + 1; i <= segmentCount; i += 1) {
         scheduleCount(i);
       }
@@ -168,7 +167,7 @@ export function LiquidationsSegmentBar({
 
   return (
     <div
-      className={`liquidations-segment-bar ${className}`.trim()}
+      className={cn(liquidationsSegmentBarClass, className)}
       data-above-threshold={displayAboveThreshold}
       data-animating={isAnimating}
       style={
@@ -182,7 +181,7 @@ export function LiquidationsSegmentBar({
       {Array.from({ length: segmentCount }, (_, index) => (
         <span
           key={index}
-          className="liquidations-segment-bar__segment"
+          className={liquidationsSegmentBarSegmentClass}
           data-filled={index < displayFilledCount}
           aria-hidden
         />

@@ -3,6 +3,9 @@ import { cn } from '../../lib/utils';
 const cardModuleGradientBorder =
   '[--gradient-border:linear-gradient(180deg,oklch(25%_0_0)_0%,oklch(22.5%_0_0)_50%,oklch(20%_0_0)_100%)]';
 
+/** Standard widget column width (matches legacy `--card-module-width: 365px`). */
+export const cardModuleWidth365Class = '[--card-module-width:365px]';
+
 export const cardModuleRootClass = cn(
   'box-border flex w-[var(--card-module-width,auto)] flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
   'bg-[var(--widget-chrome-bg)] p-3',
@@ -31,8 +34,12 @@ export const cardModuleCloseBtnClass = cn(
   'focus-visible:rounded focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--flowx-border)]',
 );
 
-export const cardModuleBodyClass =
-  'card-module__body box-border flex min-w-0 flex-col gap-3 self-stretch';
+export const cardModuleBodyClass = 'box-border flex min-w-0 flex-col gap-3 self-stretch';
+
+/** Panels that use 18px vertical rhythm between body children (default body gap is 12px). */
+export const cardModuleBodyGap18Class = 'gap-[18px]';
+
+export const cardModuleBodyFlexFillClass = 'min-h-0 flex-1';
 
 export const cardModuleTabListClass = 'box-border flex h-[18px] items-center gap-4';
 
@@ -49,11 +56,10 @@ export const cardModuleHeaderTextClass = 'text-[13px] leading-4 text-[var(--flow
 export const cardModuleHeaderLabelsClass =
   'box-border flex min-w-0 items-center gap-5';
 
-export const cardModuleTabViewportClass =
-  'card-module__tab-viewport grid min-w-0 self-stretch overflow-hidden';
+export const cardModuleTabViewportClass = 'grid min-w-0 self-stretch overflow-hidden';
 
 export const cardModuleTabPanelBaseClass = cn(
-  'card-module__tab-panel col-start-1 row-start-1 box-border flex min-w-0 flex-col gap-3 opacity-0 pointer-events-none translate-x-0 z-0',
+  'col-start-1 row-start-1 box-border flex min-w-0 flex-col gap-3 opacity-0 pointer-events-none translate-x-0 z-0',
   'data-[state=active]:opacity-100 data-[state=active]:pointer-events-auto data-[state=active]:z-[1]',
   'data-[state=enter][data-direction=forward]:opacity-0 data-[state=enter][data-direction=forward]:translate-x-4',
   'data-[state=enter][data-direction=backward]:opacity-0 data-[state=enter][data-direction=backward]:-translate-x-4',

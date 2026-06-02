@@ -1,9 +1,24 @@
 import { Fragment } from 'react';
 import { MoneyFlowBearishIcon, MoneyFlowBullishIcon } from '../icons';
-import { CardModule, cardModuleHeaderTextClass } from '../ui';
+import {
+  CardModule,
+  cardModuleBodyGap18Class,
+  cardModuleHeaderTextClass,
+} from '../ui';
+import { cn } from '../../lib/utils';
 import { MoneyFlowChart } from './MoneyFlowChart';
+import {
+  moneyFlowAmountClass,
+  moneyFlowDividerClass,
+  moneyFlowPanelRootClass,
+  moneyFlowSentimentClass,
+  moneyFlowSentimentLabelClass,
+  moneyFlowTierClass,
+  moneyFlowTierFooterClass,
+  moneyFlowTierLabelClass,
+  moneyFlowTierRowClass,
+} from './moneyFlowClasses';
 import { DEFAULT_MONEY_FLOW_TIERS } from './mockData';
-import './MoneyFlowPanel.css';
 import type { MoneyFlowPanelProps, MoneyFlowSentiment, MoneyFlowTier } from './types';
 import { useMoneyFlowStream } from './useMoneyFlowStream';
 
@@ -21,16 +36,16 @@ function SentimentIcon({ sentiment }: { sentiment: MoneyFlowSentiment }) {
 
 function MoneyFlowTierSection({ tier }: { tier: MoneyFlowTier }) {
   return (
-    <section className="money-flow-panel__tier" aria-label={tier.rangeLabel}>
+    <section className={moneyFlowTierClass} aria-label={tier.rangeLabel}>
       <MoneyFlowChart values={tier.series} ariaLabel={`${tier.rangeLabel} flow chart`} />
-      <div className="money-flow-panel__tier-footer">
-        <span className="money-flow-panel__tier-label">{tier.rangeLabel}</span>
-        <div className="money-flow-panel__tier-row">
-          <div className="money-flow-panel__sentiment">
-            <span className="money-flow-panel__sentiment-label">{tier.sentimentLabel}</span>
+      <div className={moneyFlowTierFooterClass}>
+        <span className={moneyFlowTierLabelClass}>{tier.rangeLabel}</span>
+        <div className={moneyFlowTierRowClass}>
+          <div className={moneyFlowSentimentClass}>
+            <span className={moneyFlowSentimentLabelClass}>{tier.sentimentLabel}</span>
             <SentimentIcon sentiment={tier.sentiment} />
           </div>
-          <span className="money-flow-panel__amount">{tier.amount}</span>
+          <span className={moneyFlowAmountClass}>{tier.amount}</span>
         </div>
       </div>
     </section>
@@ -59,14 +74,15 @@ export function MoneyFlowPanel({
 
   return (
     <CardModule
-      className={`money-flow-panel ${className}`.trim()}
+      className={cn(moneyFlowPanelRootClass, className)}
+      bodyClassName={cardModuleBodyGap18Class}
       ariaLabel="Money flow"
       onClose={onClose}
       header={<span className={cardModuleHeaderTextClass}>Money flow</span>}
     >
       {tiers.map((tier, index) => (
         <Fragment key={tier.id}>
-          {index > 0 ? <hr className="money-flow-panel__divider" aria-hidden /> : null}
+          {index > 0 ? <hr className={moneyFlowDividerClass} aria-hidden /> : null}
           <MoneyFlowTierSection tier={tier} />
         </Fragment>
       ))}

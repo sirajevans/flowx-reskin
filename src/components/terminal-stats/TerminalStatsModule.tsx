@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import './TerminalStatsModule.css';
+import { cn } from '../../lib/utils';
+import {
+  terminalStatsRootClass,
+  terminalStatsStatClass,
+  terminalStatsStatLabelClass,
+  terminalStatsStatsClass,
+  terminalStatsStatValueClass,
+  terminalStatsStatValuePositiveClass,
+  terminalStatsTabClass,
+  terminalStatsTabsClass,
+} from './terminalStatsClasses';
 import type { TerminalStat, TerminalStatsModuleProps, TerminalStatsTab } from './types';
 
 const DEFAULT_TABS: ReadonlyArray<{ id: TerminalStatsTab; label: string }> = [
@@ -38,16 +48,16 @@ export function TerminalStatsModule({
   return (
     <section
       aria-label="Terminal stats module"
-      className={`terminal-stats-module gradient-border ${className}`.trim()}
+      className={cn(terminalStatsRootClass, className)}
     >
-      <div className="terminal-stats-module__tabs" role="tablist" aria-label="Trading channels">
+      <div className={terminalStatsTabsClass} role="tablist" aria-label="Trading channels">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
             role="tab"
             aria-selected={activeTab === tab.id}
-            className="terminal-stats-module__tab"
+            className={terminalStatsTabClass}
             data-selected={activeTab === tab.id ? 'true' : undefined}
             onClick={() => handleTabChange(tab.id)}
           >
@@ -56,14 +66,15 @@ export function TerminalStatsModule({
         ))}
       </div>
 
-      <div className="terminal-stats-module__stats" role="list" aria-label="Terminal performance stats">
+      <div className={terminalStatsStatsClass} role="list" aria-label="Terminal performance stats">
         {stats.map((stat) => (
-          <div key={stat.id} className="terminal-stats-module__stat" role="listitem">
-            <span className="terminal-stats-module__stat-label">{stat.label}</span>
+          <div key={stat.id} className={terminalStatsStatClass} role="listitem">
+            <span className={terminalStatsStatLabelClass}>{stat.label}</span>
             <span
-              className={`terminal-stats-module__stat-value ${
-                stat.valueTone === 'positive' ? 'terminal-stats-module__stat-value--positive' : ''
-              }`.trim()}
+              className={cn(
+                terminalStatsStatValueClass,
+                stat.valueTone === 'positive' && terminalStatsStatValuePositiveClass,
+              )}
             >
               {stat.value}
             </span>

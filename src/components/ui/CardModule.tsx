@@ -12,6 +12,7 @@ import {
 
 export type CardModuleProps = {
   className?: string;
+  bodyClassName?: string;
   ariaLabel: string;
   header: ReactNode;
   onClose?: () => void;
@@ -25,7 +26,14 @@ export {
   cardModuleTabListClass,
 } from './cardModuleClasses';
 
-export function CardModule({ className = '', ariaLabel, header, onClose, children }: CardModuleProps) {
+export function CardModule({
+  className = '',
+  bodyClassName,
+  ariaLabel,
+  header,
+  onClose,
+  children,
+}: CardModuleProps) {
   return (
     <section className={cn(cardModuleRootClass, className)} aria-label={ariaLabel}>
       <header className={cardModuleHeaderClass}>
@@ -48,7 +56,7 @@ export function CardModule({ className = '', ariaLabel, header, onClose, childre
           <CloseModuleIcon />
         )}
       </header>
-      <div className={cardModuleBodyClass}>{children}</div>
+      <div className={cn(cardModuleBodyClass, bodyClassName)}>{children}</div>
     </section>
   );
 }
