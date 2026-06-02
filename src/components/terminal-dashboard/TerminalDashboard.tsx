@@ -24,19 +24,8 @@ import { TerminalStatsModule } from '../terminal-stats';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
-const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v8';
-
-/** ~157×51px badge — base row units; width is synced to pixel size on resize. */
-const BRAND_BADGE_LAYOUT_BASE = {
-  w: 5,
-  h: 5,
-  minW: 5,
-  minH: 5,
-  maxW: 5,
-  maxH: 5,
-  isResizable: false,
-} as const;
+const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v10';
+const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
 
 const BREAKPOINTS = {
   xxl: 1280,
@@ -122,18 +111,18 @@ const GRID_MARGIN: [number, number] = [2, 2];
 
 const DEFAULT_LAYOUTS: ResponsiveLayouts = {
   xxl: [
-    { i: 'brand-badge', x: 0, y: 0, ...BRAND_BADGE_LAYOUT_BASE },
-    { i: 'stats', x: 10, y: 0, w: 46, h: 5, minW: 32, minH: 4, maxH: 8 },
-    { i: 'liquidations', x: 0, y: 5, w: 13, h: 17, minW: 12, minH: 12 },
-    { i: 'exchange-liquidations', x: 0, y: 22, w: 13, h: 22, minW: 12, minH: 12 },
-    { i: 'money-flow', x: 0, y: 44, w: 13, h: 39, minW: 12, minH: 20 },
-    { i: 'chart', x: 13, y: 5, w: 30, h: 59, minW: 16, minH: 24 },
-    { i: 'positions', x: 13, y: 64, w: 30, h: 19, minW: 20, minH: 12 },
-    { i: 'order', x: 43, y: 5, w: 13, h: 30, minW: 12, minH: 24 },
-    { i: 'order-feed', x: 43, y: 35, w: 13, h: 48, minW: 12, minH: 20 },
+    { i: 'brand-badge', x: 0, y: 0, w: 11, h: 5, minW: 11, maxW: 11, minH: 5, maxH: 5, isResizable: false },
+    { i: 'stats', x: 11, y: 0, w: 101, h: 5, minW: 32, minH: 4, maxH: 8 },
+    { i: 'liquidations', x: 0, y: 5, w: 26, h: 17, minW: 12, minH: 12 },
+    { i: 'exchange-liquidations', x: 0, y: 22, w: 26, h: 22, minW: 12, minH: 12 },
+    { i: 'money-flow', x: 0, y: 44, w: 26, h: 39, minW: 12, minH: 20 },
+    { i: 'chart', x: 26, y: 5, w: 60, h: 59, minW: 16, minH: 24 },
+    { i: 'positions', x: 26, y: 64, w: 60, h: 19, minW: 20, minH: 12 },
+    { i: 'order', x: 86, y: 5, w: 26, h: 33, minW: 12, minH: 24 },
+    { i: 'order-feed', x: 86, y: 38, w: 26, h: 45, minW: 12, minH: 20 },
   ],
   lg: [
-    { i: 'brand-badge', x: 0, y: 0, ...BRAND_BADGE_LAYOUT_BASE },
+    { i: 'brand-badge', x: 0, y: 0, w: 5, h: 5, minW: 5, maxW: 5, minH: 5, maxH: 5, isResizable: false },
     { i: 'stats', x: 0, y: 0, w: 48, h: 4, minW: 24, minH: 4, maxH: 8 },
     { i: 'liquidations', x: 0, y: 4, w: 12, h: 12, minW: 12, minH: 12 },
     { i: 'exchange-liquidations', x: 0, y: 16, w: 12, h: 16, minW: 12, minH: 12 },
@@ -144,7 +133,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'order-feed', x: 36, y: 32, w: 12, h: 28, minW: 12, minH: 20 },
   ],
   md: [
-    { i: 'brand-badge', x: 0, y: 0, ...BRAND_BADGE_LAYOUT_BASE },
+    { i: 'brand-badge', x: 0, y: 0, w: 5, h: 5, minW: 5, maxW: 5, minH: 5, maxH: 5, isResizable: false },
     { i: 'stats', x: 0, y: 0, w: 32, h: 8, minW: 16, minH: 4, maxH: 12 },
     { i: 'chart', x: 0, y: 8, w: 20, h: 36, minW: 16, minH: 24 },
     { i: 'order', x: 20, y: 8, w: 12, h: 28, minW: 12, minH: 24 },
@@ -155,7 +144,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'money-flow', x: 0, y: 76, w: 12, h: 28, minW: 12, minH: 20 },
   ],
   sm: [
-    { i: 'brand-badge', x: 0, y: 0, w: 1, h: 6, minW: 1, minH: 5 },
+    { i: 'brand-badge', x: 0, y: 0, w: 1, h: 6, minW: 1, minH: 5, isResizable: false },
     { i: 'stats', x: 0, y: 0, w: 1, h: 12, minW: 1, minH: 8 },
     { i: 'chart', x: 0, y: 12, w: 1, h: 36, minW: 1, minH: 24 },
     { i: 'order', x: 0, y: 48, w: 1, h: 28, minW: 1, minH: 24 },
