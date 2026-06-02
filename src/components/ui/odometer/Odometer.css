@@ -1,7 +1,7 @@
 .odometer {
   display: inline-flex;
   align-items: center;
-  vertical-align: top;
+  vertical-align: baseline;
   font-variant-numeric: tabular-nums;
 }
 

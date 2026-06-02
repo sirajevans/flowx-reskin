@@ -3,7 +3,7 @@ import { cn } from '../../lib/utils';
 export const moneyFlowChartClass = cn(
   'relative box-border grid h-[51px] w-full items-stretch',
   '[grid-template-columns:repeat(var(--money-flow-bar-count,1),minmax(0,1fr))]',
-  'gap-x-[1.91px]',
+  'gap-x-[2px]',
 );
 
 export const moneyFlowChartBaselineClass =
@@ -12,7 +12,7 @@ export const moneyFlowChartBaselineClass =
 export const moneyFlowChartSlotClass = 'relative z-[1] h-full min-w-0';
 
 export const moneyFlowChartBarBaseClass = cn(
-  'absolute left-1/2 box-border min-h-0.5 w-[1.89px] min-w-[1.89px] max-w-[1.89px] -translate-x-1/2 rounded-[10px]',
+  'absolute left-1/2 box-border min-h-0.5 w-[2px] min-w-[2px] max-w-[2px] -translate-x-1/2 rounded-[10px]',
   'transition-[height] duration-[320ms] ease-[cubic-bezier(0.215,0.61,0.355,1)] motion-reduce:transition-none',
 );
 
