@@ -37,7 +37,8 @@ import {
   positionsPanelColActionsHeaderClass,
   positionsPanelColClass,
   positionsPanelColHeaderClass,
-  positionsPanelColPnlClass,
+  positionsPanelColPnlHeaderClass,
+  positionsPanelCellTextPnlClass,
   positionsPanelEntryMarketClass,
   positionsPanelGridClass,
   positionsPanelGridHeaderClass,
@@ -74,7 +75,7 @@ const COLUMN_HEADERS_BASE: { key: string; label: string; className: string }[] =
   { key: 'tp', label: 'TP', className: positionsPanelColClass },
   { key: 'filled', label: 'FILLED AT', className: positionsPanelColClass },
   { key: 'fees', label: 'FEES', className: positionsPanelColClass },
-  { key: 'pnl', label: 'PNL', className: cn(positionsPanelColClass, positionsPanelColPnlClass) },
+  { key: 'pnl', label: 'PNL', className: positionsPanelColPnlHeaderClass },
 ];
 
 const ACTIONS_COLUMN_HEADER = {
@@ -258,9 +259,9 @@ function PositionRowView({
       <div className={positionsPanelCellClass}>
         <span className={positionsPanelCellTextClass}>{row.fees}</span>
       </div>
-      <div className={cn(positionsPanelCellClass, positionsPanelCellPnlClass)}>
+      <div className={positionsPanelCellPnlClass}>
         {row.pnl === '—' ? (
-          <span className={positionsPanelCellTextClass}>{row.pnl}</span>
+          <span className={positionsPanelCellTextPnlClass}>{row.pnl}</span>
         ) : (
           <AnimatedCounterValue
             value={row.pnl}

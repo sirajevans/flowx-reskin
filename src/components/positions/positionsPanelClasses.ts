@@ -27,7 +27,12 @@ export const positionsPanelColClass = cn(
 
 export const positionsPanelColHeaderClass = 'overflow-y-visible';
 
-export const positionsPanelColPnlClass = 'justify-end text-right';
+/** Header-only: PNL column without left alignment (cn does not merge Tailwind conflicts). */
+export const positionsPanelColPnlHeaderClass = cn(
+  'box-border flex min-w-0 max-w-full justify-end overflow-x-auto overflow-y-hidden',
+  'text-right text-[10px] leading-[15px] tracking-[0.02em] text-[var(--widget-tab-inactive)] whitespace-nowrap',
+  '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+);
 
 /** Header-only: base col styles without left alignment (cn does not merge Tailwind conflicts). */
 export const positionsPanelColActionsHeaderClass = cn(
@@ -54,7 +59,12 @@ export const positionsPanelCellClass = cn(
 );
 
 export const positionsPanelCellSideClass = 'overflow-visible';
-export const positionsPanelCellPnlClass = 'items-end overflow-visible';
+
+/** PNL cell without left alignment (cn does not merge Tailwind conflicts). */
+export const positionsPanelCellPnlClass = cn(
+  'box-border flex min-w-0 max-w-full flex-col items-end justify-center overflow-visible',
+  '[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+);
 export const positionsPanelCellActionsClass = cn(
   'flex-row items-end justify-end gap-3 overflow-visible',
 );
@@ -65,6 +75,11 @@ export const positionsPanelCellTextBaseClass =
 export const positionsPanelCellTextClass = cn(
   positionsPanelCellTextBaseClass,
   'text-left text-[var(--flowx-text)]',
+);
+
+export const positionsPanelCellTextPnlClass = cn(
+  positionsPanelCellTextBaseClass,
+  'text-right text-[var(--flowx-text)]',
 );
 
 export const positionsPanelCellTextPnlPositiveClass = cn(
