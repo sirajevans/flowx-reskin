@@ -123,16 +123,20 @@ function OdometerDisplay({
   parts,
   fromParts,
   progress,
+  className = '',
 }: {
   parts: OdometerDigitParts;
   fromParts: OdometerDigitParts;
   progress: number;
+  className?: string;
 }) {
   const isAnimating = progress < 1;
 
   return (
     <span
-      className={`odometer ${isAnimating ? 'odometer--animating' : ''}`.trim()}
+      className={['odometer', isAnimating ? 'odometer--animating' : '', className]
+        .filter(Boolean)
+        .join(' ')}
       data-prefix={parts.prefix || undefined}
     >
       {parts.prefix ? <span className="odometer__prefix">{parts.prefix}</span> : null}
@@ -273,8 +277,13 @@ export function AnimatedCounterValue({
   const displayParts = { ...toParts, suffix };
 
   return (
-    <span className={className} aria-label={displayValue}>
-      <OdometerDisplay parts={displayParts} fromParts={fromParts ?? displayParts} progress={progress} />
+    <span aria-label={displayValue}>
+      <OdometerDisplay
+        parts={displayParts}
+        fromParts={fromParts ?? displayParts}
+        progress={progress}
+        className={className}
+      />
     </span>
   );
 }

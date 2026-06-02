@@ -6,6 +6,9 @@ const cardModuleGradientBorder =
 /** Standard widget column width (matches legacy `--card-module-width: 365px`). */
 export const cardModuleWidth365Class = '[--card-module-width:365px]';
 
+/** Wide bottom-row module (positions table). */
+export const cardModuleWidth960Class = '[--card-module-width:960px]';
+
 export const cardModuleRootClass = cn(
   'box-border flex w-[var(--card-module-width,auto)] flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
   'bg-[var(--widget-chrome-bg)] p-3',

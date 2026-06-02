@@ -30,7 +30,6 @@ export function EntryMarketArrowIcon({ className = ENTRY_MARKET_ARROW_CLASS }: I
 
 /** Row action: edit position */
 export function EditPositionIcon({ className = ICON_CLASS }: IconProps) {
-  const clipId = useId();
   return (
     <svg
       width="14"
@@ -41,27 +40,55 @@ export function EditPositionIcon({ className = ICON_CLASS }: IconProps) {
       className={`text-[var(--widget-icon-muted)] ${className}`}
       aria-hidden
     >
-      <g clipPath={`url(#${clipId})`}>
-        <path
-          d="M9.29844 2.05336L7.29489 4.05697L2.73639 8.61544C2.17368 9.17814 1.8576 9.94136 1.8577 10.7371L1.8579 12.3395H3.46008C4.25574 12.3395 5.0188 12.0234 5.58141 11.4608L10.1401 6.90215L12.1437 4.89855C12.6674 4.37476 12.6674 3.52554 12.1437 3.00176L11.1953 2.05336C10.6715 1.52958 9.82226 1.52958 9.29844 2.05336Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-      <defs>
-        <clipPath id={clipId}>
-          <rect width="14" height="14" fill="white" />
-        </clipPath>
-      </defs>
+      <path
+        d="M9.29844 2.05336L7.29489 4.05697L2.73639 8.61544C2.17368 9.17814 1.8576 9.94136 1.8577 10.7371L1.8579 12.3395H3.46008C4.25574 12.3395 5.0188 12.0234 5.58141 11.4608L10.1401 6.90215L12.1437 4.89855C12.6674 4.37476 12.6674 3.52554 12.1437 3.00176L11.1953 2.05336C10.6715 1.52958 9.82226 1.52958 9.29844 2.05336Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** Row action: trailing stop loss */
+export function TrailingSlIcon({ className = ICON_CLASS }: IconProps) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`text-[var(--widget-icon-muted)] ${className}`}
+      aria-hidden
+    >
+      <path
+        d="M9.55586 4.03247L7.00013 1.47674L4.4444 4.03247"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M1.7688 12.4508H12.2311"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M6.99493 1.86742L6.99493 9.19312"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
 /** Row action: move stop / TP to breakeven */
 export function MoveToBreakevenIcon({ className = ICON_CLASS }: IconProps) {
-  const clipId = useId();
   return (
     <svg
       width="14"
@@ -72,34 +99,26 @@ export function MoveToBreakevenIcon({ className = ICON_CLASS }: IconProps) {
       className={`text-[var(--widget-icon-muted)] ${className}`}
       aria-hidden
     >
-      <g clipPath={`url(#${clipId})`}>
-        <path
-          d="M12.9326 7H1.06714"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9.50635 1.4635L7 3.96985L4.49365 1.4635"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9.50635 12.5365L7 10.0302L4.49365 12.5365"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-      <defs>
-        <clipPath id={clipId}>
-          <rect width="14" height="14" fill="white" />
-        </clipPath>
-      </defs>
+      <path
+        d="M9.55574 12.465L7.00001 9.90927L4.44427 12.465"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4.44426 1.53164L6.99999 4.08737L9.55573 1.53164"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M1.7688 7.00014L12.2311 7.00014"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -152,7 +171,7 @@ export function PartialCloseIcon({ className = ICON_CLASS }: IconProps) {
   );
 }
 
-/** Row action: full close (solid frame, sell color) */
+/** Row action: full close (solid frame; color from parent action button) */
 export function FullCloseIcon({ className = ICON_CLASS }: IconProps) {
   const clipId = useId();
   return (
@@ -162,7 +181,7 @@ export function FullCloseIcon({ className = ICON_CLASS }: IconProps) {
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`text-[#f13c54] ${className}`}
+      className={className}
       aria-hidden
     >
       <g clipPath={`url(#${clipId})`}>

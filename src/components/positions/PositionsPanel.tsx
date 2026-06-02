@@ -6,6 +6,7 @@ import {
   FullCloseIcon,
   MoveToBreakevenIcon,
   PartialCloseIcon,
+  TrailingSlIcon,
 } from '../icons';
 import {
   AnimatedCounterValue,
@@ -25,6 +26,7 @@ import { MOCK_ROWS_BY_TAB } from './mockData';
 import {
   positionsPanelActionBtnClass,
   positionsPanelActionBtnDangerClass,
+  positionsPanelActionBtnMutedHoverClass,
   positionsPanelCellActionsClass,
   positionsPanelCellClass,
   positionsPanelCellPnlClass,
@@ -99,21 +101,28 @@ const ROW_ACTIONS = [
     label: 'Edit position',
     shortcut: 'E',
     icon: EditPositionIcon,
-    className: positionsPanelActionBtnClass,
+    className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
+  },
+  {
+    id: 'trailingSl',
+    label: 'Trailing SL',
+    shortcut: 'T',
+    icon: TrailingSlIcon,
+    className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
   },
   {
     id: 'breakeven',
     label: 'Move SL to BE',
     shortcut: 'B',
     icon: MoveToBreakevenIcon,
-    className: positionsPanelActionBtnClass,
+    className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
   },
   {
     id: 'partialClose',
     label: 'Partial close',
     shortcut: 'P',
     icon: PartialCloseIcon,
-    className: positionsPanelActionBtnClass,
+    className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
   },
   {
     id: 'fullClose',
@@ -257,12 +266,11 @@ function PositionRowView({
           <AnimatedCounterValue
             value={row.pnl}
             format={{ mode: 'signed-currency', decimalPlaces: 2 }}
-            className={cn(
-              positionsPanelCellTextClass,
+            className={
               row.pnlPositive
                 ? positionsPanelCellTextPnlPositiveClass
-                : positionsPanelCellTextPnlNegativeClass,
-            )}
+                : positionsPanelCellTextPnlNegativeClass
+            }
           />
         )}
       </div>

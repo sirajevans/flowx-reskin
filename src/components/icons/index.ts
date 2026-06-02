@@ -9,4 +9,5 @@ export {
   FullCloseIcon,
   MoveToBreakevenIcon,
   PartialCloseIcon,
+  TrailingSlIcon,
 } from './PositionIcons';
