@@ -13,8 +13,8 @@ export const positionsPanelTabViewportClass = cn(
 export const positionsPanelTabPanelClass = 'min-h-0 overflow-hidden';
 
 export const positionsPanelGridClass = cn(
-  'box-border grid w-full items-center justify-between px-[9px]',
-  'grid-cols-[64px_34px_56px_120px_52px_52px_128px_44px_82px_96px]',
+  'box-border grid w-full items-center px-[9px]',
+  'grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.95fr)_minmax(0,1.32fr)_minmax(0,0.95fr)_minmax(0,0.95fr)_minmax(0,1.02fr)_minmax(0,0.765fr)_minmax(0,0.9fr)_minmax(0,1.155fr)]',
 );
 
 export const positionsPanelGridHeaderClass = 'min-h-[15px]';

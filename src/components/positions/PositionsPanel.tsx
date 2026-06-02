@@ -171,7 +171,7 @@ function formatFilledAt(value: string): string {
   if (value === '—') return value;
 
   const withoutSeconds = value.replace(/(\d{2}:\d{2}):\d{2}/, '$1');
-  return withoutSeconds.replace(/(\d{2}\/\d{2}\/)(\d{4})/, (_, prefix, year) => `${prefix}${year.slice(-2)}`);
+  return withoutSeconds.replace(/\s(\d{2}\/\d{2})\/\d{4}/, ' $1');
 }
 
 function isMarketFavorable(side: PositionSide, entryPrice: string, marketPrice: string): boolean {
