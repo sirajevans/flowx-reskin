@@ -73,7 +73,6 @@ const COLUMN_HEADERS_BASE: { key: string; label: string; className: string }[] =
   { key: 'entry', label: 'ENTRY / MARKET', className: positionsPanelColClass },
   { key: 'sl', label: 'SL', className: positionsPanelColClass },
   { key: 'tp', label: 'TP', className: positionsPanelColClass },
-  { key: 'filled', label: 'FILLED AT', className: positionsPanelColClass },
   { key: 'fees', label: 'FEES', className: positionsPanelColClass },
   { key: 'pnl', label: 'PNL', className: positionsPanelColPnlHeaderClass },
 ];
@@ -167,13 +166,6 @@ function parsePrice(value: string): number {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
-function formatFilledAt(value: string): string {
-  if (value === '—') return value;
-
-  const withoutSeconds = value.replace(/(\d{2}:\d{2}):\d{2}/, '$1');
-  return withoutSeconds.replace(/\s(\d{2}\/\d{2})\/\d{4}/, ' $1');
-}
-
 function isMarketFavorable(side: PositionSide, entryPrice: string, marketPrice: string): boolean {
   const entry = parsePrice(entryPrice);
   const market = parsePrice(marketPrice);
@@ -252,9 +244,6 @@ function PositionRowView({
       </div>
       <div className={positionsPanelCellClass}>
         <span className={positionsPanelCellTextClass}>{row.takeProfit}</span>
-      </div>
-      <div className={positionsPanelCellClass}>
-        <span className={positionsPanelCellTextClass}>{formatFilledAt(row.filledAt)}</span>
       </div>
       <div className={positionsPanelCellClass}>
         <span className={positionsPanelCellTextClass}>{row.fees}</span>

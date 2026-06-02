@@ -13,7 +13,6 @@ export type PositionRow = {
   marketPrice: string;
   stopLoss: string;
   takeProfit: string;
-  filledAt: string;
   fees: string;
   pnl: string;
   pnlPositive: boolean;

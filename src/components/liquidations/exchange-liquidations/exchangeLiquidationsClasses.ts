@@ -22,7 +22,7 @@ export const exchangeLiquidationsNameClass =
   'shrink-0 whitespace-nowrap text-[13px] leading-4 text-[var(--flowx-text)]';
 
 export const exchangeLiquidationsStatsClass =
-  'box-border flex shrink-0 flex-wrap items-center justify-center gap-5';
+  'box-border flex shrink-0 flex-wrap items-center justify-center gap-2.5';
 
 export const exchangeLiquidationsAmountClass =
   'shrink-0 text-right text-[13px] leading-4 whitespace-nowrap';

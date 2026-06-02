@@ -14,7 +14,7 @@ export const positionsPanelTabPanelClass = 'min-h-0 overflow-hidden';
 
 export const positionsPanelGridClass = cn(
   'box-border grid w-full items-center px-[9px]',
-  'grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.95fr)_minmax(0,1.32fr)_minmax(0,0.95fr)_minmax(0,0.95fr)_minmax(0,1.02fr)_minmax(0,0.765fr)_minmax(0,0.9fr)_minmax(0,1.155fr)]',
+  'grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.95fr)_minmax(0,1.584fr)_minmax(0,0.95fr)_minmax(0,0.95fr)_minmax(0,0.765fr)_minmax(0,0.9fr)_minmax(0,1.386fr)]',
 );
 
 export const positionsPanelGridHeaderClass = 'min-h-[15px]';
