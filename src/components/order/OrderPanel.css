@@ -362,6 +362,31 @@
   text-align: right;
 }
 
+.order-panel__submit-wrap {
+  display: flex;
+  min-width: 0;
+  align-self: stretch;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  overflow: clip;
+  border-radius: 8px;
+  background-color: var(--order-field-bg);
+  padding: 0;
+  box-sizing: border-box;
+  transition:
+    height 220ms ease,
+    padding 220ms ease,
+    border-radius 220ms ease;
+}
+
+.order-panel__submit-wrap[data-warning-visible='true'] {
+  height: 64px;
+  padding: 3px;
+  border-radius: 10px;
+}
+
 .order-panel__submit {
   display: flex;
   min-width: 0;
@@ -386,6 +411,40 @@
   transition: opacity 150ms ease;
 }
 
+.order-panel__submit-note {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+  pointer-events: none;
+}
+
+.order-panel__submit-wrap[data-warning-visible='true'] .order-panel__submit-note {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.order-panel__submit-note-icon {
+  width: 12px;
+  height: 11px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.order-panel__submit-note-text {
+  color: var(--flowx-text);
+  font-size: 11px;
+  line-height: 14px;
+  text-align: right;
+}
+
 @media (hover: hover) {
   .order-panel__submit:hover {
     opacity: 0.92;
@@ -406,6 +465,8 @@
   .order-panel__risk-toggle-indicator,
   .order-panel__risk-toggle-check,
   .order-panel__field-shell--risk,
+  .order-panel__submit-wrap,
+  .order-panel__submit-note,
   .order-panel__submit {
     transition: none;
   }

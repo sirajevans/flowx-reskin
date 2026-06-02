@@ -46,3 +46,22 @@ export function RiskCheckIcon({ className = '' }: IconProps) {
     </svg>
   );
 }
+
+/** Order form: submit warning icon */
+export function OrderWarningIcon({ className = '' }: IconProps) {
+  return (
+    <svg
+      width="12"
+      height="11"
+      viewBox="0 0 12 11"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path d="M12 11H6.09575H0L6.09575 0L12 11Z" fill="#E13240" />
+      <path d="M6.75324 4.16187L6.75324 7.60175L5.44873 7.60175L5.44873 4.16187L6.75324 4.16187Z" fill="#161616" />
+      <path d="M5.44873 9.88794L5.44873 8.69846L6.75324 8.69846L6.75324 9.88794L5.44873 9.88794Z" fill="#161616" />
+    </svg>
+  );
+}

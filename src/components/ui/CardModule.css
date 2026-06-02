@@ -99,7 +99,7 @@
   align-self: stretch;
   gap: 12px;
   box-sizing: border-box;
-  overflow-x: clip;
+  /* overflow-x: clip; */
 }
 
 .card-module__tab-viewport {

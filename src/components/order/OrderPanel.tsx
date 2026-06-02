@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
-import { SwapCurrencyIcon, RiskCheckIcon } from '../icons';
+import { SwapCurrencyIcon, RiskCheckIcon, OrderWarningIcon } from '../icons';
 import { CardModule, CardModuleTabContent } from '../ui';
 import './OrderPanel.css';
 import type { OrderPanelProps, OrderCurrency, OrderSide, OrderTab } from './types';
@@ -69,6 +69,7 @@ export function OrderPanel({
   const takeProfitEnabled = takeProfitEnabledProp ?? internalTakeProfitEnabled;
   const stopLossValue = stopLossValueProp ?? internalStopLossValue;
   const takeProfitValue = takeProfitValueProp ?? internalTakeProfitValue;
+  const showRiskWarning = !stopLossEnabled;
 
   const handleTabChange = (tab: OrderTab) => {
     if (activeTabProp === undefined) setInternalTab(tab);
@@ -339,9 +340,15 @@ export function OrderPanel({
         </span>
       </div>
 
-      <button type="button" className="order-panel__submit" onClick={onPlaceOrder}>
-        {formatPlaceOrderLabel(side, price)}
-      </button>
+      <div className="order-panel__submit-wrap" data-warning-visible={showRiskWarning}>
+        <button type="button" className="order-panel__submit" onClick={onPlaceOrder}>
+          {formatPlaceOrderLabel(side, price)}
+        </button>
+        <div className="order-panel__submit-note" aria-hidden={!showRiskWarning} aria-live="polite">
+          <OrderWarningIcon className="order-panel__submit-note-icon" />
+          <span className="order-panel__submit-note-text">Your risk is high, trade with caution.</span>
+        </div>
+      </div>
     </CardModule>
   );
 }
