@@ -16,6 +16,7 @@
 
 .order-panel__side-toggle {
   display: flex;
+  width: 100%;
   min-width: 0;
   align-self: stretch;
   align-items: center;
@@ -25,10 +26,10 @@
 
 .order-panel__side-btn {
   display: flex;
-  flex-shrink: 0;
+  flex: 1 1 0;
+  min-width: 0;
   align-items: center;
   justify-content: center;
-  width: 164px;
   height: 28px;
   overflow: clip;
   border: none;

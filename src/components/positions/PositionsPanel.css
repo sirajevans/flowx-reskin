@@ -45,6 +45,7 @@
   padding-inline: 9px;
   justify-content: space-between;
   align-items: center;
+  font-size: 12px;
 }
 
 .positions-panel__grid--header {
@@ -66,8 +67,8 @@
   white-space: nowrap;
   text-align: left;
   scrollbar-width: none;
-  font-size: 10px;
-  line-height: 12px;
+  font-size: 12px;
+  line-height: 15px;
   letter-spacing: 0.02em;
   color: var(--widget-tab-inactive);
 }
@@ -105,7 +106,8 @@
 }
 
 .positions-panel__row {
-  height: 32px;
+  height: 34px;
+  font-size: 12px;
   flex-shrink: 0;
   border-radius: 8px;
   background-color: var(--positions-row-bg);
@@ -161,8 +163,8 @@
   flex-shrink: 0;
   white-space: nowrap;
   text-align: left;
-  font-size: 11px;
-  line-height: 14px;
+  font-size: 12px;
+  line-height: 15px;
   color: var(--flowx-text);
 }
 
@@ -204,12 +206,12 @@
 }
 
 .positions-panel .odometer__digit-scroll {
-  height: 14px;
+  height: 15px;
 }
 
 .positions-panel .odometer__digit-track span {
-  height: 14px;
-  line-height: 14px;
+  height: 15px;
+  line-height: 15px;
 }
 
 .positions-panel__side-badge {
@@ -219,8 +221,8 @@
   justify-content: center;
   border-radius: 6px;
   padding: 2px 5px;
-  font-size: 11px;
-  line-height: 14px;
+  font-size: 12px;
+  line-height: 15px;
   white-space: nowrap;
   box-sizing: border-box;
 }
