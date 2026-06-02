@@ -33,9 +33,6 @@ export const terminalStatsStatsClass = cn(
 
 export const terminalStatsStatClass = 'flex shrink-0 flex-col items-end gap-1';
 
-export const terminalStatsDividerClass =
-  'h-[25.54px] w-px shrink-0 bg-[var(--widget-icon-dim)] max-[1200px]:hidden';
-
 export const terminalStatsUserClass = 'flex shrink-0 items-center gap-2.5';
 
 export const terminalStatsUserTriggerClass = cn(
@@ -44,8 +41,6 @@ export const terminalStatsUserTriggerClass = cn(
   '[@media(hover:hover)]:hover:opacity-80',
   'data-[state=open]:opacity-80',
 );
-
-export const terminalStatsUserNameClass = 'whitespace-nowrap';
 
 export const terminalStatsAvatarShellClass = cn(
   'box-border size-[28px] shrink-0 overflow-clip rounded-lg',

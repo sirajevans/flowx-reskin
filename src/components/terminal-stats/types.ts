@@ -1,4 +1,4 @@
-export type TerminalStatsTab = 'terminal' | 'discord' | 'algo_trading';
+export type TerminalStatsTab = 'terminal' | 'algo_trading';
 
 export type TerminalStat = {
   id: string;

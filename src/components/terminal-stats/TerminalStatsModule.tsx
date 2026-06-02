@@ -13,7 +13,6 @@ import {
 import {
   terminalStatsAvatarClass,
   terminalStatsAvatarShellClass,
-  terminalStatsDividerClass,
   terminalStatsRightClass,
   terminalStatsRootClass,
   terminalStatsStatClass,
@@ -25,7 +24,6 @@ import {
   terminalStatsTabClass,
   terminalStatsTabsClass,
   terminalStatsUserClass,
-  terminalStatsUserNameClass,
   terminalStatsUserTriggerClass,
 } from './terminalStatsClasses';
 import type {
@@ -37,7 +35,6 @@ import type {
 
 const DEFAULT_TABS: ReadonlyArray<{ id: TerminalStatsTab; label: string }> = [
   { id: 'terminal', label: 'Terminal' },
-  { id: 'discord', label: 'Discord' },
   { id: 'algo_trading', label: 'Algo trading' },
 ];
 
@@ -126,8 +123,6 @@ export function TerminalStatsModule({
           ))}
         </div>
 
-        <div className={terminalStatsDividerClass} aria-hidden />
-
         <div className={terminalStatsUserClass}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -136,7 +131,6 @@ export function TerminalStatsModule({
                 className={terminalStatsUserTriggerClass}
                 aria-label={`${userName} account menu`}
               >
-                <span className={terminalStatsUserNameClass}>{userName}</span>
                 <span className={terminalStatsAvatarShellClass}>
                   <img
                     src={userAvatarSrc}

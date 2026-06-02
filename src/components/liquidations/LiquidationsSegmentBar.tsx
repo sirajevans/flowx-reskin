@@ -13,7 +13,7 @@ export type LiquidationsSegmentBarProps = {
   'aria-label'?: string;
 };
 
-const MAX_ANIMATION_MS = 200;
+const MAX_ANIMATION_MS = 250;
 const MAJORITY_THRESHOLD = 50;
 
 function getFilledCount(fillPercent: number, segmentCount: number): number {
