@@ -39,5 +39,6 @@ export const liquidationsPanelTimeframeBtnClass = cn(
   'font-inherit text-[11px] leading-[14px] text-[var(--flowx-text)] opacity-50 outline-none',
   'transition-[background-color,opacity] duration-150 ease-in-out motion-reduce:transition-none',
   'data-[selected=true]:bg-[#1d1d1d] data-[selected=true]:opacity-100',
+  '[@media(hover:hover)]:data-[selected=false]:hover:bg-white/10',
   'focus-visible:shadow-[0_0_0_1px_var(--flowx-border)]',
 );
