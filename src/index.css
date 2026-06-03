@@ -135,7 +135,7 @@ html[data-theme='light'] body {
   height: 100dvh;
   overflow: hidden;
   background: #000000;
-  animation: startup-overlay-dismiss 2000ms cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation: startup-overlay-fade-out var(--startup-fade-out) cubic-bezier(0.215, 0.61, 0.355, 1) var(--startup-fade-out-delay) forwards;
 }
 
 .startup-overlay__shader {
@@ -145,6 +145,12 @@ html[data-theme='light'] body {
   width: min(80vw, 640px);
   aspect-ratio: 1024 / 119;
   pointer-events: none;
+  opacity: 0;
+  animation:
+    startup-overlay-shader-fade-in var(--startup-fade-in) cubic-bezier(0.215, 0.61, 0.355, 1)
+      var(--startup-shader-hidden) forwards,
+    startup-overlay-fade-out var(--startup-fade-out) cubic-bezier(0.215, 0.61, 0.355, 1)
+      var(--startup-fade-out-delay) forwards;
 }
 
 .startup-overlay__shader > * {
@@ -154,20 +160,34 @@ html[data-theme='light'] body {
   margin: auto;
 }
 
-@keyframes startup-overlay-dismiss {
-  0%,
-  88% {
+@keyframes startup-overlay-shader-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes startup-overlay-fade-out {
+  from {
     opacity: 1;
   }
 
-  100% {
+  to {
     opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .startup-overlay {
+  .startup-overlay,
+  .startup-overlay__shader {
     animation: none;
+  }
+
+  .startup-overlay__shader {
+    opacity: 1;
   }
 }
 
