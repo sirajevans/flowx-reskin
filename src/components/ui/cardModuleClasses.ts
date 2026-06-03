@@ -11,7 +11,7 @@ export const cardModuleWidth960Class = '[--card-module-width:960px]';
 
 export const cardModuleRootClass = cn(
   'box-border flex w-[var(--card-module-width,auto)] select-none flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
-  'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] p-3 backdrop-blur-[6px]',
+  'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] p-3 backdrop-blur-[4px]',
   "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
   'gradient-border',
   cardModuleGradientBorder,

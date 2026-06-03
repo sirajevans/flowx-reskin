@@ -21,9 +21,9 @@ import { TerminalStatsModule } from '../terminal-stats';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
+const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v14';
 const FIXED_HEADER_LAYOUT_ITEMS = new Set(['brand-badge', 'stats']);
-const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v12';
+const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
 const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
 
 const BREAKPOINTS = {
@@ -151,13 +151,13 @@ const MODULE_MIN_SIZES_PX: Partial<Record<string, { width: number; height: numbe
 
 const DEFAULT_LAYOUTS: ResponsiveLayouts = {
   xxl: [
-    { i: 'liquidations', x: 0, y: 0, w: 26, h: 17, minW: 26, minH: 17 },
-    { i: 'exchange-liquidations', x: 0, y: 17, w: 26, h: 22, minW: 26, minH: 13 },
+    { i: 'liquidations', x: 0, y: 0, w: 26, h: 17, minW: 24, minH: 17 },
+    { i: 'exchange-liquidations', x: 0, y: 17, w: 26, h: 22, minW: 24, minH: 13 },
     { i: 'money-flow', x: 0, y: 39, w: 26, h: 39, minW: 26, minH: 15 },
     { i: 'chart', x: 26, y: 0, w: 60, h: 59, minW: 16, minH: 24 },
     { i: 'positions', x: 26, y: 59, w: 60, h: 19, minW: 60, minH: 15 },
-    { i: 'order', x: 86, y: 0, w: 26, h: 33, minW: 12, minH: 24 },
-    { i: 'order-feed', x: 86, y: 33, w: 26, h: 45, minW: 12, minH: 20 },
+    { i: 'order', x: 86, y: 0, w: 26, h: 36, minW: 25, minH: 36 },
+    { i: 'order-feed', x: 86, y: 36, w: 26, h: 41, minW: 25, minH: 20 },
   ],
   lg: [
     { i: 'liquidations', x: 0, y: 0, w: 12, h: 12, minW: 12, minH: 12 },
@@ -175,7 +175,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'positions', x: 0, y: 36, w: 20, h: 16, minW: 16, minH: 12 },
     { i: 'liquidations', x: 0, y: 52, w: 12, h: 12, minW: 12, minH: 12 },
     { i: 'exchange-liquidations', x: 12, y: 52, w: 12, h: 16, minW: 12, minH: 12 },
-    { i: 'money-flow', x: 0, y: 68, w: 12, h: 28, minW: 12, minH: 20 },
+    { i: 'money-flow', x: 0, y: 68, w: 14, h: 40, minW: 14, minH: 40 },
   ],
   sm: [
     { i: 'chart', x: 0, y: 0, w: 1, h: 36, minW: 1, minH: 24 },
@@ -184,7 +184,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'positions', x: 0, y: 92, w: 1, h: 20, minW: 1, minH: 16 },
     { i: 'liquidations', x: 0, y: 112, w: 1, h: 12, minW: 1, minH: 12 },
     { i: 'exchange-liquidations', x: 0, y: 124, w: 1, h: 16, minW: 1, minH: 12 },
-    { i: 'money-flow', x: 0, y: 140, w: 1, h: 28, minW: 1, minH: 20 },
+    { i: 'money-flow', x: 0, y: 140, w: 1, h: 40, minW: 1, minH: 40 },
   ],
 };
 
