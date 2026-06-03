@@ -4,7 +4,7 @@ import flowxShaderLogo from '../../assets/flowx-shader-logo.png';
 
 const SHADER_HIDDEN_MS = 500;
 const SHADER_FADE_IN_MS = 800;
-const SHADER_HOLD_MS = 1800;
+const SHADER_HOLD_MS = 1500;
 const FADE_OUT_MS = 500;
 const SHADER_ANIMATION_SPEED = 2;
 

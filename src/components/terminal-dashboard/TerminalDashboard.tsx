@@ -8,7 +8,7 @@ import {
   type ResizeHandleAxis,
   type ResponsiveLayouts,
 } from 'react-grid-layout/legacy';
-import { DragModuleIcon, ResizeHandleLeftIcon, ResizeHandleRightIcon } from '../icons';
+import { ResizeHandleLeftIcon, ResizeHandleRightIcon } from '../icons';
 import { ExchangeLiquidationsPanel } from '../liquidations/exchange-liquidations';
 import { LiquidationsPanel } from '../liquidations';
 import { MoneyFlowPanel } from '../money-flow';
@@ -262,18 +262,12 @@ function persistLayouts(layouts: ResponsiveLayouts) {
 
 function ChartPlaceholder() {
   return (
-    <section className="terminal-dashboard-chart" aria-label="Chart module placeholder">
-      <span className="module-drag-handle terminal-dashboard-chart__drag" aria-hidden>
-        <DragModuleIcon />
-      </span>
-      <div className="terminal-dashboard-chart__content">
-        <p className="terminal-dashboard-chart__eyebrow">Chart module</p>
-        <p className="terminal-dashboard-chart__title">Reserved trading chart area</p>
-      </div>
-    </section>
+    <section
+      className="module-drag-handle terminal-dashboard-chart gradient-border"
+      aria-label="Chart module"
+    />
   );
 }
-
 
 function renderResizeHandle(axis: ResizeHandleAxis, ref: Ref<HTMLElement>) {
   const isLeft = axis === 'sw';
