@@ -4,7 +4,7 @@ import { cn } from '../../lib/utils';
 import { tooltipContentClass } from './tooltipClasses';
 
 function TooltipProvider({
-  delayDuration = 300,
+  delayDuration = 800,
   ...props
 }: ComponentProps<typeof TooltipPrimitive.Provider>) {
   return <TooltipPrimitive.Provider delayDuration={delayDuration} {...props} />;
@@ -35,4 +35,3 @@ function TooltipContent({
 }
 
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
-export { tooltipContentInnerClass, tooltipContentShortcutClass } from './tooltipClasses';

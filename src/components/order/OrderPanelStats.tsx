@@ -11,10 +11,8 @@ import {
 } from './orderPanelClasses';
 
 export type OrderPanelStatsProps = {
-  equity?: string;
   liqPrice?: string;
   max?: string;
-  rrRatio?: string;
   cost?: string;
   margin?: string;
 };
@@ -58,19 +56,13 @@ function StatsRow({
 }
 
 export function OrderPanelStats({
-  equity = '1,000.00 USDT',
   liqPrice = '25.00 USDT',
   max = '50 USDT',
-  rrRatio = '1:3.5',
   cost = '10.00 USDT',
   margin = '20%',
 }: OrderPanelStatsProps) {
   return (
     <div className={orderPanelStatsRootClass}>
-      <StatsRow
-        left={{ label: 'EQUITY', value: equity }}
-        right={{ label: 'RR RATIO', value: rrRatio }}
-      />
       <StatsRow
         left={{ label: 'LIQ. PRICE', value: liqPrice }}
         right={{ label: 'COST', value: cost }}

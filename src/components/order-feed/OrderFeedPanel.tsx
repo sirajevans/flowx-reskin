@@ -108,7 +108,6 @@ function FeedRow({
   return (
     <div
       className={orderFeedRowSlotClass}
-      data-new={isNew ? '' : undefined}
       data-expanded={expanded ? '' : undefined}
     >
       <div className={orderFeedRowClass} data-side={entry.side}>

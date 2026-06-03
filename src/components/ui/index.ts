@@ -18,14 +18,7 @@ export { IconButton } from './IconButton';
 export type { IconButtonProps } from './IconButton';
 export { SideBadge } from './SideBadge';
 export type { SideBadgeProps } from './SideBadge';
-export {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  tooltipContentInnerClass,
-  tooltipContentShortcutClass,
-} from './tooltip';
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 export {
   DropdownMenu,
   DropdownMenuContent,

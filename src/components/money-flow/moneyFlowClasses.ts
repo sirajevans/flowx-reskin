@@ -6,7 +6,7 @@ export const moneyFlowTierClass =
   'box-border flex min-w-0 flex-col gap-2.5 self-stretch';
 
 export const moneyFlowTierFooterClass =
-  'box-border flex min-w-0 flex-col gap-px self-stretch';
+  'box-border flex min-w-0 flex-col gap-0.5 self-stretch';
 
 export const moneyFlowTierLabelClass =
   'min-w-0 self-stretch text-[10px] leading-3 tracking-[0.02em] text-[var(--widget-tab-inactive)]';

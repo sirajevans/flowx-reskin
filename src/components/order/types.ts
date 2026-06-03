@@ -24,7 +24,6 @@ export type OrderPanelProps = {
   equity?: string;
   liqPrice?: string;
   max?: string;
-  rrRatio?: string;
   cost?: string;
   margin?: string;
   price?: string;

@@ -1,8 +1,7 @@
 export const GRADIENT_VALUE_MAX = 50000; // $50K = 100% row width
-export const GRADIENT_ENTER_MS = 40;
 export const ROW_PUSH_MS = 65;
 export const ROW_FADE_MS = 140;
-/** Keep in sync with longest enter animation in OrderFeedPanel.css */
+/** Keep in sync with row enter transition in orderFeedPanelClasses */
 export const ROW_ENTER_MS = ROW_FADE_MS;
 
 export function parseOrderFeedValue(value: string): number {

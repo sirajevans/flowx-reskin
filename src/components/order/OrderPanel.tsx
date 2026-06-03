@@ -8,6 +8,8 @@ import {
   cardModuleTabListClass,
 } from '../ui';
 import { cn } from '../../lib/utils';
+import { OrderAmountSlider } from './OrderAmountSlider';
+import { convertAmountForCurrency, parseOrderStatAmount } from './orderUtils';
 import {
   orderPanelBodyGapClass,
   orderPanelAmountPrefixClass,
@@ -75,7 +77,6 @@ export function OrderPanel({
   equity,
   liqPrice,
   max,
-  rrRatio,
   cost,
   margin,
   price = '73,244.6',
@@ -133,6 +134,12 @@ export function OrderPanel({
 
   const handleSwapCurrency = () => {
     const next: OrderCurrency = currency === 'USDT' ? 'BTC' : 'USDT';
+    const priceValue = parseOrderStatAmount(price);
+
+    if (amount.trim() && priceValue > 0) {
+      handleAmountChange(convertAmountForCurrency(amount, currency, next, priceValue));
+    }
+
     if (currencyProp === undefined) setInternalCurrency(next);
     onCurrencyChange?.(next);
     onSwapCurrency?.();
@@ -140,41 +147,41 @@ export function OrderPanel({
 
   const currencyIsBtc = currency === 'BTC';
 
-  const amountField = (
-  <>
-    <div className={orderPanelSectionHeaderClass}>
-      <span className={orderPanelLabelClass}>AMOUNT</span>
-      <button
-        type="button"
-        className={orderPanelCurrencyClass}
-        aria-label={`Quote currency: ${currency}. Click to switch.`}
-        onClick={handleSwapCurrency}
-      >
-        <span className={orderPanelSwapBtnClass} aria-hidden>
-          <SwapCurrencyIcon className={cn(currencyIsBtc && 'rotate-180')} />
+  const amountInputs = (
+    <>
+      <div className={orderPanelSectionHeaderClass}>
+        <span className={orderPanelLabelClass}>AMOUNT</span>
+        <button
+          type="button"
+          className={orderPanelCurrencyClass}
+          aria-label={`Quote currency: ${currency}. Click to switch.`}
+          onClick={handleSwapCurrency}
+        >
+          <span className={orderPanelSwapBtnClass} aria-hidden>
+            <SwapCurrencyIcon className={cn(currencyIsBtc && 'rotate-180')} />
+          </span>
+          <span className={orderPanelCurrencyCodeClass}>{currency}</span>
+        </button>
+      </div>
+      <div className={orderPanelFieldShellAmountClass}>
+        <span className={orderPanelAmountPrefixClass} aria-hidden>
+          {currencyIsBtc ? 'BTC' : '$'}
         </span>
-        <span className={orderPanelCurrencyCodeClass}>{currency}</span>
-      </button>
-    </div>
-    <div className={orderPanelFieldShellAmountClass}>
-      <span className={orderPanelAmountPrefixClass} aria-hidden>
-        {currencyIsBtc ? 'BTC' : '$'}
-      </span>
-      <input
-        type="text"
-        inputMode="decimal"
-        className={cn(orderPanelFieldClass, orderPanelFieldAmountClass)}
-        value={amount}
-        placeholder="0.00"
-        onChange={(event) => {
-          let value = event.target.value;
-          if (!currencyIsBtc) value = value.replace(/^\$+/, '');
-          handleAmountChange(value);
-        }}
-        aria-label={currencyIsBtc ? 'Order amount in BTC' : 'Order amount in dollars'}
-      />
-    </div>
-  </>
+        <input
+          type="text"
+          inputMode="decimal"
+          className={cn(orderPanelFieldClass, orderPanelFieldAmountClass)}
+          value={amount}
+          placeholder="0.00"
+          onChange={(event) => {
+            let value = event.target.value;
+            if (!currencyIsBtc) value = value.replace(/^\$+/, '');
+            handleAmountChange(value);
+          }}
+          aria-label={currencyIsBtc ? 'Order amount in BTC' : 'Order amount in dollars'}
+        />
+      </div>
+    </>
   );
 
   const riskFieldsRow = (
@@ -275,14 +282,22 @@ export function OrderPanel({
                     />
                   </div>
                 </div>
-                <div className={orderPanelLimitFieldClass}>{amountField}</div>
+                <div className={orderPanelLimitFieldClass}>{amountInputs}</div>
               </div>
             ) : (
-              amountField
+              <div className={orderPanelSectionClass}>{amountInputs}</div>
             )}
           </div>
         )}
       </CardModuleTabContent>
+
+      <OrderAmountSlider
+        amount={amount}
+        onAmountChange={handleAmountChange}
+        equity={equity}
+        price={price}
+        currency={currency}
+      />
 
       <div className={orderPanelSectionClass}>
         <button
@@ -304,10 +319,8 @@ export function OrderPanel({
       </div>
 
       <OrderPanelStats
-        equity={equity}
         liqPrice={liqPrice}
         max={max}
-        rrRatio={rrRatio}
         cost={cost}
         margin={margin}
       />

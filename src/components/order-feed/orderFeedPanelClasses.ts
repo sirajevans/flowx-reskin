@@ -4,7 +4,7 @@ import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
 export const orderFeedPanelRootClass = cn(
   'box-border h-[488px]',
   cardModuleWidth365Class,
-  '[--order-feed-fade-height:28px] [--order-feed-gradient-ms:40ms] [--order-feed-row-push-ms:65ms]',
+  '[--order-feed-fade-height:28px] [--order-feed-row-push-ms:65ms]',
   '[--order-feed-row-fade-ms:140ms]',
 );
 
@@ -57,12 +57,8 @@ export const orderFeedRowClass = cn(
   'data-[side=sell]:bg-[#f236451a] data-[side=sell]:text-[#ffd7da]',
 );
 
-export const orderFeedRowGradientBaseClass = cn(
-  'pointer-events-none absolute top-0 bottom-0 max-w-full box-border scale-x-100',
-  'group-data-new/row-slot:scale-x-0 group-data-new/row-slot:animate-order-feed-gradient-enter',
-  'group-data-new/row-slot:will-change-transform motion-reduce:group-data-new/row-slot:scale-x-100',
-  'motion-reduce:group-data-new/row-slot:animate-none',
-);
+export const orderFeedRowGradientBaseClass =
+  'pointer-events-none absolute top-0 bottom-0 max-w-full box-border';
 
 export const orderFeedRowGradientLeftClass = cn(
   orderFeedRowGradientBaseClass,

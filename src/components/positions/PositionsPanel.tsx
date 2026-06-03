@@ -17,8 +17,6 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  tooltipContentInnerClass,
-  tooltipContentShortcutClass,
 } from '../ui';
 import { cn } from '../../lib/utils';
 import { MOCK_ROWS_BY_TAB } from './mockData';
@@ -96,28 +94,24 @@ const ROW_ACTIONS = [
   {
     id: 'edit',
     label: 'Edit position',
-    shortcut: 'E',
     icon: EditPositionIcon,
     className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
   },
   {
     id: 'breakeven',
     label: 'Move SL to BE',
-    shortcut: 'B',
     icon: MoveToBreakevenIcon,
     className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
   },
   {
     id: 'partialClose',
     label: 'Partial close',
-    shortcut: 'P',
     icon: PartialCloseIcon,
     className: cn(positionsPanelActionBtnClass, positionsPanelActionBtnMutedHoverClass),
   },
   {
     id: 'fullClose',
     label: 'Full close',
-    shortcut: 'F',
     icon: FullCloseIcon,
     className: positionsPanelActionBtnDangerClass,
   },
@@ -135,24 +129,19 @@ function RowActions({
 
   return (
     <div className={positionsPanelRowActionsClass} onClick={(e) => e.stopPropagation()}>
-      {actions.map(({ id, label, shortcut, icon: Icon, className }) => (
+      {actions.map(({ id, label, icon: Icon, className }) => (
         <Tooltip key={id}>
           <TooltipTrigger asChild>
             <button
               type="button"
               className={className}
-              aria-label={`${label} (${shortcut})`}
+              aria-label={label}
               onClick={() => onAction?.(id)}
             >
               <Icon />
             </button>
           </TooltipTrigger>
-          <TooltipContent side="top">
-            <span className={tooltipContentInnerClass}>
-              <span>{label}</span>
-              <kbd className={tooltipContentShortcutClass}>{shortcut}</kbd>
-            </span>
-          </TooltipContent>
+          <TooltipContent side="top">{label}</TooltipContent>
         </Tooltip>
       ))}
     </div>
