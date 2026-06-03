@@ -32,6 +32,7 @@ import {
   orderPanelSectionClass,
   orderPanelSectionHeaderClass,
   orderPanelSideBtnClass,
+  orderPanelSideBtnLabelClass,
   orderPanelSideToggleClass,
   orderPanelSubmitClass,
   orderPanelSubmitNoteClass,
@@ -40,6 +41,7 @@ import {
   orderPanelSubmitWrapClass,
   orderPanelSwapBtnClass,
 } from './orderPanelClasses';
+import { AlternatingTextLabel } from '../ui/AlternatingTextLabel';
 import { OrderPanelStats } from './OrderPanelStats';
 import type { OrderPanelProps, OrderCurrency, OrderSide, OrderTab } from './types';
 
@@ -245,9 +247,10 @@ export function OrderPanel({
           data-side="buy"
           data-selected={side === 'buy'}
           aria-pressed={side === 'buy'}
+          aria-label="Buy"
           onClick={() => handleSideChange('buy')}
         >
-          Buy
+          <AlternatingTextLabel labels={['Buy', 'Long']} className={orderPanelSideBtnLabelClass} />
         </button>
         <button
           type="button"
@@ -255,9 +258,10 @@ export function OrderPanel({
           data-side="sell"
           data-selected={side === 'sell'}
           aria-pressed={side === 'sell'}
+          aria-label="Sell"
           onClick={() => handleSideChange('sell')}
         >
-          Sell
+          <AlternatingTextLabel labels={['Sell', 'Short']} className={orderPanelSideBtnLabelClass} />
         </button>
       </div>
 

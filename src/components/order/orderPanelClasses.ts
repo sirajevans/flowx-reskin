@@ -23,6 +23,9 @@ export const orderPanelSideBtnClass = cn(
   'data-[selected=true]:data-[side=sell]:bg-[var(--color-sell)]',
 );
 
+/** Prevents layout shift when Buy/Long and Sell/Short alternate. */
+export const orderPanelSideBtnLabelClass = 'min-w-[5ch]';
+
 export const orderPanelSectionClass =
   'box-border flex min-w-0 flex-col gap-[5px] self-stretch';
 
