@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui';
 import { cn } from '../../lib/utils';
 import {
   orderPanelAmountSliderInputClass,
@@ -163,12 +164,25 @@ export function OrderAmountSlider({
           />
         </div>
       </div>
-      <div
-        className={orderPanelAmountSliderThumbClass}
-        data-active={percent > 0 || dragging || undefined}
-        aria-hidden
-        style={{ left: thumbCenterLeftStyle(percent), transform: 'translateX(-50%)' }}
-      />
+      <Tooltip
+        open={dragging && equityValue > 0}
+        delayDuration={0}
+        onOpenChange={(nextOpen) => {
+          if (nextOpen && !dragging) return;
+        }}
+      >
+        <TooltipTrigger asChild>
+          <div
+            className={orderPanelAmountSliderThumbClass}
+            data-active={percent > 0 || dragging || undefined}
+            aria-hidden
+            style={{ left: thumbCenterLeftStyle(percent), transform: 'translateX(-50%)' }}
+          />
+        </TooltipTrigger>
+        <TooltipContent side="top" sideOffset={8}>
+          {Math.round(percent)}%
+        </TooltipContent>
+      </Tooltip>
       <input
         type="range"
         min={0}
