@@ -203,6 +203,8 @@ const MODULE_MIN_SIZES_PX: Partial<Record<string, { width: number; height: numbe
   'exchange-liquidations': { width: 302, height: 133 },
   'money-flow': { width: 302, height: 154 },
   positions: { width: 794, height: 154 },
+  order: { width: 315, height: 374 },
+  'order-feed': { width: 315, height: 206 },
 };
 
 const DEFAULT_LAYOUTS: ResponsiveLayouts = {
