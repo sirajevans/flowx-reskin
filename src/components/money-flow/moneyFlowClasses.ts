@@ -1,6 +1,10 @@
 import { cn } from '../../lib/utils';
+import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
 
-export const moneyFlowPanelRootClass = 'w-[365px]';
+export const moneyFlowPanelRootClass = cn(
+  cardModuleWidth365Class,
+  'box-border h-full min-h-0 max-h-none w-full min-w-0',
+);
 
 export const moneyFlowTierClass =
   'box-border flex min-w-0 flex-col gap-2.5 self-stretch';

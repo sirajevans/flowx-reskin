@@ -66,8 +66,12 @@ export function ResizeHandleLeftIcon({ className = ICON_CLASS }: IconProps) {
       className={className}
       aria-hidden
     >
-      <rect width="14" height="14" fill="#FF6868" fillOpacity="0" />
-      <circle cx="2.71338" cy="11.2866" r="2.71338" fill="white" fillOpacity="0.2" />
+      <path
+        d="M0.520752 3.93103C0.520752 9.2043 4.79558 13.4791 10.0688 13.4791"
+        stroke="white"
+        strokeOpacity="0.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -84,8 +88,12 @@ export function ResizeHandleRightIcon({ className = ICON_CLASS }: IconProps) {
       className={className}
       aria-hidden
     >
-      <rect width="14" height="14" fill="#FF6868" fillOpacity="0" />
-      <circle cx="11.2866" cy="11.2866" r="2.71338" fill="white" fillOpacity="0.2" />
+      <path
+        d="M13.4792 3.93103C13.4792 9.2043 9.20442 13.4791 3.93115 13.4791"
+        stroke="white"
+        strokeOpacity="0.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }

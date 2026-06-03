@@ -17,6 +17,7 @@ export const orderPanelSideBtnClass = cn(
   'box-border flex h-8 min-w-0 flex-1 cursor-pointer items-center justify-center overflow-clip rounded-lg border-0',
   'bg-[#1d1d1d80] p-0 font-inherit text-xs leading-4 text-[var(--flowx-text)] outline-none',
   'transition-colors duration-150 ease-in-out motion-reduce:transition-none',
+  '[@media(hover:hover)]:data-[selected=false]:hover:bg-[#1d1d1dba]',
   'focus-visible:shadow-[0_0_0_1px_var(--flowx-border)]',
   'data-[selected=true]:data-[side=buy]:bg-[#06b470]',
   'data-[selected=true]:data-[side=sell]:bg-[var(--color-sell)]',

@@ -10,20 +10,20 @@
   --color-sell: #ef4444;
   --color-buy-locked: #22c55e;
   --color-sell-locked: #ef4444;
-  --color-signal-locked: #38bdf8;
+  --color-signal-locked: #06B470;
   --market-buy-locked: var(--color-buy-locked);
   --market-sell-locked: var(--color-sell-locked);
   --market-signal-locked: var(--color-signal-locked);
-  --brand-accent: #38bdf8;
+  --brand-accent: #06B470;
   --brand-accent-soft: rgba(56, 189, 248, 0.14);
-  --brand-accent-strong: #0ea5e9;
+  --brand-accent-strong: #07d586;
 }
 
 body[data-skin='flowx'],
 body:not([data-skin]) {
-  --brand-accent: #38bdf8;
-  --brand-accent-soft: rgba(56, 189, 248, 0.14);
-  --brand-accent-strong: #0ea5e9;
+  --brand-accent: #06B470;
+  --brand-accent-soft: rgba(6, 180, 113, 0.14);
+  --brand-accent-strong: #07d586;
 }
 
 body[data-skin='kavi'] {
@@ -40,7 +40,7 @@ body[data-skin='whales'] {
 
 :root,
 [data-theme='dark'] {
-  --flowx-shell: #030305;
+  --flowx-shell: #010101;
   --flowx-panel: rgba(8, 8, 10, 0.98);
   --flowx-panel-strong: rgba(10, 10, 12, 0.98);
   --flowx-border: rgba(63, 63, 70, 0.28);
@@ -71,7 +71,7 @@ body[data-skin='whales'] {
 }
 
 @theme {
-  --color-background: #030305;
+  --color-background: #010101;
   --color-surface: #08080a;
   --color-text-primary: #f4f4f5;
   --color-text-secondary: #a1a1aa;
@@ -154,9 +154,16 @@ html[data-theme='light'] body {
     oklch(var(--order-field-border-l-bottom) 0 0) 100%
   );
   transition:
+    background-color 150ms ease-in-out,
     --order-field-border-l-top 50ms ease-in-out,
     --order-field-border-l-mid 50ms ease-in-out,
     --order-field-border-l-bottom 50ms ease-in-out;
+}
+
+@media (hover: hover) {
+  .order-panel-field-shell:hover {
+    background-color: #1d1d1dba;
+  }
 }
 
 .order-panel-field-shell:focus-within {
@@ -318,7 +325,7 @@ html[data-theme='light'] body {
 .terminal-dashboard .react-grid-item > .terminal-dashboard-brand-badge {
   width: 100%;
   max-width: 157px;
-  height: 51px;
+  height: 49px;
   overflow: visible;
 }
 
@@ -341,12 +348,15 @@ html[data-theme='light'] body {
 }
 
 .terminal-dashboard .react-grid-item .positions-panel,
-.terminal-dashboard .react-grid-item [aria-label='Order feed'] {
+.terminal-dashboard .react-grid-item [aria-label='Order feed'],
+.terminal-dashboard .react-grid-item [aria-label='Money flow'] {
   height: 100%;
   min-height: 0;
+  max-height: none;
 }
 
 .terminal-dashboard .react-grid-item > .react-resizable-handle {
+  z-index: 25;
   display: flex;
   align-items: flex-end;
   width: 24px;
@@ -355,7 +365,13 @@ html[data-theme='light'] body {
   border: 0;
   background: transparent;
   opacity: 0;
+  pointer-events: auto;
   transition: opacity 150ms ease-in-out;
+}
+
+.terminal-dashboard .react-grid-item:hover > .react-resizable-handle,
+.terminal-dashboard .react-grid-item.resizing > .react-resizable-handle {
+  opacity: 1;
 }
 
 .terminal-dashboard .react-grid-item > .react-resizable-handle::after {
@@ -379,8 +395,7 @@ html[data-theme='light'] body {
 }
 
 .terminal-dashboard .react-grid-item > .react-resizable-handle:hover,
-.terminal-dashboard .react-grid-item > .react-resizable-handle:focus-visible,
-.terminal-dashboard .react-grid-item.resizing > .react-resizable-handle {
+.terminal-dashboard .react-grid-item > .react-resizable-handle:focus-visible {
   opacity: 1;
 }
 
