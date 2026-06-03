@@ -1,7 +1,7 @@
 import { parseLiquidationValue } from '../utils';
 
 /** Combined width of both comparison bars (excludes the 4px gap). */
-const TOTAL_BAR_PX = 64.8;
+const TOTAL_BAR_PX = 54.8;
 
 const roundPx = (value: number) => Math.round(value * 10) / 10;
 

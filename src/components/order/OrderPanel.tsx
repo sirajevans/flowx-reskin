@@ -91,7 +91,7 @@ export function OrderPanel({
   const [internalStopLossValue, setInternalStopLossValue] = useState('');
   const [internalTakeProfitValue, setInternalTakeProfitValue] = useState('');
   const [internalCurrency, setInternalCurrency] = useState<OrderCurrency>(defaultCurrency);
-  const [riskExpanded, setRiskExpanded] = useState(false);
+  const [riskExpanded, setRiskExpanded] = useState(true);
 
   const activeTab = activeTabProp ?? internalTab;
   const side = sideProp ?? internalSide;
@@ -242,22 +242,22 @@ export function OrderPanel({
         <button
           type="button"
           className={orderPanelSideBtnClass}
-          data-side="sell"
-          data-selected={side === 'sell'}
-          aria-pressed={side === 'sell'}
-          onClick={() => handleSideChange('sell')}
-        >
-          Sell
-        </button>
-        <button
-          type="button"
-          className={orderPanelSideBtnClass}
           data-side="buy"
           data-selected={side === 'buy'}
           aria-pressed={side === 'buy'}
           onClick={() => handleSideChange('buy')}
         >
           Buy
+        </button>
+        <button
+          type="button"
+          className={orderPanelSideBtnClass}
+          data-side="sell"
+          data-selected={side === 'sell'}
+          aria-pressed={side === 'sell'}
+          onClick={() => handleSideChange('sell')}
+        >
+          Sell
         </button>
       </div>
 

@@ -2,7 +2,7 @@ import { cn } from '../../lib/utils';
 import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
 
 const fieldShellBase = cn(
-  'order-panel-field-shell box-border flex h-8 min-w-0 items-center self-stretch overflow-clip rounded-lg bg-[#1d1d1d80]',
+  'order-panel-field-shell box-border flex h-[30px] min-w-0 items-center self-stretch overflow-clip rounded-lg bg-[#1d1d1d80]',
   'gradient-border',
 );
 
@@ -30,7 +30,7 @@ export const orderPanelAmountSliderThumbInsetPx = 9;
 export const orderPanelAmountSliderThumbWidthPx = 17;
 
 export const orderPanelAmountSliderRootClass =
-  'relative flex h-2.5 w-full shrink-0 touch-none items-center justify-center overflow-visible';
+  'relative mt-[-4px] flex h-2.5 w-full shrink-0 touch-none items-center justify-center overflow-visible';
 
 export const orderPanelAmountSliderRailGradient =
   'linear-gradient(in oklab 90deg, oklab(24.8% 0 0 / 0%) 0%, oklab(24.8% 0 0) 5.09%, oklab(24.8% 0 0) 94.83%, oklab(24.8% 0 0 / 0%) 100.01%)';
@@ -125,7 +125,7 @@ export const orderPanelAmountPrefixClass =
   'pointer-events-none shrink-0 select-none text-[11px] leading-[14px] text-[var(--flowx-text)]';
 
 export const orderPanelFieldClass = cn(
-  'box-border h-full min-w-0 flex-1 overflow-clip rounded-none border-0 bg-transparent p-0 font-inherit',
+  'box-border h-[30px] min-w-0 flex-1 overflow-clip rounded-none border-0 bg-transparent p-0 font-inherit',
   'text-[11px] leading-[14px] text-[var(--flowx-text)] outline-none',
   'placeholder:text-[var(--widget-tab-inactive)] focus-visible:outline-none disabled:cursor-not-allowed',
 );

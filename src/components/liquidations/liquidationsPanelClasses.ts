@@ -37,8 +37,9 @@ export const liquidationsPanelTimeframeClass = cn(
 export const liquidationsPanelTimeframeBtnClass = cn(
   'flex h-6 w-10 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0',
   'font-inherit text-[11px] leading-[14px] text-[var(--flowx-text)] opacity-50 outline-none',
-  'transition-[background-color,opacity] duration-150 ease-in-out motion-reduce:transition-none',
+  'transition-[background-color,color,opacity] duration-150 ease-in-out motion-reduce:transition-none',
   'data-[selected=true]:bg-[#1d1d1d] data-[selected=true]:opacity-100',
   '[@media(hover:hover)]:data-[selected=false]:hover:bg-white/10',
+  '[@media(hover:hover)]:data-[selected=false]:hover:text-white',
   'focus-visible:shadow-[0_0_0_1px_var(--flowx-border)]',
 );

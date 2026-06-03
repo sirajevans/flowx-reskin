@@ -31,7 +31,7 @@ export const exchangeLiquidationsAmountShortClass = 'text-[#f23645]';
 export const exchangeLiquidationsAmountLongClass = 'text-[#06b470]';
 
 export const exchangeLiquidationsBarsClass =
-  'box-border flex h-5 w-[68.8px] shrink-0 items-center gap-1';
+  'box-border flex h-5 w-[58.8px] shrink-0 items-center gap-1';
 
 export const exchangeLiquidationsBarBaseClass = cn(
   'h-0.5 shrink-0 rounded-[1px] transition-[width] duration-[320ms] ease-[cubic-bezier(0.215,0.61,0.355,1)]',
