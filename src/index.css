@@ -413,10 +413,23 @@ html[data-theme='light'] body {
   z-index: 20;
 }
 
-.terminal-dashboard .react-grid-placeholder {
+.terminal-dashboard .react-grid-item.react-grid-placeholder {
   border-radius: 10px;
-  background: color-mix(in srgb, var(--brand-accent) 35%, transparent);
-  outline: 1px solid color-mix(in srgb, var(--brand-accent) 55%, transparent);
+  background-color: rgb(255, 255, 255, 0.15);
+  opacity: 1;
+  border: none;
+  outline: none;
+}
+
+/* Dashed border on a child layer so it follows border-radius (gradient edges cannot). */
+.terminal-dashboard .react-grid-item.react-grid-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border-radius: inherit;
+  border: 1px dashed #2b2b2b;
+  pointer-events: none;
 }
 
 .terminal-dashboard .react-grid-item > section,
