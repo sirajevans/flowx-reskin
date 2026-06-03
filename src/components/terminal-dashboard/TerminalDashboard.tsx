@@ -16,16 +16,14 @@ import { OrderFeedPanel } from '../order-feed';
 import { OrderPanel } from '../order';
 import { PositionsPanel } from '../positions';
 import { TerminalBrandBadgeModule } from '../terminal-brand-badge';
-import {
-  TERMINAL_BRAND_BADGE_HEIGHT_PX,
-  TERMINAL_BRAND_BADGE_WIDTH_PX,
-  terminalBrandBadgeSlotClass,
-} from '../terminal-brand-badge/terminalBrandBadgeClasses';
+import { terminalBrandBadgeSlotClass } from '../terminal-brand-badge/terminalBrandBadgeClasses';
 import { TerminalStatsModule } from '../terminal-stats';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v12';
+const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
+const FIXED_HEADER_LAYOUT_ITEMS = new Set(['brand-badge', 'stats']);
+const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v12';
 const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
 
 const BREAKPOINTS = {
@@ -67,70 +65,6 @@ function gridUnitsForPxMinHeightTarget(px: number, unitSize: number, margin: num
   const heightOneLess = gridItemWidthPx(oneLess, unitSize, margin);
 
   return Math.abs(heightOneLess - px) <= Math.abs(heightAtLeast - px) ? oneLess : atLeast;
-}
-
-/** Prefer the largest w whose reserved width still fits within target px. */
-function gridUnitsForPxMaxAtMost(px: number, unitSize: number, margin: number) {
-  let units = 1;
-  while (gridItemWidthPx(units + 1, unitSize, margin) <= px) {
-    units += 1;
-  }
-  return units;
-}
-
-function brandBadgeLayoutCaps(
-  breakpoint: DashboardBreakpoint,
-): Pick<LayoutItem, 'maxW' | 'maxH'> {
-  const defaults = DEFAULT_LAYOUTS[breakpoint]?.find((entry) => entry.i === 'brand-badge');
-  return { maxW: defaults?.maxW, maxH: defaults?.maxH };
-}
-
-function fitBrandBadgeItem(
-  item: LayoutItem,
-  containerWidth: number,
-  cols: number,
-  breakpoint: DashboardBreakpoint,
-): LayoutItem {
-  if (item.i !== 'brand-badge') return item;
-
-  const marginX = GRID_MARGIN[0];
-  const marginY = GRID_MARGIN[1];
-  const colUnit = gridColWidth(containerWidth, cols, marginX);
-  const { maxW: maxColsW, maxH: maxRowsH } = brandBadgeLayoutCaps(breakpoint);
-  const fittedW = gridUnitsForPxMaxAtMost(TERMINAL_BRAND_BADGE_WIDTH_PX, colUnit, marginX);
-  const fittedH = gridUnitsForPxMaxAtMost(TERMINAL_BRAND_BADGE_HEIGHT_PX, ROW_HEIGHT, marginY);
-  const w = maxColsW === undefined ? fittedW : Math.min(fittedW, maxColsW);
-  const h = maxRowsH === undefined ? fittedH : Math.min(fittedH, maxRowsH);
-
-  return {
-    ...item,
-    w,
-    h,
-    minW: w,
-    maxW: w,
-    minH: h,
-    maxH: h,
-    static: true,
-    isDraggable: false,
-    isResizable: false,
-  };
-}
-
-function fitBrandBadgeLayouts(
-  layouts: ResponsiveLayouts,
-  containerWidth: number,
-  breakpoint: DashboardBreakpoint,
-): ResponsiveLayouts {
-  if (containerWidth <= 0 || breakpoint === 'sm') return layouts;
-
-  const cols = COLS[breakpoint];
-  const layout = layouts[breakpoint];
-  if (!layout) return layouts;
-
-  return {
-    ...layouts,
-    [breakpoint]: layout.map((item) => fitBrandBadgeItem(item, containerWidth, cols, breakpoint)),
-  };
 }
 
 function clearModuleMaxSizeCaps(layout: Layout): LayoutItem[] {
@@ -195,6 +129,14 @@ const COLS = {
 
 type DashboardBreakpoint = keyof typeof COLS;
 
+/** Grid rows occupied by the fixed header before v13 (badge + stats in the grid). */
+const LEGACY_HEADER_ROW_H: Record<DashboardBreakpoint, number> = {
+  xxl: 5,
+  lg: 5,
+  md: 8,
+  sm: 18,
+};
+
 const GRID_MARGIN: [number, number] = [4, 4];
 const ROW_HEIGHT = ROW_PITCH_PX - GRID_MARGIN[1];
 
@@ -209,131 +151,65 @@ const MODULE_MIN_SIZES_PX: Partial<Record<string, { width: number; height: numbe
 
 const DEFAULT_LAYOUTS: ResponsiveLayouts = {
   xxl: [
-    {
-      i: 'brand-badge',
-      x: 0,
-      y: 0,
-      w: 11,
-      h: 5,
-      minW: 11,
-      maxW: 11,
-      minH: 5,
-      maxH: 5,
-      static: true,
-      isDraggable: false,
-      isResizable: false,
-    },
-    { i: 'stats', x: 11, y: 0, w: 101, h: 5, minW: 32, minH: 4, maxH: 8 },
-    { i: 'liquidations', x: 0, y: 5, w: 26, h: 17, minW: 26, minH: 17 },
-    { i: 'exchange-liquidations', x: 0, y: 22, w: 26, h: 22, minW: 26, minH: 13 },
-    { i: 'money-flow', x: 0, y: 44, w: 26, h: 39, minW: 26, minH: 15 },
-    { i: 'chart', x: 26, y: 5, w: 60, h: 59, minW: 16, minH: 24 },
-    { i: 'positions', x: 26, y: 64, w: 60, h: 19, minW: 60, minH: 15 },
-    { i: 'order', x: 86, y: 5, w: 26, h: 33, minW: 12, minH: 24 },
-    { i: 'order-feed', x: 86, y: 38, w: 26, h: 45, minW: 12, minH: 20 },
+    { i: 'liquidations', x: 0, y: 0, w: 26, h: 17, minW: 26, minH: 17 },
+    { i: 'exchange-liquidations', x: 0, y: 17, w: 26, h: 22, minW: 26, minH: 13 },
+    { i: 'money-flow', x: 0, y: 39, w: 26, h: 39, minW: 26, minH: 15 },
+    { i: 'chart', x: 26, y: 0, w: 60, h: 59, minW: 16, minH: 24 },
+    { i: 'positions', x: 26, y: 59, w: 60, h: 19, minW: 60, minH: 15 },
+    { i: 'order', x: 86, y: 0, w: 26, h: 33, minW: 12, minH: 24 },
+    { i: 'order-feed', x: 86, y: 33, w: 26, h: 45, minW: 12, minH: 20 },
   ],
   lg: [
-    {
-      i: 'brand-badge',
-      x: 0,
-      y: 0,
-      w: 5,
-      h: 5,
-      minW: 5,
-      maxW: 5,
-      minH: 5,
-      maxH: 5,
-      static: true,
-      isDraggable: false,
-      isResizable: false,
-    },
-    { i: 'stats', x: 5, y: 0, w: 43, h: 4, minW: 24, minH: 4, maxH: 8 },
-    { i: 'liquidations', x: 0, y: 4, w: 12, h: 12, minW: 12, minH: 12 },
-    { i: 'exchange-liquidations', x: 0, y: 16, w: 12, h: 16, minW: 12, minH: 12 },
-    { i: 'money-flow', x: 0, y: 32, w: 12, h: 28, minW: 12, minH: 20 },
-    { i: 'chart', x: 12, y: 4, w: 24, h: 40, minW: 16, minH: 24 },
-    { i: 'positions', x: 12, y: 44, w: 24, h: 16, minW: 16, minH: 12 },
-    { i: 'order', x: 36, y: 4, w: 12, h: 28, minW: 12, minH: 24 },
-    { i: 'order-feed', x: 36, y: 32, w: 12, h: 28, minW: 12, minH: 20 },
+    { i: 'liquidations', x: 0, y: 0, w: 12, h: 12, minW: 12, minH: 12 },
+    { i: 'exchange-liquidations', x: 0, y: 12, w: 12, h: 16, minW: 12, minH: 12 },
+    { i: 'money-flow', x: 0, y: 28, w: 12, h: 28, minW: 12, minH: 20 },
+    { i: 'chart', x: 12, y: 0, w: 24, h: 40, minW: 16, minH: 24 },
+    { i: 'positions', x: 12, y: 40, w: 24, h: 16, minW: 16, minH: 12 },
+    { i: 'order', x: 36, y: 0, w: 12, h: 28, minW: 12, minH: 24 },
+    { i: 'order-feed', x: 36, y: 28, w: 12, h: 28, minW: 12, minH: 20 },
   ],
   md: [
-    {
-      i: 'brand-badge',
-      x: 0,
-      y: 0,
-      w: 5,
-      h: 5,
-      minW: 5,
-      maxW: 5,
-      minH: 5,
-      maxH: 5,
-      static: true,
-      isDraggable: false,
-      isResizable: false,
-    },
-    { i: 'stats', x: 5, y: 0, w: 27, h: 8, minW: 16, minH: 4, maxH: 12 },
-    { i: 'chart', x: 0, y: 8, w: 20, h: 36, minW: 16, minH: 24 },
-    { i: 'order', x: 20, y: 8, w: 12, h: 28, minW: 12, minH: 24 },
-    { i: 'order-feed', x: 20, y: 36, w: 12, h: 28, minW: 12, minH: 20 },
-    { i: 'positions', x: 0, y: 44, w: 20, h: 16, minW: 16, minH: 12 },
-    { i: 'liquidations', x: 0, y: 60, w: 12, h: 12, minW: 12, minH: 12 },
-    { i: 'exchange-liquidations', x: 12, y: 60, w: 12, h: 16, minW: 12, minH: 12 },
-    { i: 'money-flow', x: 0, y: 76, w: 12, h: 28, minW: 12, minH: 20 },
+    { i: 'chart', x: 0, y: 0, w: 20, h: 36, minW: 16, minH: 24 },
+    { i: 'order', x: 20, y: 0, w: 12, h: 28, minW: 12, minH: 24 },
+    { i: 'order-feed', x: 20, y: 28, w: 12, h: 28, minW: 12, minH: 20 },
+    { i: 'positions', x: 0, y: 36, w: 20, h: 16, minW: 16, minH: 12 },
+    { i: 'liquidations', x: 0, y: 52, w: 12, h: 12, minW: 12, minH: 12 },
+    { i: 'exchange-liquidations', x: 12, y: 52, w: 12, h: 16, minW: 12, minH: 12 },
+    { i: 'money-flow', x: 0, y: 68, w: 12, h: 28, minW: 12, minH: 20 },
   ],
   sm: [
-    {
-      i: 'brand-badge',
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 6,
-      minW: 1,
-      minH: 5,
-      static: true,
-      isDraggable: false,
-      isResizable: false,
-    },
-    { i: 'stats', x: 0, y: 6, w: 1, h: 12, minW: 1, minH: 8 },
-    { i: 'chart', x: 0, y: 18, w: 1, h: 36, minW: 1, minH: 24 },
-    { i: 'order', x: 0, y: 54, w: 1, h: 28, minW: 1, minH: 24 },
-    { i: 'order-feed', x: 0, y: 82, w: 1, h: 28, minW: 1, minH: 20 },
-    { i: 'positions', x: 0, y: 110, w: 1, h: 20, minW: 1, minH: 16 },
-    { i: 'liquidations', x: 0, y: 130, w: 1, h: 12, minW: 1, minH: 12 },
-    { i: 'exchange-liquidations', x: 0, y: 142, w: 1, h: 16, minW: 1, minH: 12 },
-    { i: 'money-flow', x: 0, y: 158, w: 1, h: 28, minW: 1, minH: 20 },
+    { i: 'chart', x: 0, y: 0, w: 1, h: 36, minW: 1, minH: 24 },
+    { i: 'order', x: 0, y: 36, w: 1, h: 28, minW: 1, minH: 24 },
+    { i: 'order-feed', x: 0, y: 64, w: 1, h: 28, minW: 1, minH: 20 },
+    { i: 'positions', x: 0, y: 92, w: 1, h: 20, minW: 1, minH: 16 },
+    { i: 'liquidations', x: 0, y: 112, w: 1, h: 12, minW: 1, minH: 12 },
+    { i: 'exchange-liquidations', x: 0, y: 124, w: 1, h: 16, minW: 1, minH: 12 },
+    { i: 'money-flow', x: 0, y: 140, w: 1, h: 28, minW: 1, minH: 20 },
   ],
 };
 
-function normalizeBrandBadgeItem(item: LayoutItem, breakpoint: DashboardBreakpoint): LayoutItem {
-  if (item.i !== 'brand-badge') return item;
-
-  const defaults = DEFAULT_LAYOUTS[breakpoint]?.find((entry) => entry.i === 'brand-badge');
-
-  return {
-    ...item,
-    x: defaults?.x ?? item.x,
-    y: defaults?.y ?? item.y,
-    static: true,
-    isDraggable: false,
-    isResizable: false,
-  };
-}
-
-function normalizeLayouts(layouts: ResponsiveLayouts): ResponsiveLayouts {
+function stripFixedHeaderFromLayouts(layouts: ResponsiveLayouts): ResponsiveLayouts {
   return Object.fromEntries(
-    Object.entries(layouts).map(([breakpoint, layout]) => [
-      breakpoint,
-      (layout ?? []).map((item) =>
-        normalizeBrandBadgeItem(item, breakpoint as DashboardBreakpoint),
-      ),
-    ]),
+    Object.entries(layouts).map(([breakpoint, layout]) => {
+      const bp = breakpoint as DashboardBreakpoint;
+      const items = layout ?? [];
+      const hadFixedHeader = items.some((item) => FIXED_HEADER_LAYOUT_ITEMS.has(item.i));
+      if (!hadFixedHeader) return [breakpoint, items];
+
+      const headerRows = LEGACY_HEADER_ROW_H[bp];
+      return [
+        breakpoint,
+        items
+          .filter((item) => !FIXED_HEADER_LAYOUT_ITEMS.has(item.i))
+          .map((item) => ({ ...item, y: Math.max(0, item.y - headerRows) })),
+      ];
+    }),
   ) as ResponsiveLayouts;
 }
 
 function prepareLayouts(layouts: ResponsiveLayouts): ResponsiveLayouts {
-  const normalized = normalizeLayouts(layouts);
   const cleared = Object.fromEntries(
-    Object.entries(normalized).map(([breakpoint, layout]) => [
+    Object.entries(stripFixedHeaderFromLayouts(layouts)).map(([breakpoint, layout]) => [
       breakpoint,
       clearModuleMaxSizeCaps(layout ?? []),
     ]),
@@ -352,6 +228,15 @@ function loadStoredLayouts() {
       return prepareLayouts({
         ...DEFAULT_LAYOUTS,
         ...parsedLayouts,
+      });
+    }
+
+    const previousLayouts = window.localStorage.getItem(PREVIOUS_LAYOUT_STORAGE_KEY);
+    if (previousLayouts) {
+      const parsedPrevious = JSON.parse(previousLayouts) as ResponsiveLayouts;
+      return prepareLayouts({
+        ...DEFAULT_LAYOUTS,
+        ...parsedPrevious,
       });
     }
 
@@ -389,16 +274,6 @@ function ChartPlaceholder() {
   );
 }
 
-function StatsModuleShell() {
-  return (
-    <div className="terminal-dashboard-stats">
-      <span className="module-drag-handle terminal-dashboard-stats__drag" aria-hidden>
-        <DragModuleIcon />
-      </span>
-      <TerminalStatsModule className="h-full w-full" />
-    </div>
-  );
-}
 
 function renderResizeHandle(axis: ResizeHandleAxis, ref: Ref<HTMLElement>) {
   const isLeft = axis === 'sw';
@@ -424,8 +299,8 @@ export function TerminalDashboard() {
 
   const finalizeLayouts = useCallback(
     (nextLayouts: ResponsiveLayouts, containerWidth: number, breakpoint: DashboardBreakpoint) => {
-      const synced = fitBrandBadgeLayouts(normalizeLayouts(nextLayouts), containerWidth, breakpoint);
-      const constrained = applyModuleMinSizeConstraints(synced, containerWidth, breakpoint);
+      const stripped = stripFixedHeaderFromLayouts(nextLayouts);
+      const constrained = applyModuleMinSizeConstraints(stripped, containerWidth, breakpoint);
       return repairLayouts(constrained, COLS, DEFAULT_LAYOUTS);
     },
     [],
@@ -496,9 +371,17 @@ export function TerminalDashboard() {
   const noopClose = () => undefined;
 
   return (
-    <main className="terminal-dashboard min-h-dvh overflow-x-hidden px-2 py-2">
+    <main className="terminal-dashboard flex min-h-dvh flex-col gap-1 overflow-x-hidden px-2 py-2">
+      <div className="terminal-dashboard__header flex min-w-0 flex-col gap-1 md:flex-row md:items-start">
+        <div className={terminalBrandBadgeSlotClass}>
+          <TerminalBrandBadgeModule />
+        </div>
+        <div className="terminal-dashboard-stats min-h-[49px] min-w-0 flex-1">
+          <TerminalStatsModule className="h-full w-full" />
+        </div>
+      </div>
       <ResponsiveGridLayout
-        className="terminal-dashboard__grid"
+        className="terminal-dashboard__grid min-h-0 min-w-0 flex-1"
         layouts={layouts}
         breakpoints={BREAKPOINTS}
         cols={COLS}
@@ -520,12 +403,6 @@ export function TerminalDashboard() {
         onWidthChange={handleWidthChange}
         onBreakpointChange={handleBreakpointChange}
       >
-        <div key="brand-badge" className={terminalBrandBadgeSlotClass}>
-          <TerminalBrandBadgeModule />
-        </div>
-        <div key="stats">
-          <StatsModuleShell />
-        </div>
         <div key="liquidations">
           <LiquidationsPanel onClose={noopClose} />
         </div>

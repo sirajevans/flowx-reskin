@@ -320,6 +320,19 @@ html[data-theme='light'] body {
     var(--flowx-shell);
 }
 
+.terminal-dashboard__header {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.terminal-dashboard__header .terminal-dashboard-brand-badge-slot,
+.terminal-dashboard__header .terminal-dashboard-brand-badge {
+  width: 100%;
+  max-width: 157px;
+  height: 52px;
+  overflow: visible;
+}
+
 .terminal-dashboard__grid {
   min-width: 0;
 }
@@ -340,29 +353,11 @@ html[data-theme='light'] body {
 }
 
 .terminal-dashboard .react-grid-item > section,
-.terminal-dashboard .react-grid-item > .terminal-dashboard-stats,
 .terminal-dashboard .react-grid-item > .terminal-dashboard-chart {
   width: 100%;
   height: 100%;
   min-width: 0;
   min-height: 0;
-}
-
-.terminal-dashboard .react-grid-item > .terminal-dashboard-brand-badge-slot,
-.terminal-dashboard .react-grid-item > .terminal-dashboard-brand-badge {
-  width: 100%;
-  max-width: 157px;
-  height: 49px;
-  overflow: visible;
-}
-
-.terminal-dashboard .react-grid-item:has(.terminal-dashboard-brand-badge-slot) {
-  overflow: visible;
-  z-index: 2;
-}
-
-.terminal-dashboard .react-grid-item:has(.terminal-dashboard-brand-badge-slot) > .react-resizable-handle {
-  display: none;
 }
 
 .terminal-dashboard .react-grid-item > section,
@@ -439,44 +434,6 @@ html[data-theme='light'] body {
   height: 14px;
 }
 
-.terminal-dashboard-stats {
-  position: relative;
-}
-
-.terminal-dashboard-stats__drag {
-  position: absolute;
-  top: 50%;
-  left: 8px;
-  z-index: 2;
-  display: flex;
-  color: var(--widget-icon-dim);
-  transform: translateY(-50%);
-}
-
-.terminal-dashboard-stats > *:last-child {
-  padding-left: 28px;
-}
-
-.terminal-dashboard-brand-badge__drag {
-  position: absolute;
-  top: 50%;
-  left: -22px;
-  z-index: 3;
-  display: flex;
-  color: var(--widget-icon-dim);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-50%);
-  transition:
-    opacity 150ms ease-in-out,
-    color 150ms ease-in-out;
-}
-
-.terminal-dashboard .react-grid-item.react-draggable-dragging .terminal-dashboard-brand-badge__drag {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .terminal-dashboard-chart {
   position: relative;
   display: flex;
@@ -536,24 +493,15 @@ html[data-theme='light'] body {
 }
 
 @media (hover: hover) {
-  .terminal-dashboard-stats__drag:hover,
-  .terminal-dashboard-brand-badge:hover .terminal-dashboard-brand-badge__drag,
-  .terminal-dashboard-brand-badge__drag:hover,
   .terminal-dashboard-chart__drag:hover {
     color: var(--widget-icon-muted);
-  }
-
-  .terminal-dashboard-brand-badge:hover .terminal-dashboard-brand-badge__drag {
-    opacity: 1;
-    pointer-events: auto;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .terminal-dashboard .react-grid-layout,
   .terminal-dashboard .react-grid-item,
-  .terminal-dashboard .react-grid-item > .react-resizable-handle,
-  .terminal-dashboard-brand-badge__drag {
+  .terminal-dashboard .react-grid-item > .react-resizable-handle {
     transition: none;
   }
 }

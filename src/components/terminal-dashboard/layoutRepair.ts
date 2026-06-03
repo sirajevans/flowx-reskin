@@ -30,24 +30,6 @@ function normalizeItemConstraints(item: LayoutItem): LayoutItem {
   return { ...item, w, h, minW, maxW, minH, maxH };
 }
 
-/** Keep stats to the right of the brand badge when they share a row. */
-function separateHeaderRow(layout: LayoutItem[]): LayoutItem[] {
-  const badge = layout.find((item) => item.i === 'brand-badge');
-  const stats = layout.find((item) => item.i === 'stats');
-  if (!badge || !stats) return layout;
-
-  const minStatsX = badge.x + badge.w;
-  if (stats.x >= minStatsX) return layout;
-
-  return layout.map((item) => {
-    if (item.i !== 'stats') return item;
-    const x = minStatsX;
-    const maxW = item.maxW ?? Infinity;
-    const w = Number.isFinite(maxW) ? Math.min(item.w, maxW) : item.w;
-    return normalizeItemConstraints({ ...item, x, w: Math.max(1, w) });
-  });
-}
-
 function repairCollisions(layout: LayoutItem[], defaults: LayoutItem[]): LayoutItem[] {
   const defaultById = new Map(defaults.map((item) => [item.i, item]));
   let repaired = layout.map((item) => {
@@ -55,8 +37,6 @@ function repairCollisions(layout: LayoutItem[], defaults: LayoutItem[]): LayoutI
     const merged = fallback ? { ...fallback, ...item } : item;
     return normalizeItemConstraints(merged);
   });
-
-  repaired = separateHeaderRow(repaired);
 
   for (let pass = 0; pass < 4; pass += 1) {
     let fixedAny = false;
@@ -78,7 +58,6 @@ function repairCollisions(layout: LayoutItem[], defaults: LayoutItem[]): LayoutI
         }
       }
     }
-    repaired = separateHeaderRow(repaired);
     if (!fixedAny) break;
   }
 
