@@ -52,6 +52,9 @@ const TABS: { id: OrderTab; label: string }[] = [
 
 const TAB_IDS = TABS.map((tab) => tab.id);
 
+const BUY_SIDE_LABELS = ['Buy', 'Long'] as const;
+const SELL_SIDE_LABELS = ['Sell', 'Short'] as const;
+
 function formatPlaceOrderLabel(side: OrderSide, tab: OrderTab, price: string) {
   const orderType = tab === 'limit' ? 'limit' : 'order';
   return `Place ${side} ${orderType} @ ${price}`;
@@ -250,7 +253,7 @@ export function OrderPanel({
           aria-label="Buy"
           onClick={() => handleSideChange('buy')}
         >
-          <AlternatingTextLabel labels={['Buy', 'Long']} className={orderPanelSideBtnLabelClass} />
+          <AlternatingTextLabel labels={BUY_SIDE_LABELS} className={orderPanelSideBtnLabelClass} />
         </button>
         <button
           type="button"
@@ -261,7 +264,7 @@ export function OrderPanel({
           aria-label="Sell"
           onClick={() => handleSideChange('sell')}
         >
-          <AlternatingTextLabel labels={['Sell', 'Short']} className={orderPanelSideBtnLabelClass} />
+          <AlternatingTextLabel labels={SELL_SIDE_LABELS} className={orderPanelSideBtnLabelClass} />
         </button>
       </div>
 

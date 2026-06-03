@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '../../lib/utils';
 
-const DEFAULT_INITIAL_DELAY_MS = 2500;
-const DEFAULT_HOLD_MS = 2500;
+const DEFAULT_INITIAL_DELAY_MS = 3000;
+const DEFAULT_HOLD_MS = 3000;
 const DEFAULT_TRANSITION_MS = 220;
 
 function prefersReducedMotion(): boolean {
@@ -34,6 +34,8 @@ export function AlternatingTextLabel({
   } | null>(null);
   const indexRef = useRef(0);
   const labelsRef = useRef(labels);
+  const labelA = labels[0];
+  const labelB = labels[1];
 
   labelsRef.current = labels;
 
@@ -93,7 +95,7 @@ export function AlternatingTextLabel({
       cancelled = true;
       clearTimers();
     };
-  }, [labels, initialDelayMs, holdMs, transitionMs]);
+  }, [labelA, labelB, initialDelayMs, holdMs, transitionMs]);
 
   const labelLayerClass =
     'absolute inset-0 flex items-center justify-center motion-reduce:animate-none';
