@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { MoneyFlowBearishIcon, MoneyFlowBullishIcon } from '../icons';
+import { MoneyFlowBearishIcon, MoneyFlowBullishIcon, MoneyFlowNeutralIcon } from '../icons';
 import {
   CardModule,
   cardModuleBodyGap18Class,
@@ -29,6 +29,10 @@ function SentimentIcon({ sentiment }: { sentiment: MoneyFlowSentiment }) {
 
   if (sentiment === 'bearish') {
     return <MoneyFlowBearishIcon />;
+  }
+
+  if (sentiment === 'neutral') {
+    return <MoneyFlowNeutralIcon />;
   }
 
   return null;

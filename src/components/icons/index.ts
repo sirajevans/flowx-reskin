@@ -4,7 +4,11 @@ export {
   ResizeHandleLeftIcon,
   ResizeHandleRightIcon,
 } from './ModuleIcons';
-export { MoneyFlowBearishIcon, MoneyFlowBullishIcon } from './MoneyFlowIcons';
+export {
+  MoneyFlowBearishIcon,
+  MoneyFlowBullishIcon,
+  MoneyFlowNeutralIcon,
+} from './MoneyFlowIcons';
 export { ExchangeLiquidationIcon } from './ExchangeLiquidationIcons';
 export {
   SwapCurrencyIcon,
