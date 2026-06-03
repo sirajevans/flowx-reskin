@@ -43,8 +43,6 @@ import {
   positionsPanelGridClass,
   positionsPanelGridHeaderClass,
   positionsPanelMarketValueClass,
-  positionsPanelMarketValueFavorableClass,
-  positionsPanelMarketValueUnfavorableClass,
   positionsPanelRootClass,
   positionsPanelRowActionsClass,
   positionsPanelRowClass,
@@ -55,7 +53,7 @@ import {
   positionsPanelTabPanelClass,
   positionsPanelTabViewportClass,
 } from './positionsPanelClasses';
-import type { HistoryRow, PositionRow, PositionSide, PositionsPanelProps, PositionsTab } from './types';
+import type { HistoryRow, PositionRow, PositionsPanelProps, PositionsTab } from './types';
 import { usePositionsStream } from './usePositionsStream';
 
 const TABS: { id: PositionsTab; label: string }[] = [
@@ -161,17 +159,6 @@ function RowActions({
   );
 }
 
-function parsePrice(value: string): number {
-  const parsed = parseFloat(value.replace(/,/g, ''));
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function isMarketFavorable(side: PositionSide, entryPrice: string, marketPrice: string): boolean {
-  const entry = parsePrice(entryPrice);
-  const market = parsePrice(marketPrice);
-  return side === 'buy' ? market > entry : market < entry;
-}
-
 function PositionsSideBadge({ side }: { side: PositionRow['side'] }) {
   const isBuy = side === 'buy';
   return (
@@ -198,7 +185,6 @@ function PositionRowView({
   'aria-selected'?: boolean;
 }) {
   const isHistoryTab = tabId === 'history';
-  const favorable = isMarketFavorable(row.side, row.entryPrice, row.marketPrice);
 
   return (
     <div
@@ -230,12 +216,7 @@ function PositionRowView({
           <AnimatedCounterValue
             value={row.marketPrice}
             format={{ mode: 'plain' }}
-            className={cn(
-              positionsPanelMarketValueClass,
-              favorable
-                ? positionsPanelMarketValueFavorableClass
-                : positionsPanelMarketValueUnfavorableClass,
-            )}
+            className={positionsPanelMarketValueClass}
           />
         </span>
       </div>

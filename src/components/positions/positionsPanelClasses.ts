@@ -96,8 +96,6 @@ export const positionsPanelCellTextExchangeClass = 'text-right text-[var(--flowx
 export const positionsPanelEntryMarketClass = 'inline-flex items-center gap-[0.25em]';
 
 export const positionsPanelMarketValueClass = 'text-[length:inherit] leading-[inherit]';
-export const positionsPanelMarketValueFavorableClass = 'text-[#06b470]';
-export const positionsPanelMarketValueUnfavorableClass = 'text-[var(--color-sell)]';
 
 export const positionsPanelSideBadgeClass = cn(
   'inline-flex shrink-0 items-center justify-center rounded-md px-[5px] py-0.5',
