@@ -37,6 +37,8 @@ import {
   orderPanelSubmitClass,
   orderPanelSubmitNoteClass,
   orderPanelSubmitNoteIconClass,
+  orderPanelSubmitNoteInnerClass,
+  orderPanelSubmitNoteSlotClass,
   orderPanelSubmitNoteTextClass,
   orderPanelSubmitWrapClass,
   orderPanelSwapBtnClass,
@@ -336,15 +338,19 @@ export function OrderPanel({
         <button type="button" className={orderPanelSubmitClass} onClick={onPlaceOrder}>
           {formatPlaceOrderLabel(side, activeTab, price)}
         </button>
-        <div
-          className={orderPanelSubmitNoteClass}
-          aria-hidden={!showRiskWarning}
-          aria-live="polite"
-        >
-          <OrderWarningIcon className={orderPanelSubmitNoteIconClass} />
-          <span className={orderPanelSubmitNoteTextClass}>
-            You have no stop loss, trade with caution.
-          </span>
+        <div className={orderPanelSubmitNoteSlotClass}>
+          <div className={orderPanelSubmitNoteInnerClass}>
+            <div
+              className={orderPanelSubmitNoteClass}
+              aria-hidden={!showRiskWarning}
+              aria-live="polite"
+            >
+              <OrderWarningIcon className={orderPanelSubmitNoteIconClass} />
+              <span className={orderPanelSubmitNoteTextClass}>
+                You have no stop loss, trade with caution.
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </CardModule>

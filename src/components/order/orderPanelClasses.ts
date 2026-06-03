@@ -165,10 +165,17 @@ export const orderPanelStatValueClass = cn(
 export const orderPanelStatValueRightClass = 'text-right';
 
 export const orderPanelSubmitWrapClass = cn(
-  'group/submit box-border flex h-8 min-w-0 flex-col items-center gap-[7px] self-stretch overflow-clip rounded-lg',
-  'bg-[#1d1d1d80] p-0 transition-[height,padding,border-radius] duration-[220ms] ease-in-out motion-reduce:transition-none',
-  'data-[warning-visible=true]:h-16 data-[warning-visible=true]:rounded-[10px] data-[warning-visible=true]:p-[3px]',
+  'group/submit box-border flex min-w-0 flex-col items-center gap-0 self-stretch overflow-clip rounded-lg',
+  'bg-[#1d1d1d80] p-0 transition-[padding,gap,border-radius] duration-[220ms] ease-out motion-reduce:transition-none',
+  'data-[warning-visible=true]:gap-[7px] data-[warning-visible=true]:rounded-[10px] data-[warning-visible=true]:p-[3px]',
 );
+
+export const orderPanelSubmitNoteSlotClass = cn(
+  'mb-[5px] grid w-full min-w-0 grid-rows-[0fr] self-stretch transition-[grid-template-rows] duration-[220ms] ease-out motion-reduce:transition-none',
+  'group-data-[warning-visible=true]/submit:grid-rows-[1fr]',
+);
+
+export const orderPanelSubmitNoteInnerClass = 'min-h-0 overflow-hidden';
 
 export const orderPanelSubmitClass = cn(
   'box-border flex h-8 min-w-0 shrink-0 cursor-pointer items-center justify-center self-stretch overflow-clip rounded-lg',
@@ -180,7 +187,7 @@ export const orderPanelSubmitClass = cn(
 
 export const orderPanelSubmitNoteClass = cn(
   'pointer-events-none box-border flex min-w-0 items-center justify-center gap-1 opacity-0',
-  '-translate-y-[3px] transition-[opacity,transform] duration-[180ms,220ms] ease-in-out motion-reduce:transition-none',
+  '-translate-y-[3px] transition-[opacity,transform] duration-[220ms] ease-out motion-reduce:transition-none',
   'group-data-[warning-visible=true]/submit:translate-y-0 group-data-[warning-visible=true]/submit:opacity-100',
 );
 
