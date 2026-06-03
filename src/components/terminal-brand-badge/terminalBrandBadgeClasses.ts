@@ -10,7 +10,7 @@ export const terminalBrandBadgeImageClass =
   'absolute bottom-[-0.363px] left-[-6.99px] h-[58.03px] w-[174.09px] bg-cover bg-center bg-no-repeat';
 
 export const terminalBrandBadgeBorderClass =
-  'absolute inset-0 rounded-[10px] shadow-[inset_0_0_0_1px_#FFFFFF33]';
+  'absolute inset-0 rounded-[10px] shadow-[inset_0_0_0_1px_#FFFFFF2E]';
 
 export const terminalBrandBadgeModuleClass = cn(
   'terminal-dashboard-brand-badge relative h-[51px] w-full max-w-[157px] shrink-0 overflow-visible',
