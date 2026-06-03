@@ -2,7 +2,12 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { cn } from '../../lib/utils';
 import {
   orderPanelAmountSliderInputClass,
-  orderPanelAmountSliderRailClass,
+  orderPanelAmountSliderRailBaseClass,
+  orderPanelAmountSliderRailFillClass,
+  orderPanelAmountSliderRailFillClipClass,
+  orderPanelAmountSliderRailFillGradient,
+  orderPanelAmountSliderRailGradient,
+  orderPanelAmountSliderRailWrapClass,
   orderPanelAmountSliderRootClass,
   orderPanelAmountSliderThumbClass,
   orderPanelAmountSliderThumbInsetPx,
@@ -28,6 +33,18 @@ function thumbCenterLeftStyle(percent: number): string {
   const inset = orderPanelAmountSliderThumbInsetPx;
   const travel = `(100% - ${inset * 2}px)`;
   return `calc(${inset}px + ${travel} * ${percent / 100})`;
+}
+
+function railFillClipStyle(percent: number): { width: string; display?: string } {
+  if (percent <= 0) return { width: '0', display: 'none' };
+  if (percent >= 100) return { width: '100%' };
+  return { width: thumbCenterLeftStyle(percent) };
+}
+
+function railFillInnerStyle(percent: number): { width: string } {
+  if (percent <= 0) return { width: '0' };
+  if (percent >= 100) return { width: '100%' };
+  return { width: `calc(100% / ${percent / 100})` };
 }
 
 export function OrderAmountSlider({
@@ -128,9 +145,27 @@ export function OrderAmountSlider({
       onPointerCancel={handlePointerEnd}
       onLostPointerCapture={endDrag}
     >
-      <div className={orderPanelAmountSliderRailClass} aria-hidden />
+      <div className={orderPanelAmountSliderRailWrapClass} aria-hidden>
+        <div
+          className={orderPanelAmountSliderRailBaseClass}
+          style={{ backgroundImage: orderPanelAmountSliderRailGradient }}
+        />
+        <div
+          className={orderPanelAmountSliderRailFillClipClass}
+          style={railFillClipStyle(percent)}
+        >
+          <div
+            className={orderPanelAmountSliderRailFillClass}
+            style={{
+              backgroundImage: orderPanelAmountSliderRailFillGradient,
+              ...railFillInnerStyle(percent),
+            }}
+          />
+        </div>
+      </div>
       <div
         className={orderPanelAmountSliderThumbClass}
+        data-active={percent > 0 || dragging || undefined}
         aria-hidden
         style={{ left: thumbCenterLeftStyle(percent), transform: 'translateX(-50%)' }}
       />

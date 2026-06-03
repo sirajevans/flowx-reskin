@@ -32,11 +32,27 @@ export const orderPanelAmountSliderThumbWidthPx = 17;
 export const orderPanelAmountSliderRootClass =
   'relative flex h-2.5 w-full shrink-0 touch-none items-center justify-center overflow-visible';
 
-export const orderPanelAmountSliderRailClass =
-  'pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[linear-gradient(in_oklab_90deg,oklab(24.8%_0_0/0%)_0%,oklab(24.8%_0_0)_5.09%,oklab(24.8%_0_0)_94.83%,oklab(24.8%_0_0/0%)_100.01%)]';
+export const orderPanelAmountSliderRailGradient =
+  'linear-gradient(in oklab 90deg, oklab(24.8% 0 0 / 0%) 0%, oklab(24.8% 0 0) 5.09%, oklab(24.8% 0 0) 94.83%, oklab(24.8% 0 0 / 0%) 100.01%)';
 
-export const orderPanelAmountSliderThumbClass =
-  'pointer-events-none absolute top-0 h-2.5 w-[17px] shrink-0 overflow-clip rounded-sm border border-solid border-[#212121] bg-[#161616]';
+export const orderPanelAmountSliderRailFillGradient =
+  'linear-gradient(in oklab 90deg, oklab(100% 0 0 / 0%) 0%, white 5.09%, white 94.83%, oklab(100% 0 0 / 0%) 100.01%)';
+
+export const orderPanelAmountSliderRailWrapClass =
+  'pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2';
+
+export const orderPanelAmountSliderRailBaseClass = 'absolute inset-0';
+
+export const orderPanelAmountSliderRailFillClipClass =
+  'absolute inset-y-0 left-0 overflow-hidden';
+
+export const orderPanelAmountSliderRailFillClass = 'absolute inset-y-0 left-0 h-full';
+
+export const orderPanelAmountSliderThumbClass = cn(
+  'pointer-events-none absolute top-0 h-2.5 w-[17px] shrink-0 overflow-clip rounded-sm border border-solid',
+  'border-[#212121] bg-[#161616] transition-colors duration-150 ease-out motion-reduce:transition-none',
+  'data-[active]:border-white',
+);
 
 export const orderPanelAmountSliderInputClass = cn(
   'pointer-events-none absolute top-0 bottom-0 left-[9px] right-[9px] z-[1] m-0 h-full w-auto appearance-none bg-transparent p-0 opacity-0',
