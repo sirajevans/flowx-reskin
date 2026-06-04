@@ -1,6 +1,8 @@
 import { Fragment, useId } from 'react';
 import profilePlaceholder from '../../assets/profile-placeholder.png';
+import { getCoinIconUrlFromSymbol } from '../../lib/coinIcons';
 import { cn } from '../../lib/utils';
+import { useCommandMenu } from '../terminal-command-menu';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,9 +44,6 @@ import type {
   TerminalStatsModuleProps,
   TerminalStatsUserMenuItem,
 } from './types';
-
-const DEFAULT_SYMBOL_ICON_URL =
-  'https://app.paper.design/file-assets/01KSQ8AZ0MET5200XY523XT74Q/0REQFB7Q29MBVQ0V8P1FA42PGF.png';
 
 const DEFAULT_STATS: ReadonlyArray<TerminalNavStat> = [
   { id: 'last_price', label: 'LAST PRICE', value: '63,237.9', valueTone: 'positive', align: 'start' },
@@ -141,7 +140,7 @@ function NavStatsWithDividers({
 
 export function TerminalStatsModule({
   className = '',
-  symbolIconUrl = DEFAULT_SYMBOL_ICON_URL,
+  symbolIconUrl,
   marketType = 'PERP',
   symbol = 'BTCUSDT',
   stats = DEFAULT_STATS,
@@ -149,9 +148,12 @@ export function TerminalStatsModule({
   userAvatarSrc = profilePlaceholder,
   userMenuItems = DEFAULT_USER_MENU_ITEMS,
   onUserMenuSelect,
+  onSymbolChange,
 }: TerminalStatsModuleProps) {
   const dividerBaseId = useId();
+  const { openAssetPicker } = useCommandMenu();
   const { market: marketStats, performance: performanceStats } = splitNavStats(stats);
+  const resolvedSymbolIconUrl = symbolIconUrl ?? getCoinIconUrlFromSymbol(symbol);
 
   const handleUserMenuSelect = (item: TerminalStatsUserMenuItem) => {
     item.onSelect?.();
@@ -171,17 +173,22 @@ export function TerminalStatsModule({
         role="list"
         aria-label="Symbol and market stats"
       >
-        <div className={terminalStatsSymbolGroupClass}>
+        <button
+          type="button"
+          className={terminalStatsSymbolGroupClass}
+          aria-label={`${marketType} ${symbol}. Change market`}
+          onClick={() => openAssetPicker(onSymbolChange)}
+        >
           <div
             className={terminalStatsSymbolIconClass}
-            style={{ backgroundImage: `url(${symbolIconUrl})` }}
+            style={{ backgroundImage: `url(${resolvedSymbolIconUrl})` }}
             aria-hidden
           />
           <div className={terminalStatsSymbolMetaClass}>
             <div className={terminalStatsSymbolTypeClass}>{marketType}</div>
             <div className={terminalStatsSymbolNameClass}>{symbol}</div>
           </div>
-        </div>
+        </button>
         {marketStats.length > 0 ? (
           <TerminalStatsDivider gradientId={`${dividerBaseId}-market-symbol`} />
         ) : null}

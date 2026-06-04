@@ -14,7 +14,7 @@ export const terminalStatsSymbolSectionClass =
   'flex min-w-0 items-center justify-start gap-6';
 
 export const terminalStatsSymbolGroupClass = cn(
-  'flex min-w-0 shrink-0 cursor-pointer items-center gap-3.5',
+  'flex min-w-0 shrink-0 cursor-pointer items-center gap-3.5 border-0 bg-transparent p-0 font-inherit text-left outline-none',
   'transition-opacity duration-150 ease-in-out motion-reduce:transition-none',
   '[@media(hover:hover)]:hover:opacity-50',
 );

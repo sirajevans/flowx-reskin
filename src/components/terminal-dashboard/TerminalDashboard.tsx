@@ -17,6 +17,7 @@ import { OrderPanel } from '../order';
 import { PositionsPanel } from '../positions';
 import { TerminalBrandBadgeModule } from '../terminal-brand-badge';
 import { terminalBrandBadgeSlotClass } from '../terminal-brand-badge/terminalBrandBadgeClasses';
+import { getCoinIconUrlFromSymbol } from '../../lib/coinIcons';
 import { TerminalStatsModule } from '../terminal-stats';
 import { cardModuleGradientBorder } from '../ui/cardModuleClasses';
 import { cn } from '../../lib/utils';
@@ -27,8 +28,6 @@ const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v16';
 const FIXED_HEADER_LAYOUT_ITEMS = new Set(['brand-badge', 'stats']);
 const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
 const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
-const CHART_SYMBOL_ICON_URL =
-  'https://app.paper.design/file-assets/01KSQ8AZ0MET5200XY523XT74Q/0REQFB7Q29MBVQ0V8P1FA42PGF.png';
 const CHART_OHLCV_ITEMS = [
   ['O', '78703.3'],
   ['H', '78703.3'],
@@ -271,7 +270,7 @@ function persistLayouts(layouts: ResponsiveLayouts) {
   window.localStorage.setItem(DASHBOARD_LAYOUT_STORAGE_KEY, JSON.stringify(layouts));
 }
 
-function ChartPlaceholder() {
+function ChartPlaceholder({ symbol }: { symbol: string }) {
   return (
     <section
       className="module-drag-handle terminal-dashboard-chart gradient-border"
@@ -288,11 +287,11 @@ function ChartPlaceholder() {
         <div className="flex min-w-0 items-center gap-1.5">
           <div
             className="h-[18.25px] w-[18.25px] shrink-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${CHART_SYMBOL_ICON_URL})` }}
+            style={{ backgroundImage: `url(${getCoinIconUrlFromSymbol(symbol)})` }}
             aria-hidden
           />
           <div className="flex min-w-0 items-center gap-0.5">
-            <div className="shrink-0 text-[13px] leading-4 text-white">BTCUSDT</div>
+            <div className="shrink-0 text-[13px] leading-4 text-white">{symbol}</div>
             <div className="truncate text-[13px] leading-4 text-white">Blofin · 1h</div>
           </div>
         </div>
@@ -324,6 +323,7 @@ function renderResizeHandle(axis: ResizeHandleAxis, ref: Ref<HTMLElement>) {
 }
 
 export function TerminalDashboard() {
+  const [symbol, setSymbol] = useState('BTCUSDT');
   const [layouts, setLayouts] = useState<ResponsiveLayouts>(loadStoredLayouts);
   const [gridMetrics, setGridMetrics] = useState<{ width: number; breakpoint: DashboardBreakpoint }>({
     width: 0,
@@ -411,7 +411,11 @@ export function TerminalDashboard() {
           <TerminalBrandBadgeModule />
         </div>
         <div className="terminal-dashboard-stats max-h-[52px] min-h-[52px] min-w-0 flex-1">
-          <TerminalStatsModule className="h-full w-full" />
+          <TerminalStatsModule
+            className="h-full w-full"
+            symbol={symbol}
+            onSymbolChange={setSymbol}
+          />
         </div>
       </div>
       <ResponsiveGridLayout
@@ -447,7 +451,7 @@ export function TerminalDashboard() {
           <MoneyFlowPanel onClose={noopClose} />
         </div>
         <div key="chart">
-          <ChartPlaceholder />
+          <ChartPlaceholder symbol={symbol} />
         </div>
         <div key="positions">
           <PositionsPanel onClose={noopClose} />

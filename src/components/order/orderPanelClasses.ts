@@ -94,7 +94,7 @@ export const orderPanelAmountPrefixClass =
 
 export const orderPanelFieldClass = cn(
   'box-border h-[30px] min-w-0 flex-1 overflow-clip rounded-none border-0 bg-transparent p-0 font-inherit',
-  'text-[11px] leading-[14px] text-[var(--flowx-text)] outline-none',
+  'text-[12px] leading-[14px] text-[var(--flowx-text)] outline-none',
   'placeholder:text-[var(--widget-tab-inactive)] focus-visible:outline-none disabled:cursor-not-allowed',
 );
 

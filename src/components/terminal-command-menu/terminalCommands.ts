@@ -1,3 +1,6 @@
+export type { TerminalAssetSuggestion } from '../../generated/coinCatalog';
+export { TERMINAL_ASSET_SUGGESTIONS } from '../../generated/coinCatalog';
+
 export type TerminalCommandItem = {
   value: string;
   label: string;
@@ -71,6 +74,16 @@ export const TERMINAL_COMMAND_GROUPS: TerminalCommandGroup[] = [
 ];
 
 const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v16';
+
+export function isTerminalAssetCommand(value: string) {
+  return value.startsWith('asset-');
+}
+
+export function resolveTerminalAssetSymbol(value: string) {
+  if (!isTerminalAssetCommand(value)) return value;
+  const coinId = value.slice('asset-'.length);
+  return `${coinId.toUpperCase()}USDT`;
+}
 
 export function runTerminalCommand(value: string) {
   if (value === 'action-reset-layout') {

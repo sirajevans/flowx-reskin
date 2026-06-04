@@ -3,7 +3,6 @@ import {
   useCallback,
   useLayoutEffect,
   useRef,
-  useState,
   type FocusEvent,
   type SyntheticEvent,
 } from 'react';
@@ -21,15 +20,17 @@ import {
   commandGroupClass,
   commandGroupHeadingCenterClass,
   commandGroupHeadingStartClass,
+  commandItemIconClass,
   commandItemLabelClass,
   commandListClass,
   commandListShellClass,
   commandSectionSpacerClass,
 } from '../ui/commandClasses';
 import { cn } from '../../lib/utils';
-import { useCommandMenuTypeahead } from '../../hooks/useCommandMenuTypeahead';
+import { useCommandMenu } from './commandMenuContext';
+import { getCoinIconUrl } from '../../lib/coinIcons';
 import { CommandMenuIcon } from './CommandMenuIcons';
-import { runTerminalCommand, TERMINAL_COMMAND_GROUPS } from './terminalCommands';
+import { TERMINAL_ASSET_SUGGESTIONS, TERMINAL_COMMAND_GROUPS } from './terminalCommands';
 
 function placeCaretAtEnd(input: HTMLInputElement) {
   const end = input.value.length;
@@ -49,9 +50,17 @@ function collapseInputSelection(input: HTMLInputElement) {
 }
 
 export function TerminalCommandMenu() {
-  const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState('');
+  const {
+    open,
+    search,
+    setSearch,
+    variant,
+    isTypeaheadSession,
+    handleOpenChange,
+    handleCommandSelect,
+  } = useCommandMenu();
   const inputRef = useRef<HTMLInputElement>(null);
+  const showAssetSuggestions = variant === 'assets';
 
   const focusInputCaret = useCallback(() => {
     const input = inputRef.current;
@@ -59,21 +68,6 @@ export function TerminalCommandMenu() {
     placeCaretAtEnd(input);
     requestAnimationFrame(() => placeCaretAtEnd(input));
   }, []);
-
-  const { closeMenu, isTypeaheadSession } = useCommandMenuTypeahead({
-    open,
-    setOpen,
-    setSearch,
-    onTypeaheadSessionEnd: focusInputCaret,
-  });
-
-  const handleOpenChange = useCallback(
-    (nextOpen: boolean) => {
-      if (nextOpen) setOpen(true);
-      else closeMenu();
-    },
-    [closeMenu],
-  );
 
   useLayoutEffect(() => {
     if (!open || !isTypeaheadSession || !inputRef.current) return;
@@ -97,20 +91,24 @@ export function TerminalCommandMenu() {
     [isTypeaheadSession],
   );
 
-  const handleSelect = useCallback(
-    (value: string) => {
-      runTerminalCommand(value);
-      closeMenu();
-    },
-    [closeMenu],
-  );
+  useLayoutEffect(() => {
+    if (!open || isTypeaheadSession) return;
+    const input = inputRef.current;
+    if (!input) return;
+    focusInputCaret();
+    input.focus();
+  }, [open, isTypeaheadSession, showAssetSuggestions, focusInputCaret]);
 
   return (
     <CommandDialog open={open} onOpenChange={handleOpenChange}>
       <CommandInput
         ref={inputRef}
         readOnly={isTypeaheadSession}
-        placeholder="Type a command or search for a module…"
+        placeholder={
+          showAssetSuggestions
+            ? 'Search for a market…'
+            : 'Type a command or search for a module…'
+        }
         value={search}
         onValueChange={setSearch}
         onFocus={handleInputFocus}
@@ -118,11 +116,39 @@ export function TerminalCommandMenu() {
       />
       <CommandInputDivider />
       <div className={commandListShellClass}>
-        <CommandList label="Commands" className={commandListClass}>
+        <CommandList
+          label={showAssetSuggestions ? 'Markets and commands' : 'Commands'}
+          className={commandListClass}
+        >
           <CommandEmpty>No results found.</CommandEmpty>
+          {showAssetSuggestions ? (
+            <CommandGroup
+              heading="ASSETS"
+              className={cn(commandGroupClass, commandGroupHeadingStartClass)}
+            >
+              {TERMINAL_ASSET_SUGGESTIONS.map((asset) => (
+                <CommandItem
+                  key={asset.value}
+                  value={asset.value}
+                  keywords={asset.keywords}
+                  onSelect={() => handleCommandSelect(asset.value)}
+                >
+                  <img
+                    src={getCoinIconUrl(asset.coinId)}
+                    alt=""
+                    className={cn(commandItemIconClass, 'rounded-full object-cover')}
+                  />
+                  <span className={commandItemLabelClass}>{asset.label}</span>
+                  <CommandShortcut>Perpetual</CommandShortcut>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          ) : null}
           {TERMINAL_COMMAND_GROUPS.map((group, groupIndex) => (
             <Fragment key={group.heading}>
-              {groupIndex > 0 ? <div className={commandSectionSpacerClass} aria-hidden /> : null}
+              {groupIndex > 0 || showAssetSuggestions ? (
+                <div className={commandSectionSpacerClass} aria-hidden />
+              ) : null}
               <CommandGroup
                 heading={group.heading}
                 className={cn(
@@ -137,7 +163,7 @@ export function TerminalCommandMenu() {
                     key={item.value}
                     value={item.value}
                     keywords={item.keywords}
-                    onSelect={() => handleSelect(item.value)}
+                    onSelect={() => handleCommandSelect(item.value)}
                   >
                     <CommandMenuIcon icon={item.icon} />
                     <span className={commandItemLabelClass}>{item.label}</span>

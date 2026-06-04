@@ -25,6 +25,7 @@ export type TerminalStatsModuleProps = {
   userAvatarSrc?: string;
   userMenuItems?: ReadonlyArray<TerminalStatsUserMenuItem>;
   onUserMenuSelect?: (itemId: string) => void;
+  onSymbolChange?: (symbol: string) => void;
 };
 
 /** @deprecated Use TerminalNavStat */
