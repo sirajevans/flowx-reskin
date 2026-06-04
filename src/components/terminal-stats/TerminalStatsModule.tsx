@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useId } from 'react';
 import profilePlaceholder from '../../assets/profile-placeholder.png';
 import { cn } from '../../lib/utils';
 import {
@@ -10,42 +10,50 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { TerminalStatsDivider } from './TerminalStatsDivider';
 import {
   terminalStatsAvatarClass,
   terminalStatsAvatarShellClass,
+  terminalStatsMetricsClass,
   terminalStatsRightClass,
   terminalStatsRootClass,
+  terminalStatsStatAlignEndClass,
+  terminalStatsStatAlignStartClass,
   terminalStatsStatClass,
   terminalStatsStatLabelClass,
-  terminalStatsStatsClass,
+  terminalStatsStatLabelEndClass,
   terminalStatsStatValueClass,
   terminalStatsStatValueDefaultClass,
+  terminalStatsStatValueEndClass,
   terminalStatsStatValuePositiveClass,
-  terminalStatsTabClass,
-  terminalStatsTabsClass,
+  terminalStatsSymbolGroupClass,
+  terminalStatsSymbolIconClass,
+  terminalStatsSymbolMetaClass,
+  terminalStatsSymbolNameClass,
+  terminalStatsSymbolTypeClass,
   terminalStatsUserClass,
   terminalStatsUserTriggerClass,
 } from './terminalStatsClasses';
 import type {
-  TerminalStat,
+  TerminalNavStat,
   TerminalStatsModuleProps,
-  TerminalStatsTab,
   TerminalStatsUserMenuItem,
 } from './types';
 
-const DEFAULT_TABS: ReadonlyArray<{ id: TerminalStatsTab; label: string }> = [
-  { id: 'terminal', label: 'Terminal' },
-  { id: 'algo_trading', label: 'Algo trading' },
-];
+const DEFAULT_SYMBOL_ICON_URL =
+  'https://app.paper.design/file-assets/01KSQ8AZ0MET5200XY523XT74Q/0REQFB7Q29MBVQ0V8P1FA42PGF.png';
 
-const DEFAULT_STATS: ReadonlyArray<TerminalStat> = [
-  { id: 'return', label: 'RETURN', value: '+82.34%', valueTone: 'positive' },
-  { id: 'win_rate', label: 'WINS', value: '67.81%' },
-  { id: 'max_dd', label: 'MAX DD', value: '5.27%' },
-  { id: 'avg_fee', label: 'AVG FEE', value: '$43.10' },
-  { id: 'equity', label: 'EQUITY', value: '$13,239.21' },
-  { id: 'balance', label: 'BALANCE', value: '$3,000.00' },
-  { id: 'pnl', label: 'PNL', value: '$10,239.21', valueTone: 'positive' },
+const DEFAULT_STATS: ReadonlyArray<TerminalNavStat> = [
+  { id: 'last_price', label: 'LAST PRICE', value: '63,237.9', valueTone: 'positive', align: 'end' },
+  { id: 'change_24h', label: '24H CHANGE', value: '67.81 %', valueTone: 'positive', align: 'start' },
+  { id: 'high_24h', label: '24H HIGH', value: '65,344.0', align: 'start' },
+  { id: 'low_24h', label: '24H LOW', value: '61,350.1', align: 'start' },
+  { id: 'return', label: 'RETURN', value: '+82.34 %', align: 'end' },
+  { id: 'win_rate', label: 'WIN RATE', value: '67.81 %', align: 'end' },
+  { id: 'max_dd', label: 'MAX DD', value: '5.27 %', align: 'end' },
+  { id: 'equity', label: 'EQUITY', value: '$ 13,239.21', align: 'end' },
+  { id: 'balance', label: 'BALANCE', value: '$ 3,000.00', align: 'end' },
+  { id: 'pnl', label: 'PNL', value: '$ 10,239.21', valueTone: 'positive', align: 'end' },
 ];
 
 const DEFAULT_USER_MENU_ITEMS: ReadonlyArray<TerminalStatsUserMenuItem> = [
@@ -55,25 +63,46 @@ const DEFAULT_USER_MENU_ITEMS: ReadonlyArray<TerminalStatsUserMenuItem> = [
   { id: 'logout', label: 'Log out', shortcut: '⇧⌘Q', variant: 'destructive' },
 ];
 
+function NavStatColumn({ stat }: { stat: TerminalNavStat }) {
+  const alignEnd = stat.align !== 'start';
+
+  return (
+    <div
+      role="listitem"
+      className={cn(
+        terminalStatsStatClass,
+        alignEnd ? terminalStatsStatAlignEndClass : terminalStatsStatAlignStartClass,
+      )}
+    >
+      <span className={alignEnd ? terminalStatsStatLabelEndClass : terminalStatsStatLabelClass}>
+        {stat.label}
+      </span>
+      <span
+        className={cn(
+          alignEnd ? terminalStatsStatValueEndClass : terminalStatsStatValueClass,
+          stat.valueTone === 'positive'
+            ? terminalStatsStatValuePositiveClass
+            : terminalStatsStatValueDefaultClass,
+        )}
+      >
+        {stat.value}
+      </span>
+    </div>
+  );
+}
+
 export function TerminalStatsModule({
   className = '',
-  tabs = DEFAULT_TABS,
-  activeTab: activeTabProp,
-  defaultTab = 'terminal',
-  onTabChange,
+  symbolIconUrl = DEFAULT_SYMBOL_ICON_URL,
+  marketType = 'PERP',
+  symbol = 'BTCUSDT',
   stats = DEFAULT_STATS,
   userName = 'Chento',
   userAvatarSrc = profilePlaceholder,
   userMenuItems = DEFAULT_USER_MENU_ITEMS,
   onUserMenuSelect,
 }: TerminalStatsModuleProps) {
-  const [internalTab, setInternalTab] = useState<TerminalStatsTab>(defaultTab);
-  const activeTab = activeTabProp ?? internalTab;
-
-  const handleTabChange = (tab: TerminalStatsTab) => {
-    if (activeTabProp === undefined) setInternalTab(tab);
-    onTabChange?.(tab);
-  };
+  const dividerBaseId = useId();
 
   const handleUserMenuSelect = (item: TerminalStatsUserMenuItem) => {
     item.onSelect?.();
@@ -85,41 +114,30 @@ export function TerminalStatsModule({
 
   return (
     <section
-      aria-label="Terminal stats module"
+      aria-label="Terminal navigation bar"
       className={cn(terminalStatsRootClass, className)}
     >
-      <div className={terminalStatsTabsClass} role="tablist" aria-label="Trading channels">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            role="tab"
-            aria-selected={activeTab === tab.id}
-            className={terminalStatsTabClass}
-            data-selected={activeTab === tab.id ? 'true' : undefined}
-            onClick={() => handleTabChange(tab.id)}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className={terminalStatsSymbolGroupClass}>
+        <div
+          className={terminalStatsSymbolIconClass}
+          style={{ backgroundImage: `url(${symbolIconUrl})` }}
+          aria-hidden
+        />
+        <div className={terminalStatsSymbolMetaClass}>
+          <div className={terminalStatsSymbolTypeClass}>{marketType}</div>
+          <div className={terminalStatsSymbolNameClass}>{symbol}</div>
+        </div>
       </div>
 
       <div className={terminalStatsRightClass}>
-        <div className={terminalStatsStatsClass} role="list" aria-label="Terminal performance stats">
-          {stats.map((stat) => (
-            <div key={stat.id} className={terminalStatsStatClass} role="listitem">
-              <span className={terminalStatsStatLabelClass}>{stat.label}</span>
-              <span
-                className={cn(
-                  terminalStatsStatValueClass,
-                  stat.valueTone === 'positive'
-                    ? terminalStatsStatValuePositiveClass
-                    : terminalStatsStatValueDefaultClass,
-                )}
-              >
-                {stat.value}
-              </span>
-            </div>
+        <div className={terminalStatsMetricsClass} role="list" aria-label="Market and account stats">
+          {stats.map((stat, index) => (
+            <Fragment key={stat.id}>
+              {index > 0 ? (
+                <TerminalStatsDivider gradientId={`${dividerBaseId}-${stat.id}`} />
+              ) : null}
+              <NavStatColumn stat={stat} />
+            </Fragment>
           ))}
         </div>
 
@@ -132,11 +150,7 @@ export function TerminalStatsModule({
                 aria-label={`${userName} account menu`}
               >
                 <span className={terminalStatsAvatarShellClass}>
-                  <img
-                    src={userAvatarSrc}
-                    alt=""
-                    className={terminalStatsAvatarClass}
-                  />
+                  <img src={userAvatarSrc} alt="" className={terminalStatsAvatarClass} />
                 </span>
               </button>
             </DropdownMenuTrigger>

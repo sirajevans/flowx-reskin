@@ -1,2 +1,7 @@
 export { TerminalStatsModule } from './TerminalStatsModule';
-export type { TerminalStat, TerminalStatsModuleProps, TerminalStatsTab, TerminalStatsUserMenuItem } from './types';
+export type {
+  TerminalNavStat,
+  TerminalStat,
+  TerminalStatsModuleProps,
+  TerminalStatsUserMenuItem,
+} from './types';

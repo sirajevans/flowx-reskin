@@ -1,10 +1,9 @@
-export type TerminalStatsTab = 'terminal' | 'algo_trading';
-
-export type TerminalStat = {
+export type TerminalNavStat = {
   id: string;
   label: string;
   value: string;
   valueTone?: 'default' | 'positive';
+  align?: 'start' | 'end';
 };
 
 export type TerminalStatsUserMenuItem = {
@@ -18,13 +17,15 @@ export type TerminalStatsUserMenuItem = {
 
 export type TerminalStatsModuleProps = {
   className?: string;
-  tabs?: ReadonlyArray<{ id: TerminalStatsTab; label: string }>;
-  activeTab?: TerminalStatsTab;
-  defaultTab?: TerminalStatsTab;
-  onTabChange?: (tab: TerminalStatsTab) => void;
-  stats?: ReadonlyArray<TerminalStat>;
+  symbolIconUrl?: string;
+  marketType?: string;
+  symbol?: string;
+  stats?: ReadonlyArray<TerminalNavStat>;
   userName?: string;
   userAvatarSrc?: string;
   userMenuItems?: ReadonlyArray<TerminalStatsUserMenuItem>;
   onUserMenuSelect?: (itemId: string) => void;
 };
+
+/** @deprecated Use TerminalNavStat */
+export type TerminalStat = TerminalNavStat;
