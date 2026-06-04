@@ -21,7 +21,7 @@ import { TerminalStatsModule } from '../terminal-stats';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v14';
+const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v15';
 const FIXED_HEADER_LAYOUT_ITEMS = new Set(['brand-badge', 'stats']);
 const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
 const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
@@ -157,7 +157,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'chart', x: 26, y: 0, w: 60, h: 59, minW: 16, minH: 24 },
     { i: 'positions', x: 26, y: 59, w: 60, h: 19, minW: 60, minH: 15 },
     { i: 'order', x: 86, y: 0, w: 26, h: 36, minW: 25, minH: 36 },
-    { i: 'order-feed', x: 86, y: 36, w: 26, h: 41, minW: 25, minH: 20 },
+    { i: 'order-feed', x: 86, y: 36, w: 26, h: 42, minW: 25, minH: 20 },
   ],
   lg: [
     { i: 'liquidations', x: 0, y: 0, w: 12, h: 12, minW: 12, minH: 12 },
