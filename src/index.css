@@ -415,7 +415,7 @@ html[data-theme='light'] body {
 
 .terminal-dashboard .react-grid-item.react-grid-placeholder {
   border-radius: 10px;
-  background-color: rgb(255, 255, 255, 0.10);
+  background-color: rgb(255, 255, 255, 0.05);
   opacity: 1;
   border: none;
   outline: none;
