@@ -10,7 +10,7 @@ export const cardModuleWidth365Class = '[--card-module-width:365px]';
 export const cardModuleWidth960Class = '[--card-module-width:960px]';
 
 export const cardModuleRootClass = cn(
-  'box-border flex w-[var(--card-module-width,auto)] select-none flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
+  'group box-border flex w-[var(--card-module-width,auto)] select-none flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
   'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] p-3 backdrop-blur-[4px]',
   "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
   'gradient-border',
@@ -29,12 +29,18 @@ export const cardModuleDragHandleClass = cn(
   '[@media(hover:hover)]:hover:text-[var(--widget-icon-muted)]',
 );
 
+export const cardModuleCloseIconClass = cn(
+  'opacity-0 transition-[opacity,color] duration-[300ms] ease-in-out motion-reduce:transition-none',
+  '[@media(hover:hover)]:group-hover:opacity-100',
+);
+
 export const cardModuleCloseBtnClass = cn(
   'relative flex h-3.5 w-3.5 shrink-0 cursor-pointer items-center justify-center overflow-clip border-0 bg-transparent p-0',
-  'text-[var(--widget-icon-dim)] transition-colors duration-150 ease-in-out',
+  'text-[var(--widget-icon-dim)]',
+  cardModuleCloseIconClass,
   '[&_svg]:text-inherit [&_svg]:transition-colors motion-reduce:transition-none',
   '[@media(hover:hover)]:hover:text-[var(--flowx-muted)]',
-  'focus-visible:rounded focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--flowx-border)]',
+  'focus-visible:rounded focus-visible:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--flowx-border)]',
 );
 
 export const cardModuleBodyClass =

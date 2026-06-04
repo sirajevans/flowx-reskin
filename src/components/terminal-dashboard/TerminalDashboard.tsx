@@ -21,7 +21,7 @@ import { TerminalStatsModule } from '../terminal-stats';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v15';
+const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v16';
 const FIXED_HEADER_LAYOUT_ITEMS = new Set(['brand-badge', 'stats']);
 const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
 const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';

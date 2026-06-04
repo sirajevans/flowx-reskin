@@ -29,12 +29,12 @@ function ComparisonBars({ shorts, longs }: { shorts: string; longs: string }) {
   return (
     <div className={exchangeLiquidationsBarsClass} aria-hidden>
       <span
-        className={cn(exchangeLiquidationsBarBaseClass, exchangeLiquidationsBarShortClass)}
-        style={{ width: `${shortPx}px` }}
-      />
-      <span
         className={cn(exchangeLiquidationsBarBaseClass, exchangeLiquidationsBarLongClass)}
         style={{ width: `${longPx}px` }}
+      />
+      <span
+        className={cn(exchangeLiquidationsBarBaseClass, exchangeLiquidationsBarShortClass)}
+        style={{ width: `${shortPx}px` }}
       />
     </div>
   );
@@ -51,13 +51,13 @@ function ExchangeRow({ entry }: { entry: ExchangeLiquidationEntry }) {
       </div>
       <div className={exchangeLiquidationsStatsClass}>
         <AnimatedLiquidationValue
-          value={entry.shorts}
-          className={cn(exchangeLiquidationsAmountClass, exchangeLiquidationsAmountShortClass)}
+          value={entry.longs}
+          className={cn(exchangeLiquidationsAmountClass, exchangeLiquidationsAmountLongClass)}
         />
         <ComparisonBars shorts={entry.shorts} longs={entry.longs} />
         <AnimatedLiquidationValue
-          value={entry.longs}
-          className={cn(exchangeLiquidationsAmountClass, exchangeLiquidationsAmountLongClass)}
+          value={entry.shorts}
+          className={cn(exchangeLiquidationsAmountClass, exchangeLiquidationsAmountShortClass)}
         />
       </div>
     </div>
