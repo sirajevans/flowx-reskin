@@ -5,47 +5,23 @@ import {
   CommandInput as CommandInputPrimitive,
   CommandItem as CommandItemPrimitive,
   CommandList as CommandListPrimitive,
-  CommandSeparator as CommandSeparatorPrimitive,
   Command as CommandPrimitive,
 } from 'cmdk';
 import type { ComponentProps } from 'react';
 import { cn } from '../../lib/utils';
+import { CommandInputDivider } from './CommandInputDivider';
 import {
   commandDialogContentClass,
   commandDialogOverlayClass,
   commandEmptyClass,
   commandGroupClass,
   commandInputClass,
-  commandInputIconClass,
   commandInputWrapperClass,
   commandItemClass,
   commandListClass,
   commandRootClass,
-  commandSeparatorClass,
   commandShortcutClass,
 } from './commandClasses';
-
-function CommandSearchIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden
-    >
-      <path
-        d="M7.333 12.667A5.333 5.333 0 1 0 7.333 2a5.333 5.333 0 0 0 0 10.667ZM14 14l-2.9-2.9"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function Command({ className, ...props }: ComponentProps<typeof CommandPrimitive>) {
   return <CommandPrimitive className={cn(commandRootClass, className)} {...props} />;
@@ -61,8 +37,9 @@ function CommandDialog({
   return (
     <CommandDialogPrimitive
       label={label}
+      className={cn(commandRootClass, className)}
       overlayClassName={cn(commandDialogOverlayClass, overlayClassName)}
-      contentClassName={cn(commandDialogContentClass, className, contentClassName)}
+      contentClassName={cn(commandDialogContentClass, contentClassName)}
       {...props}
     />
   );
@@ -71,7 +48,6 @@ function CommandDialog({
 function CommandInput({ className, ...props }: ComponentProps<typeof CommandInputPrimitive>) {
   return (
     <div className={commandInputWrapperClass}>
-      <CommandSearchIcon className={commandInputIconClass} />
       <CommandInputPrimitive className={cn(commandInputClass, className)} {...props} />
     </div>
   );
@@ -89,13 +65,6 @@ function CommandGroup({ className, ...props }: ComponentProps<typeof CommandGrou
   return <CommandGroupPrimitive className={cn(commandGroupClass, className)} {...props} />;
 }
 
-function CommandSeparator({
-  className,
-  ...props
-}: ComponentProps<typeof CommandSeparatorPrimitive>) {
-  return <CommandSeparatorPrimitive className={cn(commandSeparatorClass, className)} {...props} />;
-}
-
 function CommandItem({ className, ...props }: ComponentProps<typeof CommandItemPrimitive>) {
   return <CommandItemPrimitive className={cn(commandItemClass, className)} {...props} />;
 }
@@ -103,6 +72,8 @@ function CommandItem({ className, ...props }: ComponentProps<typeof CommandItemP
 function CommandShortcut({ className, ...props }: ComponentProps<'span'>) {
   return <span className={cn(commandShortcutClass, className)} {...props} />;
 }
+
+export { CommandInputDivider };
 
 export {
   Command,
@@ -112,6 +83,5 @@ export {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
   CommandShortcut,
 };

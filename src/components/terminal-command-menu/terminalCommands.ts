@@ -1,35 +1,70 @@
 export type TerminalCommandItem = {
   value: string;
   label: string;
+  icon: 'positions' | 'trade-panel' | 'order-feed' | 'liquidations' | 'money-flow' | 'chart' | 'reset';
+  kind: 'Module' | 'Command';
   keywords?: string[];
-  shortcut?: string;
 };
 
 export type TerminalCommandGroup = {
   heading: string;
+  headingAlign?: 'start' | 'center';
   items: TerminalCommandItem[];
 };
 
 export const TERMINAL_COMMAND_GROUPS: TerminalCommandGroup[] = [
   {
-    heading: 'Modules',
+    heading: 'ADD MODULES',
+    headingAlign: 'start',
     items: [
-      { value: 'module-positions', label: 'Positions', keywords: ['panel', 'portfolio'] },
-      { value: 'module-order', label: 'Order', keywords: ['trade', 'buy', 'sell'] },
-      { value: 'module-order-feed', label: 'Order feed', keywords: ['trades', 'tape'] },
-      { value: 'module-liquidations', label: 'Liquidations', keywords: ['liq'] },
-      { value: 'module-money-flow', label: 'Money flow', keywords: ['flow'] },
-      { value: 'module-chart', label: 'Chart', keywords: ['price'] },
+      {
+        value: 'module-positions',
+        label: 'Positions',
+        icon: 'positions',
+        kind: 'Module',
+        keywords: ['panel', 'portfolio'],
+      },
+      {
+        value: 'module-order',
+        label: 'Trade panel',
+        icon: 'trade-panel',
+        kind: 'Module',
+        keywords: ['order', 'trade', 'buy', 'sell'],
+      },
+      {
+        value: 'module-order-feed',
+        label: 'Order feed',
+        icon: 'order-feed',
+        kind: 'Module',
+        keywords: ['trades', 'tape'],
+      },
+      {
+        value: 'module-liquidations',
+        label: 'Liquidations',
+        icon: 'liquidations',
+        kind: 'Module',
+        keywords: ['liq'],
+      },
+      {
+        value: 'module-money-flow',
+        label: 'Money flow',
+        icon: 'money-flow',
+        kind: 'Module',
+        keywords: ['flow'],
+      },
+      { value: 'module-chart', label: 'Chart', icon: 'chart', kind: 'Module', keywords: ['price'] },
     ],
   },
   {
-    heading: 'Actions',
+    heading: 'ACTIONS',
+    headingAlign: 'center',
     items: [
       {
         value: 'action-reset-layout',
         label: 'Reset dashboard layout',
+        icon: 'reset',
+        kind: 'Command',
         keywords: ['layout', 'grid', 'restore'],
-        shortcut: '↵',
       },
     ],
   },

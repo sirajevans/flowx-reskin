@@ -42,8 +42,8 @@ export {
   CommandEmpty,
   CommandGroup,
   CommandInput,
+  CommandInputDivider,
   CommandItem,
   CommandList,
-  CommandSeparator,
   CommandShortcut,
 } from './command';

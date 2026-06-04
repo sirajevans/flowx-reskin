@@ -4,12 +4,23 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
+  CommandInputDivider,
   CommandItem,
   CommandList,
-  CommandSeparator,
   CommandShortcut,
 } from '../ui/command';
+import {
+  commandGroupClass,
+  commandGroupHeadingCenterClass,
+  commandGroupHeadingStartClass,
+  commandItemLabelClass,
+  commandListClass,
+  commandListShellClass,
+  commandSectionSpacerClass,
+} from '../ui/commandClasses';
+import { cn } from '../../lib/utils';
 import { useCommandMenuTypeahead } from '../../hooks/useCommandMenuTypeahead';
+import { CommandMenuIcon } from './CommandMenuIcons';
 import { runTerminalCommand, TERMINAL_COMMAND_GROUPS } from './terminalCommands';
 
 export function TerminalCommandMenu() {
@@ -54,31 +65,43 @@ export function TerminalCommandMenu() {
   return (
     <CommandDialog open={open} onOpenChange={handleOpenChange}>
       <CommandInput
-        placeholder="Type a command or search…"
+        placeholder="Type a command or search for a module…"
         value={search}
         onValueChange={setSearch}
       />
-      <CommandList label="Commands">
-        <CommandEmpty>No results found.</CommandEmpty>
-        {TERMINAL_COMMAND_GROUPS.map((group, groupIndex) => (
-          <Fragment key={group.heading}>
-            {groupIndex > 0 ? <CommandSeparator /> : null}
-            <CommandGroup heading={group.heading}>
-              {group.items.map((item) => (
-                <CommandItem
-                  key={item.value}
-                  value={item.value}
-                  keywords={item.keywords}
-                  onSelect={() => handleSelect(item.value)}
-                >
-                  <span>{item.label}</span>
-                  {item.shortcut ? <CommandShortcut>{item.shortcut}</CommandShortcut> : null}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </Fragment>
-        ))}
-      </CommandList>
+      <CommandInputDivider />
+      <div className={commandListShellClass}>
+        <CommandList label="Commands" className={commandListClass}>
+          <CommandEmpty>No results found.</CommandEmpty>
+          {TERMINAL_COMMAND_GROUPS.map((group, groupIndex) => (
+            <Fragment key={group.heading}>
+              {groupIndex > 0 ? <div className={commandSectionSpacerClass} aria-hidden /> : null}
+              <CommandGroup
+                heading={group.heading}
+                className={cn(
+                  commandGroupClass,
+                  group.headingAlign === 'center'
+                    ? commandGroupHeadingCenterClass
+                    : commandGroupHeadingStartClass,
+                )}
+              >
+                {group.items.map((item) => (
+                  <CommandItem
+                    key={item.value}
+                    value={item.value}
+                    keywords={item.keywords}
+                    onSelect={() => handleSelect(item.value)}
+                  >
+                    <CommandMenuIcon icon={item.icon} />
+                    <span className={commandItemLabelClass}>{item.label}</span>
+                    <CommandShortcut>{item.kind}</CommandShortcut>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Fragment>
+          ))}
+        </CommandList>
+      </div>
     </CommandDialog>
   );
 }
