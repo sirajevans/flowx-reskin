@@ -1,7 +1,14 @@
 import { cn } from '../../lib/utils';
 
-const cardModuleGradientBorder =
+export const cardModuleGradientBorder =
   '[--gradient-border:linear-gradient(180deg,oklch(25%_0_0)_0%,oklch(22.5%_0_0)_50%,oklch(20%_0_0)_100%)]';
+
+export const cardModuleChromeClass = cn(
+  'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] backdrop-blur-[4px]',
+  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
+  'gradient-border',
+  cardModuleGradientBorder,
+);
 
 /** Standard widget column width (matches legacy `--card-module-width: 365px`). */
 export const cardModuleWidth365Class = '[--card-module-width:365px]';
@@ -11,10 +18,8 @@ export const cardModuleWidth960Class = '[--card-module-width:960px]';
 
 export const cardModuleRootClass = cn(
   'group box-border flex w-[var(--card-module-width,auto)] select-none flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
-  'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] p-3 backdrop-blur-[4px]',
-  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
-  'gradient-border',
-  cardModuleGradientBorder,
+  'p-3',
+  cardModuleChromeClass,
 );
 
 export const cardModuleHeaderClass =
