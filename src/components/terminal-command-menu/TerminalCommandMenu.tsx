@@ -1,4 +1,12 @@
-import { Fragment, useCallback, useState } from 'react';
+import {
+  Fragment,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type FocusEvent,
+  type SyntheticEvent,
+} from 'react';
 import {
   CommandDialog,
   CommandEmpty,
@@ -23,36 +31,71 @@ import { useCommandMenuTypeahead } from '../../hooks/useCommandMenuTypeahead';
 import { CommandMenuIcon } from './CommandMenuIcons';
 import { runTerminalCommand, TERMINAL_COMMAND_GROUPS } from './terminalCommands';
 
+function placeCaretAtEnd(input: HTMLInputElement) {
+  const end = input.value.length;
+  input.setSelectionRange(end, end);
+}
+
+function collapseInputSelection(input: HTMLInputElement) {
+  const { selectionStart, selectionEnd, value } = input;
+  if (
+    value.length > 0 &&
+    selectionStart === 0 &&
+    selectionEnd !== null &&
+    selectionEnd >= value.length
+  ) {
+    placeCaretAtEnd(input);
+  }
+}
+
 export function TerminalCommandMenu() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleOpenChange = useCallback((nextOpen: boolean) => {
-    setOpen(nextOpen);
-    if (!nextOpen) setSearch('');
+  const focusInputCaret = useCallback(() => {
+    const input = inputRef.current;
+    if (!input) return;
+    placeCaretAtEnd(input);
+    requestAnimationFrame(() => placeCaretAtEnd(input));
   }, []);
 
-  const openMenu = useCallback(() => {
-    setSearch('');
-    setOpen(true);
-  }, []);
-
-  const openMenuWithSeed = useCallback((char: string) => {
-    setSearch(char);
-    setOpen(true);
-  }, []);
-
-  const closeMenu = useCallback(() => {
-    setOpen(false);
-    setSearch('');
-  }, []);
-
-  useCommandMenuTypeahead({
+  const { closeMenu, isTypeaheadSession } = useCommandMenuTypeahead({
     open,
-    onOpen: openMenu,
-    onOpenWithSeed: openMenuWithSeed,
-    onClose: closeMenu,
+    setOpen,
+    setSearch,
+    onTypeaheadSessionEnd: focusInputCaret,
   });
+
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      if (nextOpen) setOpen(true);
+      else closeMenu();
+    },
+    [closeMenu],
+  );
+
+  useLayoutEffect(() => {
+    if (!open || !isTypeaheadSession || !inputRef.current) return;
+    collapseInputSelection(inputRef.current);
+  }, [open, search, isTypeaheadSession]);
+
+  const handleInputFocus = useCallback(
+    (event: FocusEvent<HTMLInputElement>) => {
+      if (isTypeaheadSession) {
+        collapseInputSelection(event.currentTarget);
+      }
+    },
+    [isTypeaheadSession],
+  );
+
+  const handleInputSelect = useCallback(
+    (event: SyntheticEvent<HTMLInputElement>) => {
+      if (!isTypeaheadSession) return;
+      collapseInputSelection(event.currentTarget);
+    },
+    [isTypeaheadSession],
+  );
 
   const handleSelect = useCallback(
     (value: string) => {
@@ -65,9 +108,13 @@ export function TerminalCommandMenu() {
   return (
     <CommandDialog open={open} onOpenChange={handleOpenChange}>
       <CommandInput
+        ref={inputRef}
+        readOnly={isTypeaheadSession}
         placeholder="Type a command or search for a module…"
         value={search}
         onValueChange={setSearch}
+        onFocus={handleInputFocus}
+        onSelect={handleInputSelect}
       />
       <CommandInputDivider />
       <div className={commandListShellClass}>

@@ -7,7 +7,7 @@ import {
   CommandList as CommandListPrimitive,
   Command as CommandPrimitive,
 } from 'cmdk';
-import type { ComponentProps } from 'react';
+import { forwardRef, type ComponentProps } from 'react';
 import { cn } from '../../lib/utils';
 import { CommandInputDivider } from './CommandInputDivider';
 import {
@@ -45,13 +45,16 @@ function CommandDialog({
   );
 }
 
-function CommandInput({ className, ...props }: ComponentProps<typeof CommandInputPrimitive>) {
+const CommandInput = forwardRef<
+  HTMLInputElement,
+  ComponentProps<typeof CommandInputPrimitive>
+>(function CommandInput({ className, ...props }, ref) {
   return (
     <div className={commandInputWrapperClass}>
-      <CommandInputPrimitive className={cn(commandInputClass, className)} {...props} />
+      <CommandInputPrimitive ref={ref} className={cn(commandInputClass, className)} {...props} />
     </div>
   );
-}
+});
 
 function CommandList({ className, ...props }: ComponentProps<typeof CommandListPrimitive>) {
   return <CommandListPrimitive className={cn(commandListClass, className)} {...props} />;
