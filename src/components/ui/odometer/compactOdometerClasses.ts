@@ -7,6 +7,8 @@ export const compactOdometerPrefixClass = 'shrink-0';
 export const compactOdometerSuffixClass = 'shrink-0';
 export const compactOdometerDecimalPointClass = 'shrink-0';
 
+export const compactOdometerCommaClass = 'shrink-0';
+
 export const compactOdometerDigitsClass = 'inline-flex items-center';
 
 export const compactOdometerDigitSlotClass =

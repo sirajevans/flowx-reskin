@@ -7,7 +7,8 @@
 
 .odometer__prefix,
 .odometer__suffix,
-.odometer__decimal-point {
+.odometer__decimal-point,
+.odometer__comma {
   flex-shrink: 0;
 }
 

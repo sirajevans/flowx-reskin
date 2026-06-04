@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { cn } from '../../../lib/utils';
 import {
   compactOdometerClass,
+  compactOdometerCommaClass,
   compactOdometerDecimalPointClass,
   compactOdometerDigitScrollClass,
   compactOdometerDigitSlotClass,
@@ -14,6 +15,7 @@ import {
 import {
   alignOdometerDigitParts,
   decomposeOdometerAmount,
+  formatGroupedNumber,
   getDigitScrollPath,
   type OdometerDigitParts,
 } from './odometerDigits';
@@ -123,55 +125,58 @@ function getDecimalPlaces(value: string): number {
 function getFormatParts(
   amount: number,
   format: AnimatedCounterFormat,
-): { prefix: string; suffix: string; decimalPlaces: number } {
+): { prefix: string; suffix: string; decimalPlaces: number; groupThousands: boolean } {
   if (format.mode === 'signed-currency') {
     const decimalPlaces = format.decimalPlaces ?? 2;
     const prefix = amount < 0 ? '- $' : '+ $';
-    return { prefix, suffix: '', decimalPlaces };
+    return { prefix, suffix: '', decimalPlaces, groupThousands: true };
   }
 
   if (format.mode === 'currency') {
     const decimalPlaces = format.decimalPlaces ?? 2;
     const prefix = amount < 0 ? '-$' : '$';
-    return { prefix, suffix: '', decimalPlaces };
+    return { prefix, suffix: '', decimalPlaces, groupThousands: true };
   }
 
   if (format.mode === 'percent') {
     const decimalPlaces = format.decimalPlaces ?? 2;
     const prefix =
       amount < 0 ? '-' : format.showSign && amount > 0 ? '+' : '';
-    return { prefix, suffix: ' %', decimalPlaces };
+    return { prefix, suffix: ' %', decimalPlaces, groupThousands: false };
   }
 
+  const decimalPlaces = format.decimalPlaces ?? getDecimalPlaces(String(amount));
   return {
     prefix: '',
     suffix: '',
-    decimalPlaces: format.decimalPlaces ?? getDecimalPlaces(String(amount)),
+    decimalPlaces,
+    groupThousands: true,
   };
 }
 
 function formatDisplayValue(amount: number, format: AnimatedCounterFormat): string {
+  const formatParts = getFormatParts(amount, format);
+  const grouped = formatParts.groupThousands
+    ? formatGroupedNumber(amount, formatParts.decimalPlaces)
+    : Math.abs(amount).toFixed(formatParts.decimalPlaces);
+
   if (format.mode === 'signed-currency') {
-    const decimalPlaces = format.decimalPlaces ?? 2;
     const prefix = amount < 0 ? '- $' : '+ $';
-    return `${prefix}${Math.abs(amount).toFixed(decimalPlaces)}`;
+    return `${prefix}${grouped}`;
   }
 
   if (format.mode === 'currency') {
-    const decimalPlaces = format.decimalPlaces ?? 2;
     const prefix = amount < 0 ? '-$' : '$';
-    return `${prefix}${Math.abs(amount).toFixed(decimalPlaces)}`;
+    return `${prefix}${grouped}`;
   }
 
   if (format.mode === 'percent') {
-    const decimalPlaces = format.decimalPlaces ?? 2;
     const prefix =
       amount < 0 ? '-' : format.showSign && amount > 0 ? '+' : '';
-    return `${prefix}${Math.abs(amount).toFixed(decimalPlaces)} %`;
+    return `${prefix}${grouped} %`;
   }
 
-  const decimalPlaces = format.decimalPlaces ?? getDecimalPlaces(String(amount));
-  return amount.toFixed(decimalPlaces);
+  return amount < 0 ? `-${grouped}` : grouped;
 }
 
 function formatUsesSignPrefix(format: AnimatedCounterFormat): boolean {
@@ -263,8 +268,22 @@ function OdometerDisplay({
         </span>
       ) : null}
       <span className={isCompact ? compactOdometerDigitsClass : 'odometer__digits'}>
-        {parts.integerDigits.map((toDigit, index) => {
-          const fromDigit = fromParts.integerDigits[index] ?? -1;
+        {parts.integerTokens.map((token, index) => {
+          if (token === 'comma') {
+            return (
+              <span
+                key={`comma-${index}`}
+                className={isCompact ? compactOdometerCommaClass : 'odometer__comma'}
+                aria-hidden
+              >
+                ,
+              </span>
+            );
+          }
+
+          const fromToken = fromParts.integerTokens[index];
+          const fromDigit = typeof fromToken === 'number' ? fromToken : -1;
+          const toDigit = token;
           const hidden = fromDigit < 0 && toDigit < 0;
 
           return (
