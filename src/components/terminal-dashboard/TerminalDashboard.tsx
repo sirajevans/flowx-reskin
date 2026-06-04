@@ -18,6 +18,8 @@ import { PositionsPanel } from '../positions';
 import { TerminalBrandBadgeModule } from '../terminal-brand-badge';
 import { terminalBrandBadgeSlotClass } from '../terminal-brand-badge/terminalBrandBadgeClasses';
 import { TerminalStatsModule } from '../terminal-stats';
+import { cardModuleGradientBorder } from '../ui/cardModuleClasses';
+import { cn } from '../../lib/utils';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -25,6 +27,15 @@ const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v16';
 const FIXED_HEADER_LAYOUT_ITEMS = new Set(['brand-badge', 'stats']);
 const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
 const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
+const CHART_SYMBOL_ICON_URL =
+  'https://app.paper.design/file-assets/01KSQ8AZ0MET5200XY523XT74Q/0REQFB7Q29MBVQ0V8P1FA42PGF.png';
+const CHART_OHLCV_ITEMS = [
+  ['O', '78703.3'],
+  ['H', '78703.3'],
+  ['L', '78703.3'],
+  ['C', '78703.3'],
+  ['V', '78703.3'],
+] as const;
 
 const BREAKPOINTS = {
   xxl: 1280,
@@ -265,7 +276,36 @@ function ChartPlaceholder() {
     <section
       className="module-drag-handle terminal-dashboard-chart gradient-border"
       aria-label="Chart module"
-    />
+    >
+      <div
+        className={cn(
+          'gradient-border box-border absolute left-2 top-2 flex max-w-[calc(100%-16px)] items-center gap-6 overflow-clip rounded-lg px-2.5 py-[9px]',
+          'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] [backdrop-filter:blur(5px)] [box-shadow:#00000080_0px_2px_20px]',
+          '[font-synthesis:none] antialiased',
+          cardModuleGradientBorder,
+        )}
+      >
+        <div className="flex min-w-0 items-center gap-1.5">
+          <div
+            className="h-[18.25px] w-[18.25px] shrink-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${CHART_SYMBOL_ICON_URL})` }}
+            aria-hidden
+          />
+          <div className="flex min-w-0 items-center gap-0.5">
+            <div className="shrink-0 text-[13px] leading-4 text-white">BTCUSDT</div>
+            <div className="truncate text-[13px] leading-4 text-white">Blofin · 1h</div>
+          </div>
+        </div>
+        <div className="flex min-w-0 items-center gap-5 [font-variant-numeric:tabular-nums]">
+          {CHART_OHLCV_ITEMS.map(([label, value]) => (
+            <div key={label} className="flex shrink-0 items-center gap-[5px]">
+              <div className="text-[13px] leading-4 text-white">{label}</div>
+              <div className="text-[13px] leading-4 text-[#06B470]">{value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 

@@ -1,6 +1,6 @@
 import { cn } from '../../lib/utils';
 
-import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
+import { cardModuleGradientBorder, cardModuleWidth365Class } from '../ui/cardModuleClasses';
 
 export const liquidationsPanelRootClass = cardModuleWidth365Class;
 
@@ -30,8 +30,9 @@ export const liquidationsPanelStatValuePositiveClass = 'text-[#06b470]';
 export const liquidationsPanelStatValueNegativeClass = 'text-[#f23645]';
 
 export const liquidationsPanelTimeframeClass = cn(
-  'box-border flex shrink-0 gap-0.5 overflow-clip rounded-lg bg-[var(--widget-chrome-bg)] p-1',
-  'outline outline-1 -outline-offset-1 outline-[var(--widget-icon-dim)] shadow-[0_2px_10px_rgba(0,0,0,0.25)]',
+  'gradient-border box-border flex shrink-0 gap-0.5 overflow-clip rounded-lg bg-[var(--widget-chrome-bg)] p-1',
+  'shadow-[0_2px_10px_rgba(0,0,0,0.25)]',
+  cardModuleGradientBorder,
 );
 
 export const liquidationsPanelTimeframeBtnClass = cn(
