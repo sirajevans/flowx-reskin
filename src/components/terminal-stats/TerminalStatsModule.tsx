@@ -45,7 +45,7 @@ const DEFAULT_SYMBOL_ICON_URL =
   'https://app.paper.design/file-assets/01KSQ8AZ0MET5200XY523XT74Q/0REQFB7Q29MBVQ0V8P1FA42PGF.png';
 
 const DEFAULT_STATS: ReadonlyArray<TerminalNavStat> = [
-  { id: 'last_price', label: 'LAST PRICE', value: '63,237.9', valueTone: 'positive', align: 'end' },
+  { id: 'last_price', label: 'LAST PRICE', value: '63,237.9', valueTone: 'positive', align: 'start' },
   { id: 'change_24h', label: '24H CHANGE', value: '67.81 %', valueTone: 'positive', align: 'start' },
   { id: 'high_24h', label: '24H HIGH', value: '65,344.0', align: 'start' },
   { id: 'low_24h', label: '24H LOW', value: '61,350.1', align: 'start' },
@@ -169,6 +169,9 @@ export function TerminalStatsModule({
             <div className={terminalStatsSymbolNameClass}>{symbol}</div>
           </div>
         </div>
+        {marketStats.length > 0 ? (
+          <TerminalStatsDivider gradientId={`${dividerBaseId}-market-symbol`} />
+        ) : null}
         <NavStatsWithDividers
           stats={marketStats}
           dividerBaseId={dividerBaseId}
