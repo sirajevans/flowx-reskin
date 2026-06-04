@@ -4,11 +4,14 @@ const gradientBorder =
   '[--gradient-border:linear-gradient(180deg,oklch(25%_0_0)_0%,oklch(22.5%_0_0)_50%,oklch(20%_0_0)_100%)]';
 
 export const terminalStatsRootClass = cn(
-  'gradient-border box-border flex select-none items-center justify-between gap-3 overflow-clip rounded-[10px]',
+  'gradient-border box-border flex max-h-[52px] select-none items-center justify-between gap-3 overflow-clip rounded-[10px]',
   'bg-[#0A0A0A] py-2.5 px-4',
   "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
   gradientBorder,
 );
+
+export const terminalStatsSymbolSectionClass =
+  'flex min-w-0 items-center justify-start gap-6';
 
 export const terminalStatsSymbolGroupClass = 'flex min-w-0 shrink-0 items-center gap-3.5';
 

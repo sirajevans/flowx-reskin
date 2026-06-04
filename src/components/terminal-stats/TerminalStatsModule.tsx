@@ -27,6 +27,7 @@ import {
   terminalStatsStatValueEndClass,
   terminalStatsStatValuePositiveClass,
   terminalStatsSymbolGroupClass,
+  terminalStatsSymbolSectionClass,
   terminalStatsSymbolIconClass,
   terminalStatsSymbolMetaClass,
   terminalStatsSymbolNameClass,
@@ -63,6 +64,21 @@ const DEFAULT_USER_MENU_ITEMS: ReadonlyArray<TerminalStatsUserMenuItem> = [
   { id: 'logout', label: 'Log out', shortcut: '⇧⌘Q', variant: 'destructive' },
 ];
 
+const MARKET_STAT_IDS = new Set(['last_price', 'change_24h', 'high_24h', 'low_24h']);
+
+const MARKET_STAT_ORDER = ['last_price', 'change_24h', 'high_24h', 'low_24h'] as const;
+
+function splitNavStats(stats: ReadonlyArray<TerminalNavStat>) {
+  const byId = new Map(stats.map((stat) => [stat.id, stat]));
+  const market = MARKET_STAT_ORDER.flatMap((id) => {
+    const stat = byId.get(id);
+    return stat ? [stat] : [];
+  });
+  const performance = stats.filter((stat) => !MARKET_STAT_IDS.has(stat.id));
+
+  return { market, performance };
+}
+
 function NavStatColumn({ stat }: { stat: TerminalNavStat }) {
   const alignEnd = stat.align !== 'start';
 
@@ -91,6 +107,25 @@ function NavStatColumn({ stat }: { stat: TerminalNavStat }) {
   );
 }
 
+function NavStatsWithDividers({
+  stats,
+  dividerBaseId,
+  dividerKeyPrefix,
+}: {
+  stats: ReadonlyArray<TerminalNavStat>;
+  dividerBaseId: string;
+  dividerKeyPrefix: string;
+}) {
+  return stats.map((stat, index) => (
+    <Fragment key={stat.id}>
+      {index > 0 ? (
+        <TerminalStatsDivider gradientId={`${dividerBaseId}-${dividerKeyPrefix}-${stat.id}`} />
+      ) : null}
+      <NavStatColumn stat={stat} />
+    </Fragment>
+  ));
+}
+
 export function TerminalStatsModule({
   className = '',
   symbolIconUrl = DEFAULT_SYMBOL_ICON_URL,
@@ -103,6 +138,7 @@ export function TerminalStatsModule({
   onUserMenuSelect,
 }: TerminalStatsModuleProps) {
   const dividerBaseId = useId();
+  const { market: marketStats, performance: performanceStats } = splitNavStats(stats);
 
   const handleUserMenuSelect = (item: TerminalStatsUserMenuItem) => {
     item.onSelect?.();
@@ -117,28 +153,36 @@ export function TerminalStatsModule({
       aria-label="Terminal navigation bar"
       className={cn(terminalStatsRootClass, className)}
     >
-      <div className={terminalStatsSymbolGroupClass}>
-        <div
-          className={terminalStatsSymbolIconClass}
-          style={{ backgroundImage: `url(${symbolIconUrl})` }}
-          aria-hidden
-        />
-        <div className={terminalStatsSymbolMetaClass}>
-          <div className={terminalStatsSymbolTypeClass}>{marketType}</div>
-          <div className={terminalStatsSymbolNameClass}>{symbol}</div>
+      <div
+        className={terminalStatsSymbolSectionClass}
+        role="list"
+        aria-label="Symbol and market stats"
+      >
+        <div className={terminalStatsSymbolGroupClass}>
+          <div
+            className={terminalStatsSymbolIconClass}
+            style={{ backgroundImage: `url(${symbolIconUrl})` }}
+            aria-hidden
+          />
+          <div className={terminalStatsSymbolMetaClass}>
+            <div className={terminalStatsSymbolTypeClass}>{marketType}</div>
+            <div className={terminalStatsSymbolNameClass}>{symbol}</div>
+          </div>
         </div>
+        <NavStatsWithDividers
+          stats={marketStats}
+          dividerBaseId={dividerBaseId}
+          dividerKeyPrefix="market"
+        />
       </div>
 
       <div className={terminalStatsRightClass}>
-        <div className={terminalStatsMetricsClass} role="list" aria-label="Market and account stats">
-          {stats.map((stat, index) => (
-            <Fragment key={stat.id}>
-              {index > 0 ? (
-                <TerminalStatsDivider gradientId={`${dividerBaseId}-${stat.id}`} />
-              ) : null}
-              <NavStatColumn stat={stat} />
-            </Fragment>
-          ))}
+        <div className={terminalStatsMetricsClass} role="list" aria-label="Account stats">
+          <NavStatsWithDividers
+            stats={performanceStats}
+            dividerBaseId={dividerBaseId}
+            dividerKeyPrefix="account"
+          />
         </div>
 
         <div className={terminalStatsUserClass}>

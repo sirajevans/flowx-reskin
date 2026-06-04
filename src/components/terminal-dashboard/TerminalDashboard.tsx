@@ -406,11 +406,11 @@ export function TerminalDashboard() {
 
   return (
     <main className="terminal-dashboard flex min-h-dvh flex-col gap-1 overflow-x-hidden px-2 py-2">
-      <div className="terminal-dashboard__header flex min-w-0 flex-col gap-1 md:flex-row md:items-start">
+      <div className="terminal-dashboard__header flex max-h-[52px] min-w-0 flex-col gap-1 md:flex-row md:items-start">
         <div className={terminalBrandBadgeSlotClass}>
           <TerminalBrandBadgeModule />
         </div>
-        <div className="terminal-dashboard-stats min-h-[49px] min-w-0 flex-1">
+        <div className="terminal-dashboard-stats max-h-[52px] min-h-[52px] min-w-0 flex-1">
           <TerminalStatsModule className="h-full w-full" />
         </div>
       </div>

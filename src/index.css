@@ -396,7 +396,7 @@ html[data-theme='light'] body {
 .terminal-dashboard__header .terminal-dashboard-brand-badge {
   width: 100%;
   max-width: 157px;
-  height: 52px;
+  height: 55px;
   overflow: visible;
 }
 
