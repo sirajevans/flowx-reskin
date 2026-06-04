@@ -13,7 +13,11 @@ export const terminalStatsRootClass = cn(
 export const terminalStatsSymbolSectionClass =
   'flex min-w-0 items-center justify-start gap-6';
 
-export const terminalStatsSymbolGroupClass = 'flex min-w-0 shrink-0 items-center gap-3.5';
+export const terminalStatsSymbolGroupClass = cn(
+  'flex min-w-0 shrink-0 cursor-pointer items-center gap-3.5',
+  'transition-opacity duration-150 ease-in-out motion-reduce:transition-none',
+  '[@media(hover:hover)]:hover:opacity-50',
+);
 
 export const terminalStatsSymbolIconClass =
   'h-[18.25px] w-[18.25px] shrink-0 bg-cover bg-center bg-no-repeat';

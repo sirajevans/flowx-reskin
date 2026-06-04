@@ -1,30 +1,39 @@
 export type LiquidationDigitParts = {
-  prefix: '$';
+  prefix: string;
   suffix: 'M' | 'K' | 'B' | '';
   integerDigits: number[];
   decimalDigit: number;
 };
 
-export function decomposeLiquidationAmount(amount: number): LiquidationDigitParts {
+export function decomposeLiquidationAmount(
+  amount: number,
+  options?: { signedPrefix?: boolean },
+): LiquidationDigitParts {
   const abs = Math.abs(amount);
-  let scaled = amount;
+  let scaled = abs;
   let suffix: LiquidationDigitParts['suffix'] = '';
 
   if (abs >= 1e9) {
-    scaled = amount / 1e9;
+    scaled = abs / 1e9;
     suffix = 'B';
   } else if (abs >= 1e6) {
-    scaled = amount / 1e6;
+    scaled = abs / 1e6;
     suffix = 'M';
   } else if (abs >= 1e3) {
-    scaled = amount / 1e3;
+    scaled = abs / 1e3;
     suffix = 'K';
   }
 
   const [integerPart, decimalPart = '0'] = scaled.toFixed(1).split('.');
 
+  const prefix = options?.signedPrefix
+    ? amount < 0
+      ? '- $'
+      : '+ $'
+    : '$';
+
   return {
-    prefix: '$',
+    prefix,
     suffix,
     integerDigits: integerPart.split('').map((char) => Number(char)),
     decimalDigit: Number(decimalPart),

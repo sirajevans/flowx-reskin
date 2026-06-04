@@ -4,35 +4,44 @@ export function parseLiquidationPercent(value: string): number {
 }
 
 export function parseLiquidationValue(value: string): number {
-  const cleaned = value.replace(/[$,\s]/g, '');
-  const match = cleaned.match(/^([\d.]+)([KMB])?$/i);
+  const cleaned = value.replace(/,/g, '').trim();
+  if (!cleaned || cleaned === '—') return 0;
+
+  const match = cleaned.match(/^([+-])?\s*\$?\s*([\d.]+)([KMB])?$/i);
   if (!match) return 0;
 
-  const num = parseFloat(match[1]);
+  const sign = match[1] === '-' ? -1 : 1;
+  const num = parseFloat(match[2]);
   if (!Number.isFinite(num)) return 0;
 
-  const suffix = (match[2] ?? '').toUpperCase();
+  const suffix = (match[3] ?? '').toUpperCase();
   const multipliers: Record<string, number> = { K: 1e3, M: 1e6, B: 1e9 };
 
-  return num * (multipliers[suffix] ?? 1);
+  return sign * num * (multipliers[suffix] ?? 1);
 }
 
-export function formatLiquidationDisplay(amount: number): string {
+export function formatLiquidationDisplay(
+  amount: number,
+  options?: { signedPrefix?: boolean },
+): string {
   const abs = Math.abs(amount);
+  let body = '';
 
   if (abs >= 1e9) {
-    return `$${(amount / 1e9).toFixed(1)}B`;
+    body = `$${(abs / 1e9).toFixed(1)}B`;
+  } else if (abs >= 1e6) {
+    body = `$${(abs / 1e6).toFixed(1)}M`;
+  } else if (abs >= 1e3) {
+    body = `$${(abs / 1e3).toFixed(1)}K`;
+  } else {
+    body = `$${abs.toFixed(1)}`;
   }
 
-  if (abs >= 1e6) {
-    return `$${(amount / 1e6).toFixed(1)}M`;
+  if (!options?.signedPrefix) {
+    return body;
   }
 
-  if (abs >= 1e3) {
-    return `$${(amount / 1e3).toFixed(1)}K`;
-  }
-
-  return `$${amount.toFixed(1)}`;
+  return `${amount < 0 ? '- ' : '+ '}${body}`;
 }
 
 export function longsLiquidationsDominate(longsValue: string, shortsValue: string): boolean {

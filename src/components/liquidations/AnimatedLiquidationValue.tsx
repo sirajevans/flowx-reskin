@@ -31,6 +31,8 @@ function prefersReducedMotion(): boolean {
 export type AnimatedLiquidationValueProps = {
   value: string;
   className?: string;
+  /** Renders values like `+ $8.1M` (money flow) instead of `$8.1M`. */
+  signedPrefix?: boolean;
 };
 
 function DigitColumn({
@@ -114,31 +116,48 @@ function OdometerDisplay({
   );
 }
 
-export function AnimatedLiquidationValue({ value, className = '' }: AnimatedLiquidationValueProps) {
+export function AnimatedLiquidationValue({
+  value,
+  className = '',
+  signedPrefix = false,
+}: AnimatedLiquidationValueProps) {
   const targetAmount = parseLiquidationValue(value);
   const amountRef = useRef(targetAmount);
-  const [fromParts, setFromParts] = useState(() => decomposeLiquidationAmount(targetAmount));
-  const [toParts, setToParts] = useState(() => decomposeLiquidationAmount(targetAmount));
+  const decomposeOptions = { signedPrefix };
+  const [fromParts, setFromParts] = useState(() =>
+    decomposeLiquidationAmount(targetAmount, decomposeOptions),
+  );
+  const [toParts, setToParts] = useState(() =>
+    decomposeLiquidationAmount(targetAmount, decomposeOptions),
+  );
   const [suffix, setSuffix] = useState(toParts.suffix);
   const [progress, setProgress] = useState(1);
 
   useEffect(() => {
     const fromAmount = amountRef.current;
     const toAmount = targetAmount;
+    const signChanged =
+      signedPrefix &&
+      fromAmount !== null &&
+      fromAmount !== toAmount &&
+      Math.sign(fromAmount) !== Math.sign(toAmount);
 
     if (fromAmount === toAmount) {
       return;
     }
 
-    const rawFrom = decomposeLiquidationAmount(fromAmount);
-    const rawTo = decomposeLiquidationAmount(toAmount);
+    const rawFrom =
+      fromAmount === null || signChanged
+        ? decomposeLiquidationAmount(toAmount, decomposeOptions)
+        : decomposeLiquidationAmount(fromAmount, decomposeOptions);
+    const rawTo = decomposeLiquidationAmount(toAmount, decomposeOptions);
     const aligned = alignLiquidationDigitParts(rawFrom, rawTo);
 
     setFromParts(aligned.from);
     setToParts(aligned.to);
     setSuffix(aligned.suffix);
 
-    if (prefersReducedMotion()) {
+    if (prefersReducedMotion() || signChanged) {
       amountRef.current = toAmount;
       setFromParts(aligned.to);
       setProgress(1);
@@ -167,9 +186,9 @@ export function AnimatedLiquidationValue({ value, className = '' }: AnimatedLiqu
     return () => {
       cancelAnimationFrame(raf);
     };
-  }, [targetAmount]);
+  }, [signedPrefix, targetAmount]);
 
-  const displayValue = formatLiquidationDisplay(targetAmount);
+  const displayValue = formatLiquidationDisplay(targetAmount, { signedPrefix });
   const displayParts = { ...toParts, suffix };
 
   return (

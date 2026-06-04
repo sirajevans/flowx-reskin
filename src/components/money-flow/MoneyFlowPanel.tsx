@@ -5,6 +5,7 @@ import {
   cardModuleBodyGap18Class,
   cardModuleHeaderTextClass,
 } from '../ui';
+import { AnimatedLiquidationValue } from '../liquidations/AnimatedLiquidationValue';
 import { cn } from '../../lib/utils';
 import { MoneyFlowChart } from './MoneyFlowChart';
 import {
@@ -49,7 +50,11 @@ function MoneyFlowTierSection({ tier }: { tier: MoneyFlowTier }) {
             <span className={moneyFlowSentimentLabelClass}>{tier.sentimentLabel}</span>
             <SentimentIcon sentiment={tier.sentiment} />
           </div>
-          <span className={moneyFlowAmountClass}>{tier.amount}</span>
+          <AnimatedLiquidationValue
+            value={tier.amount}
+            signedPrefix
+            className={moneyFlowAmountClass}
+          />
         </div>
       </div>
     </section>

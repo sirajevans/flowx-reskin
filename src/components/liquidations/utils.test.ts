@@ -14,6 +14,8 @@ describe('parseLiquidationValue', () => {
     expect(parseLiquidationValue('$14.3M')).toBe(14_300_000);
     expect(parseLiquidationValue('$184.3M')).toBe(184_300_000);
     expect(parseLiquidationValue('$42.5K')).toBe(42_500);
+    expect(parseLiquidationValue('+ $8.1M')).toBe(8_100_000);
+    expect(parseLiquidationValue('- $2.5M')).toBe(-2_500_000);
   });
 
   it('returns 0 for invalid values', () => {
@@ -59,6 +61,8 @@ describe('formatLiquidationDisplay', () => {
     expect(formatLiquidationDisplay(14_300_000)).toBe('$14.3M');
     expect(formatLiquidationDisplay(184_300_000)).toBe('$184.3M');
     expect(formatLiquidationDisplay(42_500)).toBe('$42.5K');
+    expect(formatLiquidationDisplay(8_100_000, { signedPrefix: true })).toBe('+ $8.1M');
+    expect(formatLiquidationDisplay(-2_500_000, { signedPrefix: true })).toBe('- $2.5M');
   });
 });
 
