@@ -16,13 +16,14 @@ import {
   liquidationsPanelStatLabelRightClass,
   liquidationsPanelStatRightClass,
   liquidationsPanelStatValueClass,
+  liquidationsPanelStatValueDefaultClass,
   liquidationsPanelStatValueNegativeClass,
   liquidationsPanelStatValuePositiveClass,
   liquidationsPanelStatValueRightClass,
   liquidationsPanelTimeframeBtnClass,
   liquidationsPanelTimeframeClass,
 } from './liquidationsPanelClasses';
-import { getShortsSharePercent, longsLiquidationsDominate } from './utils';
+import { getShortsSharePercent, longsLiquidationsDominate, shortsLiquidationsDominate } from './utils';
 import type {
   LiquidationSideStats,
   LiquidationsPanelProps,
@@ -62,8 +63,11 @@ function StatBlock({
         className={cn(
           liquidationsPanelStatValueClass,
           isRight && liquidationsPanelStatValueRightClass,
-          valueTone === 'positive' && liquidationsPanelStatValuePositiveClass,
-          valueTone === 'negative' && liquidationsPanelStatValueNegativeClass,
+          valueTone === 'positive'
+            ? liquidationsPanelStatValuePositiveClass
+            : valueTone === 'negative'
+              ? liquidationsPanelStatValueNegativeClass
+              : liquidationsPanelStatValueDefaultClass,
         )}
       >
         <AnimatedLiquidationValue value={value} />
@@ -120,7 +124,8 @@ export function LiquidationsPanel({
     stats.shorts.value,
     stats.shorts.percent,
   );
-  const isGreenBar = !longsLiquidationsDominate(stats.longs.value, stats.shorts.value);
+  const longsDominate = longsLiquidationsDominate(stats.longs.value, stats.shorts.value);
+  const shortsDominate = shortsLiquidationsDominate(stats.longs.value, stats.shorts.value);
 
   const handleTimeframeChange = (next: LiquidationTimeframe) => {
     if (timeframeProp === undefined) {
@@ -146,13 +151,13 @@ export function LiquidationsPanel({
         <StatBlock
           label={formatSideLabel('SHORTS', stats.shorts)}
           value={stats.shorts.value}
-          valueTone={isGreenBar ? 'positive' : 'default'}
+          valueTone={shortsDominate ? 'positive' : 'default'}
         />
         <StatBlock
           label={formatSideLabel('LONGS', stats.longs)}
           value={stats.longs.value}
           align="right"
-          valueTone={isGreenBar ? 'default' : 'negative'}
+          valueTone={longsDominate ? 'negative' : 'default'}
         />
       </div>
 

@@ -39,6 +39,10 @@ export function longsLiquidationsDominate(longsValue: string, shortsValue: strin
   return parseLiquidationValue(longsValue) > parseLiquidationValue(shortsValue);
 }
 
+export function shortsLiquidationsDominate(longsValue: string, shortsValue: string): boolean {
+  return parseLiquidationValue(shortsValue) > parseLiquidationValue(longsValue);
+}
+
 /** Longs share filled from the left of the bar. */
 export function getLongsSharePercent(longsValue: string, shortsValue: string, fallbackPercent = '0%'): number {
   const longs = parseLiquidationValue(longsValue);

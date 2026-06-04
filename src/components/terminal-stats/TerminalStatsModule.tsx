@@ -10,7 +10,9 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { AnimatedCounterValue } from '../ui/odometer/AnimatedCounterValue';
 import { TerminalStatsDivider } from './TerminalStatsDivider';
+import { resolveNavStatCounter } from './navStatCounter';
 import {
   terminalStatsAvatarClass,
   terminalStatsAvatarShellClass,
@@ -52,9 +54,9 @@ const DEFAULT_STATS: ReadonlyArray<TerminalNavStat> = [
   { id: 'return', label: 'RETURN', value: '+82.34 %', align: 'end' },
   { id: 'win_rate', label: 'WIN RATE', value: '67.81 %', align: 'end' },
   { id: 'max_dd', label: 'MAX DD', value: '5.27 %', align: 'end' },
-  { id: 'equity', label: 'EQUITY', value: '$ 13,239.21', align: 'end' },
-  { id: 'balance', label: 'BALANCE', value: '$ 3,000.00', align: 'end' },
-  { id: 'pnl', label: 'PNL', value: '$ 10,239.21', valueTone: 'positive', align: 'end' },
+  { id: 'equity', label: 'EQUITY', value: '$13,239.21', align: 'end' },
+  { id: 'balance', label: 'BALANCE', value: '$3,000.00', align: 'end' },
+  { id: 'pnl', label: 'PNL', value: '$10,239.21', valueTone: 'positive', align: 'end' },
 ];
 
 const DEFAULT_USER_MENU_ITEMS: ReadonlyArray<TerminalStatsUserMenuItem> = [
@@ -79,8 +81,26 @@ function splitNavStats(stats: ReadonlyArray<TerminalNavStat>) {
   return { market, performance };
 }
 
+function NavStatValue({ value }: { value: string }) {
+  const { counterValue, format } = resolveNavStatCounter(value);
+
+  return (
+    <AnimatedCounterValue
+      value={counterValue}
+      format={format}
+      appearance="liquidation"
+    />
+  );
+}
+
 function NavStatColumn({ stat }: { stat: TerminalNavStat }) {
   const alignEnd = stat.align !== 'start';
+  const valueClassName = cn(
+    alignEnd ? terminalStatsStatValueEndClass : terminalStatsStatValueClass,
+    stat.valueTone === 'positive'
+      ? terminalStatsStatValuePositiveClass
+      : terminalStatsStatValueDefaultClass,
+  );
 
   return (
     <div
@@ -93,15 +113,8 @@ function NavStatColumn({ stat }: { stat: TerminalNavStat }) {
       <span className={alignEnd ? terminalStatsStatLabelEndClass : terminalStatsStatLabelClass}>
         {stat.label}
       </span>
-      <span
-        className={cn(
-          alignEnd ? terminalStatsStatValueEndClass : terminalStatsStatValueClass,
-          stat.valueTone === 'positive'
-            ? terminalStatsStatValuePositiveClass
-            : terminalStatsStatValueDefaultClass,
-        )}
-      >
-        {stat.value}
+      <span className={valueClassName}>
+        <NavStatValue value={stat.value} />
       </span>
     </div>
   );

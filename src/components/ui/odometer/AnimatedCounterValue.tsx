@@ -1,4 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
+import { cn } from '../../../lib/utils';
+import {
+  compactOdometerClass,
+  compactOdometerDecimalPointClass,
+  compactOdometerDigitScrollClass,
+  compactOdometerDigitSlotClass,
+  compactOdometerDigitTrackClass,
+  compactOdometerDigitTrackSpanClass,
+  compactOdometerDigitsClass,
+  compactOdometerPrefixClass,
+  compactOdometerSuffixClass,
+} from './compactOdometerClasses';
 import {
   alignOdometerDigitParts,
   decomposeOdometerAmount,
@@ -6,6 +18,8 @@ import {
   type OdometerDigitParts,
 } from './odometerDigits';
 import './Odometer.css';
+
+export type AnimatedCounterAppearance = 'default' | 'liquidation';
 
 const COUNTER_DURATION_MS = 100;
 
@@ -18,12 +32,16 @@ function prefersReducedMotion(): boolean {
 
 export type AnimatedCounterFormat =
   | { mode: 'plain'; decimalPlaces?: number }
-  | { mode: 'signed-currency'; decimalPlaces?: number };
+  | { mode: 'signed-currency'; decimalPlaces?: number }
+  | { mode: 'currency'; decimalPlaces?: number }
+  | { mode: 'percent'; decimalPlaces?: number; showSign?: boolean };
 
 export type AnimatedCounterValueProps = {
   value: string;
   className?: string;
   format?: AnimatedCounterFormat;
+  /** Use `liquidation` for 13px/leading-4 stats (liquidations, exchange, nav bar). */
+  appearance?: AnimatedCounterAppearance;
 };
 
 function parsePlainValue(value: string): number | null {
@@ -52,6 +70,51 @@ function parseSignedCurrencyValue(value: string): number | null {
   return Number.isFinite(parsed) ? sign * parsed : null;
 }
 
+function parseCurrencyValue(value: string): number | null {
+  const cleaned = value.replace(/,/g, '').trim();
+  if (!cleaned || cleaned === '—') {
+    return null;
+  }
+
+  const match = cleaned.match(/^([+-])?\s*\$?\s*([\d.]+)$/);
+  if (!match) {
+    return null;
+  }
+
+  const sign = match[1] === '-' ? -1 : 1;
+  const parsed = parseFloat(match[2]);
+  return Number.isFinite(parsed) ? sign * parsed : null;
+}
+
+function parsePercentValue(value: string): number | null {
+  const cleaned = value.replace(/,/g, '').trim();
+  if (!cleaned || cleaned === '—') {
+    return null;
+  }
+
+  const match = cleaned.match(/^([+-])?\s*([\d.]+)\s*%?\s*$/);
+  if (!match) {
+    return null;
+  }
+
+  const sign = match[1] === '-' ? -1 : 1;
+  const parsed = parseFloat(match[2]);
+  return Number.isFinite(parsed) ? sign * parsed : null;
+}
+
+function parseCounterValue(value: string, format: AnimatedCounterFormat): number | null {
+  switch (format.mode) {
+    case 'signed-currency':
+      return parseSignedCurrencyValue(value);
+    case 'currency':
+      return parseCurrencyValue(value);
+    case 'percent':
+      return parsePercentValue(value);
+    default:
+      return parsePlainValue(value);
+  }
+}
+
 function getDecimalPlaces(value: string): number {
   const match = value.replace(/,/g, '').match(/\.(\d+)/);
   return match ? match[1].length : 0;
@@ -65,6 +128,19 @@ function getFormatParts(
     const decimalPlaces = format.decimalPlaces ?? 2;
     const prefix = amount < 0 ? '- $' : '+ $';
     return { prefix, suffix: '', decimalPlaces };
+  }
+
+  if (format.mode === 'currency') {
+    const decimalPlaces = format.decimalPlaces ?? 2;
+    const prefix = amount < 0 ? '-$' : '$';
+    return { prefix, suffix: '', decimalPlaces };
+  }
+
+  if (format.mode === 'percent') {
+    const decimalPlaces = format.decimalPlaces ?? 2;
+    const prefix =
+      amount < 0 ? '-' : format.showSign && amount > 0 ? '+' : '';
+    return { prefix, suffix: ' %', decimalPlaces };
   }
 
   return {
@@ -81,8 +157,28 @@ function formatDisplayValue(amount: number, format: AnimatedCounterFormat): stri
     return `${prefix}${Math.abs(amount).toFixed(decimalPlaces)}`;
   }
 
+  if (format.mode === 'currency') {
+    const decimalPlaces = format.decimalPlaces ?? 2;
+    const prefix = amount < 0 ? '-$' : '$';
+    return `${prefix}${Math.abs(amount).toFixed(decimalPlaces)}`;
+  }
+
+  if (format.mode === 'percent') {
+    const decimalPlaces = format.decimalPlaces ?? 2;
+    const prefix =
+      amount < 0 ? '-' : format.showSign && amount > 0 ? '+' : '';
+    return `${prefix}${Math.abs(amount).toFixed(decimalPlaces)} %`;
+  }
+
   const decimalPlaces = format.decimalPlaces ?? getDecimalPlaces(String(amount));
   return amount.toFixed(decimalPlaces);
+}
+
+function formatUsesSignPrefix(format: AnimatedCounterFormat): boolean {
+  return (
+    format.mode === 'signed-currency' ||
+    (format.mode === 'percent' && Boolean(format.showSign))
+  );
 }
 
 function DigitColumn({
@@ -90,11 +186,13 @@ function DigitColumn({
   toDigit,
   progress,
   hidden,
+  appearance,
 }: {
   fromDigit: number;
   toDigit: number;
   progress: number;
   hidden: boolean;
+  appearance: AnimatedCounterAppearance;
 }) {
   if (hidden) {
     return null;
@@ -105,13 +203,25 @@ function DigitColumn({
   const path = getDigitScrollPath(from, to);
   const scrollIndex = path.length === 1 ? 0 : progress * (path.length - 1);
   const translateY = path.length === 1 ? 0 : -(scrollIndex / path.length) * 100;
+  const isCompact = appearance === 'liquidation';
 
   return (
-    <span className="odometer__digit-slot" aria-hidden>
-      <span className="odometer__digit-scroll">
-        <span className="odometer__digit-track" style={{ transform: `translateY(${translateY}%)` }}>
+    <span
+      className={isCompact ? compactOdometerDigitSlotClass : 'odometer__digit-slot'}
+      aria-hidden
+    >
+      <span className={isCompact ? compactOdometerDigitScrollClass : 'odometer__digit-scroll'}>
+        <span
+          className={isCompact ? compactOdometerDigitTrackClass : 'odometer__digit-track'}
+          style={{ transform: `translateY(${translateY}%)` }}
+        >
           {path.map((digit, index) => (
-            <span key={`${digit}-${index}`}>{digit}</span>
+            <span
+              key={`${digit}-${index}`}
+              className={isCompact ? compactOdometerDigitTrackSpanClass : undefined}
+            >
+              {digit}
+            </span>
           ))}
         </span>
       </span>
@@ -125,25 +235,34 @@ function OdometerDisplay({
   progress,
   className = '',
   ariaLabel,
+  appearance = 'default',
 }: {
   parts: OdometerDigitParts;
   fromParts: OdometerDigitParts;
   progress: number;
   className?: string;
   ariaLabel?: string;
+  appearance?: AnimatedCounterAppearance;
 }) {
   const isAnimating = progress < 1;
+  const isCompact = appearance === 'liquidation';
 
   return (
     <span
       aria-label={ariaLabel}
-      className={['odometer', isAnimating ? 'odometer--animating' : '', className]
-        .filter(Boolean)
-        .join(' ')}
+      className={cn(
+        isCompact ? compactOdometerClass : 'odometer',
+        !isCompact && isAnimating && 'odometer--animating',
+        !isCompact && className,
+      )}
       data-prefix={parts.prefix || undefined}
     >
-      {parts.prefix ? <span className="odometer__prefix">{parts.prefix}</span> : null}
-      <span className="odometer__digits">
+      {parts.prefix ? (
+        <span className={isCompact ? compactOdometerPrefixClass : 'odometer__prefix'}>
+          {parts.prefix}
+        </span>
+      ) : null}
+      <span className={isCompact ? compactOdometerDigitsClass : 'odometer__digits'}>
         {parts.integerDigits.map((toDigit, index) => {
           const fromDigit = fromParts.integerDigits[index] ?? -1;
           const hidden = fromDigit < 0 && toDigit < 0;
@@ -155,12 +274,16 @@ function OdometerDisplay({
               toDigit={toDigit}
               progress={progress}
               hidden={hidden}
+              appearance={appearance}
             />
           );
         })}
         {parts.decimalDigits.length > 0 ? (
           <>
-            <span className="odometer__decimal-point" aria-hidden>
+            <span
+              className={isCompact ? compactOdometerDecimalPointClass : 'odometer__decimal-point'}
+              aria-hidden
+            >
               .
             </span>
             {parts.decimalDigits.map((toDigit, index) => (
@@ -170,12 +293,17 @@ function OdometerDisplay({
                 toDigit={toDigit}
                 progress={progress}
                 hidden={false}
+                appearance={appearance}
               />
             ))}
           </>
         ) : null}
       </span>
-      {parts.suffix ? <span className="odometer__suffix">{parts.suffix}</span> : null}
+      {parts.suffix ? (
+        <span className={isCompact ? compactOdometerSuffixClass : 'odometer__suffix'}>
+          {parts.suffix}
+        </span>
+      ) : null}
     </span>
   );
 }
@@ -184,9 +312,9 @@ export function AnimatedCounterValue({
   value,
   className = '',
   format = { mode: 'plain' },
+  appearance = 'default',
 }: AnimatedCounterValueProps) {
-  const parseValue = format.mode === 'signed-currency' ? parseSignedCurrencyValue : parsePlainValue;
-  const targetAmount = parseValue(value);
+  const targetAmount = parseCounterValue(value, format);
   const amountRef = useRef(targetAmount);
   const formatRef = useRef(format);
 
@@ -214,7 +342,7 @@ export function AnimatedCounterValue({
     const toAmount = targetAmount;
     const nextFormatParts = getFormatParts(toAmount, format);
     const signChanged =
-      format.mode === 'signed-currency' &&
+      formatUsesSignPrefix(format) &&
       fromAmount !== null &&
       fromAmount !== toAmount &&
       Math.sign(fromAmount) !== Math.sign(toAmount);
@@ -279,12 +407,27 @@ export function AnimatedCounterValue({
   const displayValue = formatDisplayValue(targetAmount, format);
   const displayParts = { ...toParts, suffix };
 
+  if (appearance === 'liquidation') {
+    return (
+      <span className={className} aria-label={displayValue}>
+        <OdometerDisplay
+          parts={displayParts}
+          fromParts={fromParts ?? displayParts}
+          progress={progress}
+          appearance={appearance}
+          ariaLabel={displayValue}
+        />
+      </span>
+    );
+  }
+
   return (
     <OdometerDisplay
       parts={displayParts}
       fromParts={fromParts ?? displayParts}
       progress={progress}
       className={className}
+      appearance={appearance}
       ariaLabel={displayValue}
     />
   );

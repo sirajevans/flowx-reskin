@@ -11,6 +11,7 @@ export {
   longsLiquidationsDominate,
   parseLiquidationPercent,
   parseLiquidationValue,
+  shortsLiquidationsDominate,
 } from './utils';
 export type {
   LiquidationChartData,

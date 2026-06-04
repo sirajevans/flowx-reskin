@@ -6,6 +6,7 @@ import {
   longsLiquidationsDominate,
   parseLiquidationPercent,
   parseLiquidationValue,
+  shortsLiquidationsDominate,
 } from './utils';
 
 describe('parseLiquidationValue', () => {
@@ -39,6 +40,17 @@ describe('longsLiquidationsDominate', () => {
 
   it('treats equal values as shorts dominate (not longs)', () => {
     expect(longsLiquidationsDominate('$10M', '$10M')).toBe(false);
+  });
+});
+
+describe('shortsLiquidationsDominate', () => {
+  it('returns true only when shorts value is strictly greater', () => {
+    expect(shortsLiquidationsDominate('$184.3M', '$14.3M')).toBe(false);
+    expect(shortsLiquidationsDominate('$4.6M', '$7.8M')).toBe(true);
+  });
+
+  it('treats equal values as no shorts dominance', () => {
+    expect(shortsLiquidationsDominate('$10M', '$10M')).toBe(false);
   });
 });
 

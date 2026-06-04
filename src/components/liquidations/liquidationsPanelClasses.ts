@@ -20,12 +20,13 @@ export const liquidationsPanelStatLabelClass = cn(
 export const liquidationsPanelStatLabelRightClass = 'text-right';
 
 export const liquidationsPanelStatValueClass = cn(
-  'min-w-0 w-[100px] self-stretch text-[13px] leading-4 text-[var(--flowx-text)]',
+  'min-w-0 w-[100px] self-stretch text-[13px] leading-4',
   'transition-colors duration-[320ms] ease-[cubic-bezier(0.215,0.61,0.355,1)] motion-reduce:transition-none',
 );
 
 export const liquidationsPanelStatValueRightClass = 'text-right';
 
+export const liquidationsPanelStatValueDefaultClass = 'text-[var(--flowx-text)]';
 export const liquidationsPanelStatValuePositiveClass = 'text-[#06b470]';
 export const liquidationsPanelStatValueNegativeClass = 'text-[#f23645]';
 
