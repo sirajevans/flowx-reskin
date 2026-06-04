@@ -106,7 +106,7 @@ export function TerminalCommandMenu() {
         readOnly={isTypeaheadSession}
         placeholder={
           showAssetSuggestions
-            ? 'Search for a market…'
+            ? 'Symbol, asset or coin…'
             : 'Type a command or search for a module…'
         }
         value={search}
