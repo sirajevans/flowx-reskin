@@ -1,10 +1,13 @@
 import type { OrderSide } from '../order/types';
 
 export type OrderFeedSide = OrderSide;
+export type OrderFeedFilter = 'all' | 'spot' | 'perp' | 'split' | 'quad';
+export type OrderFeedProduct = Exclude<OrderFeedFilter, 'all'>;
 
 export type OrderFeedEntry = {
   id: string;
   side: OrderFeedSide;
+  product?: OrderFeedProduct;
   price: string;
   value: string;
 };

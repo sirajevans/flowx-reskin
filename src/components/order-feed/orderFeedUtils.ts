@@ -1,4 +1,5 @@
 export const GRADIENT_VALUE_MAX = 50000; // $50K = 100% row width
+export const ORDER_FEED_MIN_VALUE_MAX = 100_000;
 export const ROW_PUSH_MS = 65;
 export const ROW_FADE_MS = 140;
 /** Keep in sync with row enter transition in orderFeedPanelClasses */
@@ -40,4 +41,11 @@ export function formatOrderFeedValue(amountUsd: number): string {
   }
 
   return `$${Math.round(amountUsd)}`;
+}
+
+export function formatOrderFeedFilterThreshold(amountUsd: number): string {
+  if (amountUsd <= 0) return '$0';
+  if (amountUsd >= ORDER_FEED_MIN_VALUE_MAX) return '$100K';
+
+  return formatOrderFeedValue(amountUsd);
 }

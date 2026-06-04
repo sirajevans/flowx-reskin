@@ -34,3 +34,5 @@ export { AlternatingTextLabel } from './AlternatingTextLabel';
 export type { AlternatingTextLabelProps } from './AlternatingTextLabel';
 export { AnimatedCounterValue } from './odometer/AnimatedCounterValue';
 export type { AnimatedCounterFormat, AnimatedCounterValueProps } from './odometer/AnimatedCounterValue';
+export { PercentSlider } from './PercentSlider';
+export type { PercentSliderProps } from './PercentSlider';

@@ -1,6 +1,7 @@
 export {
   CloseModuleIcon,
   DragModuleIcon,
+  FilterModuleIcon,
   ResizeHandleLeftIcon,
   ResizeHandleRightIcon,
 } from './ModuleIcons';

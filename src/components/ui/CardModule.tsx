@@ -16,6 +16,7 @@ export type CardModuleProps = {
   bodyClassName?: string;
   ariaLabel: string;
   header: ReactNode;
+  headerActions?: ReactNode;
   onClose?: () => void;
   children: ReactNode;
 };
@@ -32,6 +33,7 @@ export function CardModule({
   bodyClassName,
   ariaLabel,
   header,
+  headerActions,
   onClose,
   children,
 }: CardModuleProps) {
@@ -44,6 +46,7 @@ export function CardModule({
           </span>
           {header}
         </div>
+        {headerActions}
         {onClose ? (
           <button
             type="button"

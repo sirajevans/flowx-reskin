@@ -54,6 +54,40 @@ export function CloseModuleIcon({ className = ICON_CLASS }: IconProps) {
   );
 }
 
+/** Module chrome: order feed filter */
+export function FilterModuleIcon({ className = ICON_CLASS }: IconProps) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`text-[var(--widget-icon-dim)] ${className}`}
+      aria-hidden
+    >
+      <path
+        d="M2.625 3.5H11.375"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+      <path
+        d="M4.08325 7H9.91659"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+      <path
+        d="M5.83325 10.5H8.16659"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 /** Module chrome: bottom-left resize handle */
 export function ResizeHandleLeftIcon({ className = ICON_CLASS }: IconProps) {
   return (

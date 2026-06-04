@@ -31,6 +31,30 @@ export const orderFeedVolumeValueRightClass = 'text-right';
 export const orderFeedVolumeDividerClass =
   'm-0 h-[25.54px] w-px shrink-0 border-0 bg-[var(--widget-icon-dim)] p-0';
 
+export const orderFeedFilterTriggerClass = cn(
+  'relative flex h-3.5 w-3.5 shrink-0 cursor-pointer items-center justify-center overflow-clip border-0 bg-transparent p-0',
+  'text-[var(--widget-icon-dim)] opacity-0 transition-[opacity,color] duration-[300ms] ease-in-out',
+  'data-[active=true]:opacity-100 data-[state=open]:opacity-100 motion-reduce:transition-none',
+  '[&_svg]:text-inherit [&_svg]:transition-colors motion-reduce:[&_svg]:transition-none',
+  '[@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:hover:text-[var(--flowx-muted)]',
+  'outline-none focus:outline-none focus-visible:outline-none',
+);
+
+export const orderFeedFilterMenuItemClass = 'min-w-32';
+
+export const orderFeedFilterIndicatorClass = cn(
+  'ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-0',
+  'data-[active=true]:opacity-100',
+);
+
+export const orderFeedFilterSliderSectionClass =
+  'box-border flex min-w-0 flex-col gap-2 px-2 py-2';
+
+export const orderFeedFilterSliderHeaderClass =
+  'box-border flex min-w-0 items-center justify-between gap-2 text-[11px] leading-[14px] text-[var(--widget-tab-inactive)]';
+
+export const orderFeedFilterSliderValueClass = 'text-[var(--flowx-text)]';
+
 export const orderFeedGridClass = cn(
   'box-border grid min-h-0 min-w-0 flex-1 grid-cols-2 gap-x-[7px] self-stretch overflow-x-clip overflow-y-auto',
   '[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
