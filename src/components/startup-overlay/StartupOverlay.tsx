@@ -72,7 +72,7 @@ export function StartupOverlay() {
           outerGlow={0}
           innerGlow={1}
           offset={1}
-          angle={0}
+          angle={180}
           size={1}
           speed={0}
           scale={0.24}
