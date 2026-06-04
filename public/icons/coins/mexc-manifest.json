@@ -1,0 +1,541 @@
+{
+  "fetchedAt": "2026-05-05T01:00:17.985Z",
+  "symbolsSource": "https://www.mexc.com/api/platform/spot/market-v2/web/symbols",
+  "imageSource": "https://www.mexc.com/api/file/download",
+  "imageSize": 96,
+  "count": 76,
+  "assets": [
+    {
+      "asset": "4",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251001183901520bdtBXucA57wgMT",
+      "localUrl": "/icons/coins/4.webp",
+      "fileName": "4.webp",
+      "bytes": 2700
+    },
+    {
+      "asset": "ACU",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20260119213235491OveKvqQ722syvj",
+      "localUrl": "/icons/coins/acu.webp",
+      "fileName": "acu.webp",
+      "bytes": 764
+    },
+    {
+      "asset": "AGT",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250516130833776uNlZXhveVAnRWU",
+      "localUrl": "/icons/coins/agt.webp",
+      "fileName": "agt.webp",
+      "bytes": 3572
+    },
+    {
+      "asset": "AIA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250917155235364CoFd2ZFwqUiH8G",
+      "localUrl": "/icons/coins/aia.webp",
+      "fileName": "aia.webp",
+      "bytes": 2178
+    },
+    {
+      "asset": "AIN",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250626215203332qeZqfTWtdK20rc",
+      "localUrl": "/icons/coins/ain.webp",
+      "fileName": "ain.webp",
+      "bytes": 1500
+    },
+    {
+      "asset": "AIO",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250802115831785MwJQRbR12zMoTw",
+      "localUrl": "/icons/coins/aio.webp",
+      "fileName": "aio.webp",
+      "bytes": 1994
+    },
+    {
+      "asset": "AIOT",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250425140939635mBFP1pMcykTeIt",
+      "localUrl": "/icons/coins/aiot.webp",
+      "fileName": "aiot.webp",
+      "bytes": 1778
+    },
+    {
+      "asset": "AKE",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250819161813110g70HJdG0E4Mt7T",
+      "localUrl": "/icons/coins/ake.webp",
+      "fileName": "ake.webp",
+      "bytes": 1640
+    },
+    {
+      "asset": "APR",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202510231036477054cMHIEFpeMF4tk",
+      "localUrl": "/icons/coins/apr.webp",
+      "fileName": "apr.webp",
+      "bytes": 1464
+    },
+    {
+      "asset": "ARC",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202508192231588467X8ghAyesfXZ7p",
+      "localUrl": "/icons/coins/arc.webp",
+      "fileName": "arc.webp",
+      "bytes": 2358
+    },
+    {
+      "asset": "ARIA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202508211039527595AehJ9Vwpesn4G",
+      "localUrl": "/icons/coins/aria.webp",
+      "fileName": "aria.webp",
+      "bytes": 1930
+    },
+    {
+      "asset": "AVAAI",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20241116152355913e3GaFftZt0IyjB",
+      "localUrl": "/icons/coins/avaai.webp",
+      "fileName": "avaai.webp",
+      "bytes": 4200
+    },
+    {
+      "asset": "B",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202505191101183993plwKQIHP6JR4t",
+      "localUrl": "/icons/coins/b.webp",
+      "fileName": "b.webp",
+      "bytes": 3628
+    },
+    {
+      "asset": "B2",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250429103408547mcxvdbqOwGmii1",
+      "localUrl": "/icons/coins/b2.webp",
+      "fileName": "b2.webp",
+      "bytes": 4266
+    },
+    {
+      "asset": "BAS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250810153709649poVwip6kxMM7Gp",
+      "localUrl": "/icons/coins/bas.webp",
+      "fileName": "bas.webp",
+      "bytes": 1444
+    },
+    {
+      "asset": "BEAT",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251031120256862iUY4bohdAuOSS4",
+      "localUrl": "/icons/coins/beat.webp",
+      "fileName": "beat.webp",
+      "bytes": 5482
+    },
+    {
+      "asset": "BLESS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250922131418245gsH1rTCMMoPTw9",
+      "localUrl": "/icons/coins/bless.webp",
+      "fileName": "bless.webp",
+      "bytes": 1464
+    },
+    {
+      "asset": "BLUAI",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202510171649427300JI7lsdah5VmZN",
+      "localUrl": "/icons/coins/bluai.webp",
+      "fileName": "bluai.webp",
+      "bytes": 4396
+    },
+    {
+      "asset": "BROCCOLIF3B",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250218234943600P4HknRRA8CXuYu",
+      "localUrl": "/icons/coins/broccolif3b.webp",
+      "fileName": "broccolif3b.webp",
+      "bytes": 3298
+    },
+    {
+      "asset": "BSV",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20210422153115268a5H3xbr0AvcBVs",
+      "localUrl": "/icons/coins/bsv.webp",
+      "fileName": "bsv.webp",
+      "bytes": 3754
+    },
+    {
+      "asset": "BTR",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250825150257441mja270xQNU8Qj5",
+      "localUrl": "/icons/coins/btr.webp",
+      "fileName": "btr.webp",
+      "bytes": 1592
+    },
+    {
+      "asset": "BULLA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250606183404059ro9NHCyjqDcPSN",
+      "localUrl": "/icons/coins/bulla.webp",
+      "fileName": "bulla.webp",
+      "bytes": 1802
+    },
+    {
+      "asset": "CLANKER",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20241127173301417fYkJLyCPYm3hDA",
+      "localUrl": "/icons/coins/clanker.webp",
+      "fileName": "clanker.webp",
+      "bytes": 498
+    },
+    {
+      "asset": "CLO",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251013110558176Nn8KLL9kuj1gQF",
+      "localUrl": "/icons/coins/clo.webp",
+      "fileName": "clo.webp",
+      "bytes": 3792
+    },
+    {
+      "asset": "COAI",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250924103814996urnVQmCNER5OOV",
+      "localUrl": "/icons/coins/coai.webp",
+      "fileName": "coai.webp",
+      "bytes": 1496
+    },
+    {
+      "asset": "COLLECT",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251227141101148nGSdwUzLDdhL06",
+      "localUrl": "/icons/coins/collect.webp",
+      "fileName": "collect.webp",
+      "bytes": 1378
+    },
+    {
+      "asset": "CROSS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250703164435781NexqLmZnQdDiVw",
+      "localUrl": "/icons/coins/cross.webp",
+      "fileName": "cross.webp",
+      "bytes": 2430
+    },
+    {
+      "asset": "CYS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251211110015087qAS77npqjE5ruZ",
+      "localUrl": "/icons/coins/cys.webp",
+      "fileName": "cys.webp",
+      "bytes": 1436
+    },
+    {
+      "asset": "ESPORTS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250718231538727n3GaPvAcofITdl",
+      "localUrl": "/icons/coins/esports.webp",
+      "fileName": "esports.webp",
+      "bytes": 1132
+    },
+    {
+      "asset": "EVAA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202510021023151412rC8KkvC3qAGuy",
+      "localUrl": "/icons/coins/evaa.webp",
+      "fileName": "evaa.webp",
+      "bytes": 828
+    },
+    {
+      "asset": "FOLKS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251106105033614BYPCdvI7JyIq7K",
+      "localUrl": "/icons/coins/folks.webp",
+      "fileName": "folks.webp",
+      "bytes": 3834
+    },
+    {
+      "asset": "GENIUS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20260414112210546btzm1ZThuQbwxx",
+      "localUrl": "/icons/coins/genius.webp",
+      "fileName": "genius.webp",
+      "bytes": 1514
+    },
+    {
+      "asset": "GRIFFAIN",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20241210120812586uPfiGtz3Pkagkd",
+      "localUrl": "/icons/coins/griffain.webp",
+      "fileName": "griffain.webp",
+      "bytes": 426
+    },
+    {
+      "asset": "GUA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F2025112519222889451WTqf5tGoxBRP",
+      "localUrl": "/icons/coins/gua.webp",
+      "fileName": "gua.webp",
+      "bytes": 2822
+    },
+    {
+      "asset": "GWEI",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20260120185628898xFNVCPkajdrGM8",
+      "localUrl": "/icons/coins/gwei.webp",
+      "fileName": "gwei.webp",
+      "bytes": 1912
+    },
+    {
+      "asset": "HANA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250924172235969UHBytharzpk8R1",
+      "localUrl": "/icons/coins/hana.webp",
+      "fileName": "hana.webp",
+      "bytes": 1224
+    },
+    {
+      "asset": "IDOL",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250610172829316L72WIvtsiwr3yX",
+      "localUrl": "/icons/coins/idol.webp",
+      "fileName": "idol.webp",
+      "bytes": 4438
+    },
+    {
+      "asset": "IN",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250805202957883b0JWkt0UPVWjAB",
+      "localUrl": "/icons/coins/in.webp",
+      "fileName": "in.webp",
+      "bytes": 1376
+    },
+    {
+      "asset": "INX",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20260130152441191Dd6cNcdfaE08f7",
+      "localUrl": "/icons/coins/inx.webp",
+      "fileName": "inx.webp",
+      "bytes": 1958
+    },
+    {
+      "asset": "IRYS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202511242016069071J2tibDIRplTzr",
+      "localUrl": "/icons/coins/irys.webp",
+      "fileName": "irys.webp",
+      "bytes": 1050
+    },
+    {
+      "asset": "JCT",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251109171908780mwLt6iyncA85Vr",
+      "localUrl": "/icons/coins/jct.webp",
+      "fileName": "jct.webp",
+      "bytes": 1614
+    },
+    {
+      "asset": "KGEN",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251005210019567VmJqmb7MZ3TaPE",
+      "localUrl": "/icons/coins/kgen.webp",
+      "fileName": "kgen.webp",
+      "bytes": 2036
+    },
+    {
+      "asset": "KOMA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20241116143758954wIkLiQvF9BNUuB",
+      "localUrl": "/icons/coins/koma.webp",
+      "fileName": "koma.webp",
+      "bytes": 2546
+    },
+    {
+      "asset": "LAB",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251013181414051d8H4wDXs4pH626",
+      "localUrl": "/icons/coins/lab.webp",
+      "fileName": "lab.webp",
+      "bytes": 2424
+    },
+    {
+      "asset": "LIGHT",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250925181024436T9njwCNtfem3st",
+      "localUrl": "/icons/coins/light.webp",
+      "fileName": "light.webp",
+      "bytes": 1004
+    },
+    {
+      "asset": "LYN",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251013141655560dSwj308d0wuqOb",
+      "localUrl": "/icons/coins/lyn.webp",
+      "fileName": "lyn.webp",
+      "bytes": 2084
+    },
+    {
+      "asset": "M",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250702163507033l5jMOy5ntZ1lnA",
+      "localUrl": "/icons/coins/m.webp",
+      "fileName": "m.webp",
+      "bytes": 1542
+    },
+    {
+      "asset": "MAGMA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251216111448396GUi3aUGFG448ja",
+      "localUrl": "/icons/coins/magma.webp",
+      "fileName": "magma.webp",
+      "bytes": 1364
+    },
+    {
+      "asset": "MELANIA",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250120095905225K6svkOfGN3J8YZ",
+      "localUrl": "/icons/coins/melania.webp",
+      "fileName": "melania.webp",
+      "bytes": 3216
+    },
+    {
+      "asset": "NAORIS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250729184908073vSrB6TFIED1rbJ",
+      "localUrl": "/icons/coins/naoris.webp",
+      "fileName": "naoris.webp",
+      "bytes": 2076
+    },
+    {
+      "asset": "ON",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251023165317302GH4o6O6zVCSOY9",
+      "localUrl": "/icons/coins/on.webp",
+      "fileName": "on.webp",
+      "bytes": 5222
+    },
+    {
+      "asset": "PIPPIN",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20241111113241858Duymdxb3JjlwNx",
+      "localUrl": "/icons/coins/pippin.webp",
+      "fileName": "pippin.webp",
+      "bytes": 984
+    },
+    {
+      "asset": "PLAY",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250730154156168Hl2xor7tMZmlw5",
+      "localUrl": "/icons/coins/play.webp",
+      "fileName": "play.webp",
+      "bytes": 2910
+    },
+    {
+      "asset": "POWER",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F2025120416392177727DXMHrPON4HWQ",
+      "localUrl": "/icons/coins/power.webp",
+      "fileName": "power.webp",
+      "bytes": 2988
+    },
+    {
+      "asset": "PRL",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20260325130848334rpwFNEqMgIqXYu",
+      "localUrl": "/icons/coins/prl.webp",
+      "fileName": "prl.webp",
+      "bytes": 4204
+    },
+    {
+      "asset": "PROMPT",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250409113502038YrRVIcSOT4lrSs",
+      "localUrl": "/icons/coins/prompt.webp",
+      "fileName": "prompt.webp",
+      "bytes": 3338
+    },
+    {
+      "asset": "PTB",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250901194440654Ng61qSqimoWvC5",
+      "localUrl": "/icons/coins/ptb.webp",
+      "fileName": "ptb.webp",
+      "bytes": 2864
+    },
+    {
+      "asset": "Q",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F2025090116192517717ss25ptunuOlI",
+      "localUrl": "/icons/coins/q.webp",
+      "fileName": "q.webp",
+      "bytes": 2026
+    },
+    {
+      "asset": "RAVE",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251211135513760qMmYODXV4Cj1Dx",
+      "localUrl": "/icons/coins/rave.webp",
+      "fileName": "rave.webp",
+      "bytes": 1944
+    },
+    {
+      "asset": "RIVER",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250919193009258NvXs8TowLhSl33",
+      "localUrl": "/icons/coins/river.webp",
+      "fileName": "river.webp",
+      "bytes": 1436
+    },
+    {
+      "asset": "SIREN",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20260323101148498lQqReJ2epNv1Gq",
+      "localUrl": "/icons/coins/siren.webp",
+      "fileName": "siren.webp",
+      "bytes": 5196
+    },
+    {
+      "asset": "SPACE",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20260122160507585kkP5TWDljBQSMS",
+      "localUrl": "/icons/coins/space.webp",
+      "fileName": "space.webp",
+      "bytes": 1528
+    },
+    {
+      "asset": "STBL",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250913171429497sVLSvNy4AUsV4I",
+      "localUrl": "/icons/coins/stbl.webp",
+      "fileName": "stbl.webp",
+      "bytes": 1004
+    },
+    {
+      "asset": "SWARMS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202412201627126373QE4zOwVIRpx8e",
+      "localUrl": "/icons/coins/swarms.webp",
+      "fileName": "swarms.webp",
+      "bytes": 1528
+    },
+    {
+      "asset": "TAG",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F2025031913592688557p15HgX8B10l9",
+      "localUrl": "/icons/coins/tag.webp",
+      "fileName": "tag.webp",
+      "bytes": 906
+    },
+    {
+      "asset": "TAKE",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250824211519321o1rlL6FdlgBMqg",
+      "localUrl": "/icons/coins/take.webp",
+      "fileName": "take.webp",
+      "bytes": 1680
+    },
+    {
+      "asset": "TRADOOR",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202509032103168024w8BZOKobNNFdS",
+      "localUrl": "/icons/coins/tradoor.webp",
+      "fileName": "tradoor.webp",
+      "bytes": 922
+    },
+    {
+      "asset": "TRUST",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F202511041155315360KTY0JN5RiuuVV",
+      "localUrl": "/icons/coins/trust.webp",
+      "fileName": "trust.webp",
+      "bytes": 1808
+    },
+    {
+      "asset": "TRUTH",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251108124343142muKKJ79OOuIzWi",
+      "localUrl": "/icons/coins/truth.webp",
+      "fileName": "truth.webp",
+      "bytes": 1368
+    },
+    {
+      "asset": "UAI",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251105192618711wIJhB4N4Srm5yw",
+      "localUrl": "/icons/coins/uai.webp",
+      "fileName": "uai.webp",
+      "bytes": 1240
+    },
+    {
+      "asset": "UB",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250911202301620LhX7MupfstZ42O",
+      "localUrl": "/icons/coins/ub.webp",
+      "fileName": "ub.webp",
+      "bytes": 2982
+    },
+    {
+      "asset": "US",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20251211112718161nTt3tpDrk4LSuf",
+      "localUrl": "/icons/coins/us.webp",
+      "fileName": "us.webp",
+      "bytes": 1782
+    },
+    {
+      "asset": "USELESS",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250815100524172hxKKrSpmfZ0h4r",
+      "localUrl": "/icons/coins/useless.webp",
+      "fileName": "useless.webp",
+      "bytes": 1670
+    },
+    {
+      "asset": "VELVET",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250707170323927kSwhgomSU1nTMA",
+      "localUrl": "/icons/coins/velvet.webp",
+      "fileName": "velvet.webp",
+      "bytes": 2300
+    },
+    {
+      "asset": "XNY",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250722121548555HRshQWyztDhIpI",
+      "localUrl": "/icons/coins/xny.webp",
+      "fileName": "xny.webp",
+      "bytes": 1082
+    },
+    {
+      "asset": "XPIN",
+      "sourceUrl": "https://www.mexc.com/api/file/download/F20250822162356549801ExSmzEmPHwX",
+      "localUrl": "/icons/coins/xpin.webp",
+      "fileName": "xpin.webp",
+      "bytes": 1494
+    }
+  ]
+}

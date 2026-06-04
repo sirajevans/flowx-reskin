@@ -1,0 +1,22 @@
+{
+  "fetchedAt": "2026-05-05T01:11:56.178Z",
+  "source": "https://www.binance.com/bapi/defi/v1/public/wallet-direct/buw/wallet/cex/alpha/all/token/list",
+  "imageSize": 96,
+  "count": 2,
+  "assets": [
+    {
+      "asset": "AIGENSYN",
+      "sourceUrl": "https://bin.bnbstatic.com/images/web3-data/public/token/logos/0bef0070f3264ab6b099346a21bbc624.png",
+      "localUrl": "/icons/coins/aigensyn.webp",
+      "fileName": "aigensyn.webp",
+      "bytes": 864
+    },
+    {
+      "asset": "SPORTFUN",
+      "sourceUrl": "https://bin.bnbstatic.com/images/web3-data/public/token/logos/dac4f0187edd4ca19b9625abe0b04dfe.png",
+      "localUrl": "/icons/coins/sportfun.webp",
+      "fileName": "sportfun.webp",
+      "bytes": 1940
+    }
+  ]
+}

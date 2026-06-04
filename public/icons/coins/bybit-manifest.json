@@ -1,0 +1,330 @@
+{
+  "fetchedAt": "2026-05-05T00:46:44.383Z",
+  "source": "https://www.bybit.com/spot/api/basic/symbol_list_v2",
+  "imageSize": 96,
+  "count": 46,
+  "assets": [
+    {
+      "asset": "AZTEC",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/fa0cb0ddabbc420ad98ec330d31f511d.png",
+      "localUrl": "/icons/coins/aztec.webp",
+      "fileName": "aztec.webp",
+      "bytes": 2882
+    },
+    {
+      "asset": "BAN",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/d8702243a3dad2ffca584d6c7cd53fd1.png",
+      "localUrl": "/icons/coins/ban.webp",
+      "fileName": "ban.webp",
+      "bytes": 3420
+    },
+    {
+      "asset": "BIRB",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/94c37d478454279c8a2915fac90ca325.png",
+      "localUrl": "/icons/coins/birb.webp",
+      "fileName": "birb.webp",
+      "bytes": 3460
+    },
+    {
+      "asset": "BRETT",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/9608d9cc562947b5073c1422c5a6ddbd.png",
+      "localUrl": "/icons/coins/brett.webp",
+      "fileName": "brett.webp",
+      "bytes": 4710
+    },
+    {
+      "asset": "BSB",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/52a0ec3f467825056ddd0b5cb5ce036e.png",
+      "localUrl": "/icons/coins/bsb.webp",
+      "fileName": "bsb.webp",
+      "bytes": 3108
+    },
+    {
+      "asset": "CC",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/f9f19da7b558eb8984601b329c82ea98.png",
+      "localUrl": "/icons/coins/cc.webp",
+      "fileName": "cc.webp",
+      "bytes": 3904
+    },
+    {
+      "asset": "CHILLGUY",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/f4ba7c06900b0a981b7559d77e9f18c8.png",
+      "localUrl": "/icons/coins/chillguy.webp",
+      "fileName": "chillguy.webp",
+      "bytes": 3792
+    },
+    {
+      "asset": "DEEP",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/c2f945cbfe712d73f0e7482a688e3ff4.png",
+      "localUrl": "/icons/coins/deep.webp",
+      "fileName": "deep.webp",
+      "bytes": 2546
+    },
+    {
+      "asset": "DRIFT",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/80801fdf5deab3f304676a94aa13def6.svg",
+      "localUrl": "/icons/coins/drift.webp",
+      "fileName": "drift.webp",
+      "bytes": 2268
+    },
+    {
+      "asset": "EDGE",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/d67c7e95ca1cd170c77d537d62392b6b.png",
+      "localUrl": "/icons/coins/edge.webp",
+      "fileName": "edge.webp",
+      "bytes": 3204
+    },
+    {
+      "asset": "ELSA",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/738a46ea69097129a887e1024293b974.png",
+      "localUrl": "/icons/coins/elsa.webp",
+      "fileName": "elsa.webp",
+      "bytes": 3222
+    },
+    {
+      "asset": "FHE",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/3f8c55a9447b5f328469fb0910ee1676.png",
+      "localUrl": "/icons/coins/fhe.webp",
+      "fileName": "fhe.webp",
+      "bytes": 2958
+    },
+    {
+      "asset": "FIGHT",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/4fecb9dce0383bd146938966735c40a4.png",
+      "localUrl": "/icons/coins/fight.webp",
+      "fileName": "fight.webp",
+      "bytes": 2914
+    },
+    {
+      "asset": "FLOCK",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/6b6e15b36b62b6a669dd9c8c209cd02f.png",
+      "localUrl": "/icons/coins/flock.webp",
+      "fileName": "flock.webp",
+      "bytes": 2530
+    },
+    {
+      "asset": "FLUID",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/cfb6f97d0b6ecb8efd65cef87123fd41.png",
+      "localUrl": "/icons/coins/fluid.webp",
+      "fileName": "fluid.webp",
+      "bytes": 2976
+    },
+    {
+      "asset": "H",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/70c67e7b94561b5e22f6c520f138c218.png",
+      "localUrl": "/icons/coins/h.webp",
+      "fileName": "h.webp",
+      "bytes": 3316
+    },
+    {
+      "asset": "HYPE",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/c7620ed32733a9c911b23de01f8351e3.png",
+      "localUrl": "/icons/coins/hype.webp",
+      "fileName": "hype.webp",
+      "bytes": 3320
+    },
+    {
+      "asset": "ICNT",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/32b929c3eb13993f5f69fb2ff29a0446.png",
+      "localUrl": "/icons/coins/icnt.webp",
+      "fileName": "icnt.webp",
+      "bytes": 3674
+    },
+    {
+      "asset": "IP",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/2eb426cb9c87b55611ae9bcbb90a7600.png",
+      "localUrl": "/icons/coins/ip.webp",
+      "fileName": "ip.webp",
+      "bytes": 2802
+    },
+    {
+      "asset": "KAS",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/27dc3a2a26b56599cceaa64a4a1b6f83.svg",
+      "localUrl": "/icons/coins/kas.webp",
+      "fileName": "kas.webp",
+      "bytes": 1230
+    },
+    {
+      "asset": "MAVIA",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/0eb66a9883487ff1d0f6df2a29da8936.png",
+      "localUrl": "/icons/coins/mavia.webp",
+      "fileName": "mavia.webp",
+      "bytes": 3620
+    },
+    {
+      "asset": "MOCA",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/07c33cdee06d252bdb847478cd4f9d85.png",
+      "localUrl": "/icons/coins/moca.webp",
+      "fileName": "moca.webp",
+      "bytes": 3244
+    },
+    {
+      "asset": "MOG",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/d6fa2e4e296aec63b5a6a099633d6822.png",
+      "localUrl": "/icons/coins/mog.webp",
+      "fileName": "mog.webp",
+      "bytes": 5032
+    },
+    {
+      "asset": "MON",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/6f49aa700ec3a151fdc67d6c7cd20869.png",
+      "localUrl": "/icons/coins/mon.webp",
+      "fileName": "mon.webp",
+      "bytes": 3248
+    },
+    {
+      "asset": "OPG",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/09cab96e60b0dd784c21bb42046479a1.png",
+      "localUrl": "/icons/coins/opg.webp",
+      "fileName": "opg.webp",
+      "bytes": 4142
+    },
+    {
+      "asset": "ORDER",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/2df43696901a56780981249030bb9645.png",
+      "localUrl": "/icons/coins/order.webp",
+      "fileName": "order.webp",
+      "bytes": 3306
+    },
+    {
+      "asset": "PIEVERSE",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/d8313492fc864fcb445dfe3812f647b7.png",
+      "localUrl": "/icons/coins/pieverse.webp",
+      "fileName": "pieverse.webp",
+      "bytes": 3580
+    },
+    {
+      "asset": "PUMPBTC",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/d591167cb76a4a3c684bf249d115035d.png",
+      "localUrl": "/icons/coins/pumpbtc.webp",
+      "fileName": "pumpbtc.webp",
+      "bytes": 5080
+    },
+    {
+      "asset": "RATS",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/97ac16e92eeeb565272cac4cf44a7735.svg",
+      "localUrl": "/icons/coins/rats.webp",
+      "fileName": "rats.webp",
+      "bytes": 1300
+    },
+    {
+      "asset": "RECALL",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/05dc0d68573a91e05083cabc6323d78e.png",
+      "localUrl": "/icons/coins/recall.webp",
+      "fileName": "recall.webp",
+      "bytes": 3238
+    },
+    {
+      "asset": "SAFE",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/426c399c7a2b209bea2430c8bbc83de0.png",
+      "localUrl": "/icons/coins/safe.webp",
+      "fileName": "safe.webp",
+      "bytes": 1818
+    },
+    {
+      "asset": "SKR",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/8a9726662fc6788f21816d9f630bf4ce.png",
+      "localUrl": "/icons/coins/skr.webp",
+      "fileName": "skr.webp",
+      "bytes": 3420
+    },
+    {
+      "asset": "SONIC",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/3e3d8a4de19bdbf331afa5064a9456af.png",
+      "localUrl": "/icons/coins/sonic.webp",
+      "fileName": "sonic.webp",
+      "bytes": 2952
+    },
+    {
+      "asset": "SQD",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/77377d5ff00642b5065c9573389e8033.png",
+      "localUrl": "/icons/coins/sqd.webp",
+      "fileName": "sqd.webp",
+      "bytes": 2090
+    },
+    {
+      "asset": "STABLE",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/ccd28fb81715ec88b83100f3c05a721a.png",
+      "localUrl": "/icons/coins/stable.webp",
+      "fileName": "stable.webp",
+      "bytes": 3292
+    },
+    {
+      "asset": "TA",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/6675df5fdc1b83d3df5b718f23ec677b.png",
+      "localUrl": "/icons/coins/ta.webp",
+      "fileName": "ta.webp",
+      "bytes": 3434
+    },
+    {
+      "asset": "TAC",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/dde619233dbcb12be8d64600c5c73fa3.png",
+      "localUrl": "/icons/coins/tac.webp",
+      "fileName": "tac.webp",
+      "bytes": 3444
+    },
+    {
+      "asset": "TAIKO",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/6ef0273400d40f247af6de88d8f4134b.svg",
+      "localUrl": "/icons/coins/taiko.webp",
+      "fileName": "taiko.webp",
+      "bytes": 1154
+    },
+    {
+      "asset": "TOSHI",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/5c34d3a3a8d64c5f3d1bf7f7cdbefa59.png",
+      "localUrl": "/icons/coins/toshi.webp",
+      "fileName": "toshi.webp",
+      "bytes": 5418
+    },
+    {
+      "asset": "TRIA",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/2f132a0f11770c5e152d15768573cbeb.png",
+      "localUrl": "/icons/coins/tria.webp",
+      "fileName": "tria.webp",
+      "bytes": 3204
+    },
+    {
+      "asset": "VVV",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/e87d8a711f90bdc501f6f45dac26084b.png",
+      "localUrl": "/icons/coins/vvv.webp",
+      "fileName": "vvv.webp",
+      "bytes": 3408
+    },
+    {
+      "asset": "WET",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/4e2ca0da3289905494167a5488fa838c.png",
+      "localUrl": "/icons/coins/wet.webp",
+      "fileName": "wet.webp",
+      "bytes": 3072
+    },
+    {
+      "asset": "XAN",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/6daebe91a76994156d293795f86112b6.png",
+      "localUrl": "/icons/coins/xan.webp",
+      "fileName": "xan.webp",
+      "bytes": 2568
+    },
+    {
+      "asset": "ZEREBRO",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/a190033a493c96839862268f7a5f2cdb.png",
+      "localUrl": "/icons/coins/zerebro.webp",
+      "fileName": "zerebro.webp",
+      "bytes": 3738
+    },
+    {
+      "asset": "ZETA",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/c78d8cc7a0cae5954139b3af59dd2422.svg",
+      "localUrl": "/icons/coins/zeta.webp",
+      "fileName": "zeta.webp",
+      "bytes": 1050
+    },
+    {
+      "asset": "ZORA",
+      "sourceUrl": "https://s1.bycsi.com/app/assets/token/629a2fefcf406f91f232997d33c02d11.png",
+      "localUrl": "/icons/coins/zora.webp",
+      "fileName": "zora.webp",
+      "bytes": 2750
+    }
+  ]
+}

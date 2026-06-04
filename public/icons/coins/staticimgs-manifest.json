@@ -1,0 +1,22 @@
+{
+  "fetchedAt": "2026-05-05T01:12:04.172Z",
+  "source": "https://icon.staticimgs.com/images/coin_icon/64",
+  "imageSize": 96,
+  "count": 2,
+  "assets": [
+    {
+      "asset": "AKT",
+      "sourceUrl": "https://icon.staticimgs.com/images/coin_icon/64/akt.png",
+      "localUrl": "/icons/coins/akt.webp",
+      "fileName": "akt.webp",
+      "bytes": 1160
+    },
+    {
+      "asset": "ALL",
+      "sourceUrl": "https://icon.staticimgs.com/images/coin_icon/64/all.png",
+      "localUrl": "/icons/coins/all.webp",
+      "fileName": "all.webp",
+      "bytes": 1746
+    }
+  ]
+}

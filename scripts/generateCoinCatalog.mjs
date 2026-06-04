@@ -3,7 +3,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const coinsDir = path.resolve(root, '../flowx/public/icons/coins');
+const localCoinsDir = path.resolve(root, 'public/icons/coins');
+const siblingCoinsDir = path.resolve(root, '../flowx/public/icons/coins');
+const coinsDir = fs.existsSync(localCoinsDir)
+  ? localCoinsDir
+  : fs.existsSync(siblingCoinsDir)
+    ? siblingCoinsDir
+    : localCoinsDir;
 const outFile = path.resolve(root, 'src/generated/coinCatalog.ts');
 
 const FEATURED_COIN_IDS = ['btc', 'eth', 'sol', 'bnb', 'hype', 'xrp'];
@@ -14,6 +20,15 @@ function coinIdToLabel(coinId) {
 
 function coinIdToValue(coinId) {
   return `asset-${coinId}`;
+}
+
+if (!fs.existsSync(coinsDir)) {
+  if (fs.existsSync(outFile)) {
+    console.log(`Skipping coin catalog generation — ${coinsDir} missing, using existing catalog`);
+    process.exit(0);
+  }
+
+  throw new Error(`Coins directory not found: ${coinsDir}`);
 }
 
 const coinIds = fs
