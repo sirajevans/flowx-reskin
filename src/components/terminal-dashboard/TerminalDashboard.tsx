@@ -18,7 +18,6 @@ import { OrderPanel } from '../order';
 import { PositionsPanel } from '../positions';
 import { TerminalBrandBadgeModule } from '../terminal-brand-badge';
 import { terminalBrandBadgeSlotClass } from '../terminal-brand-badge/terminalBrandBadgeClasses';
-import { TerminalFlowxLogoModule } from '../terminal-flowx-logo';
 import { getCoinIconUrlFromSymbol } from '../../lib/coinIcons';
 import { TerminalStatsModule } from '../terminal-stats';
 import { cardModuleGradientBorder } from '../ui/cardModuleClasses';
@@ -460,13 +459,8 @@ export function TerminalDashboard() {
   return (
     <main className="terminal-dashboard flex min-h-dvh flex-col gap-1 overflow-x-hidden px-2 py-2">
       <div className="terminal-dashboard__header flex max-h-[52px] min-w-0 flex-col gap-1 md:flex-row md:items-start">
-        <div className="flex min-w-0 shrink-0 gap-1 overflow-visible">
-          <div className={cn(terminalBrandBadgeSlotClass, 'basis-[157px]')}>
-            <TerminalBrandBadgeModule />
-          </div>
-          <div className={cn(terminalBrandBadgeSlotClass, 'basis-[157px]')}>
-            <TerminalFlowxLogoModule />
-          </div>
+        <div className={terminalBrandBadgeSlotClass}>
+          <TerminalBrandBadgeModule />
         </div>
         <div className="terminal-dashboard-stats max-h-[52px] min-h-[52px] min-w-0 flex-1">
           <TerminalStatsModule
