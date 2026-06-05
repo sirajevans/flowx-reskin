@@ -2,10 +2,18 @@ import { cn } from '../../../lib/utils';
 
 import { cardModuleWidth365Class } from '../../ui/cardModuleClasses';
 
-export const exchangeLiquidationsPanelRootClass = cardModuleWidth365Class;
+export const exchangeLiquidationsPanelRootClass = cn(
+  cardModuleWidth365Class,
+  'box-border h-full min-h-0 max-h-none w-full min-w-0',
+  '[--exchange-liquidations-fade-height:14px]',
+);
 
-export const exchangeLiquidationsListClass =
-  'box-border flex min-w-0 flex-col gap-[18px] self-stretch';
+export const exchangeLiquidationsListClass = cn(
+  'box-border flex min-h-0 min-w-0 flex-1 flex-col gap-[18px] self-stretch overflow-x-clip overflow-y-auto',
+  '[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+  '[-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--exchange-liquidations-fade-height)),transparent_100%)]',
+  '[mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--exchange-liquidations-fade-height)),transparent_100%)]',
+);
 
 export const exchangeLiquidationsRowClass =
   'box-border flex min-w-0 items-center justify-between self-stretch';

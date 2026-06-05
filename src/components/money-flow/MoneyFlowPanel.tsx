@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { MoneyFlowBearishIcon, MoneyFlowBullishIcon, MoneyFlowNeutralIcon } from '../icons';
 import {
   CardModule,
-  cardModuleBodyGap18Class,
+  cardModuleBodyFlexFillClass,
   cardModuleHeaderTextClass,
 } from '../ui';
 import { AnimatedLiquidationValue } from '../liquidations/AnimatedLiquidationValue';
@@ -12,6 +12,7 @@ import {
   moneyFlowAmountClass,
   moneyFlowDividerClass,
   moneyFlowPanelRootClass,
+  moneyFlowScrollClass,
   moneyFlowSentimentClass,
   moneyFlowSentimentLabelClass,
   moneyFlowTierClass,
@@ -84,17 +85,19 @@ export function MoneyFlowPanel({
   return (
     <CardModule
       className={cn(moneyFlowPanelRootClass, className)}
-      bodyClassName={cardModuleBodyGap18Class}
+      bodyClassName={cardModuleBodyFlexFillClass}
       ariaLabel="Money flow"
       onClose={onClose}
       header={<span className={cardModuleHeaderTextClass}>Money flow</span>}
     >
-      {tiers.map((tier, index) => (
-        <Fragment key={tier.id}>
-          {index > 0 ? <hr className={moneyFlowDividerClass} aria-hidden /> : null}
-          <MoneyFlowTierSection tier={tier} />
-        </Fragment>
-      ))}
+      <div className={moneyFlowScrollClass}>
+        {tiers.map((tier, index) => (
+          <Fragment key={tier.id}>
+            {index > 0 ? <hr className={moneyFlowDividerClass} aria-hidden /> : null}
+            <MoneyFlowTierSection tier={tier} />
+          </Fragment>
+        ))}
+      </div>
     </CardModule>
   );
 }

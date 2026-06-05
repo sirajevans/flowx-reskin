@@ -60,9 +60,14 @@ const CommandInput = forwardRef<
   );
 });
 
-function CommandList({ className, ...props }: ComponentProps<typeof CommandListPrimitive>) {
-  return <CommandListPrimitive className={cn(commandListClass, className)} {...props} />;
-}
+const CommandList = forwardRef<
+  HTMLDivElement,
+  ComponentProps<typeof CommandListPrimitive>
+>(function CommandList({ className, ...props }, ref) {
+  return (
+    <CommandListPrimitive ref={ref} className={cn(commandListClass, className)} {...props} />
+  );
+});
 
 function CommandEmpty({ className, ...props }: ComponentProps<typeof CommandEmptyPrimitive>) {
   return <CommandEmptyPrimitive className={cn(commandEmptyClass, className)} {...props} />;

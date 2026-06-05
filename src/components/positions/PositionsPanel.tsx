@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
+import { useOverflowBottomFade } from '../../hooks/useOverflowBottomFade';
 import { Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
 import {
   EditPositionIcon,
@@ -246,6 +247,28 @@ function PositionRowView({
   );
 }
 
+function PositionsRowsScroll({
+  rowCount,
+  children,
+}: {
+  rowCount: number;
+  children: ReactNode;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const showFade = useOverflowBottomFade(scrollRef, [rowCount]);
+
+  return (
+    <div
+      ref={scrollRef}
+      className={positionsPanelRowsClass}
+      data-overflow-fade={showFade ? true : undefined}
+      role="table"
+    >
+      {children}
+    </div>
+  );
+}
+
 export function PositionsPanel({
   className = '',
   activeTab: activeTabProp,
@@ -357,7 +380,7 @@ export function PositionsPanel({
                 ? openOrdersStream.rows
                 : MOCK_ROWS_BY_TAB[tabId]);
           return (
-            <div className={positionsPanelRowsClass} role="table">
+            <PositionsRowsScroll rowCount={tabRows.length}>
               <div role="rowgroup">
                 {tabRows.map((row) => (
                   <PositionRowView
@@ -369,7 +392,7 @@ export function PositionsPanel({
                   />
                 ))}
               </div>
-            </div>
+            </PositionsRowsScroll>
           );
         }}
       </CardModuleTabContent>

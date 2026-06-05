@@ -4,6 +4,14 @@ import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
 export const moneyFlowPanelRootClass = cn(
   cardModuleWidth365Class,
   'box-border h-full min-h-0 max-h-none w-full min-w-0',
+  '[--money-flow-fade-height:14px]',
+);
+
+export const moneyFlowScrollClass = cn(
+  'box-border flex min-h-0 min-w-0 flex-1 flex-col gap-[18px] self-stretch overflow-x-clip overflow-y-auto',
+  '[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+  '[-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--money-flow-fade-height)),transparent_100%)]',
+  '[mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--money-flow-fade-height)),transparent_100%)]',
 );
 
 export const moneyFlowTierClass =

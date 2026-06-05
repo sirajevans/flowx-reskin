@@ -22,10 +22,12 @@ import {
   commandItemIconClass,
   commandItemLabelClass,
   commandListClass,
+  commandListOverflowFadeClass,
   commandListShellClass,
   commandSectionSpacerClass,
 } from '../ui/commandClasses';
 import { cn } from '../../lib/utils';
+import { useOverflowBottomFade } from '../../hooks/useOverflowBottomFade';
 import { useCommandMenu } from './commandMenuContext';
 import { getCoinIconUrl } from '../../lib/coinIcons';
 import { CommandMenuIcon } from './CommandMenuIcons';
@@ -59,7 +61,13 @@ export function TerminalCommandMenu() {
     handleCommandSelect,
   } = useCommandMenu();
   const inputRef = useRef<HTMLInputElement>(null);
+  const assetListRef = useRef<HTMLDivElement>(null);
   const showAssetSuggestions = variant === 'assets';
+  const showAssetListFade = useOverflowBottomFade(assetListRef, [
+    open,
+    showAssetSuggestions,
+    search,
+  ]);
 
   const focusInputCaret = useCallback(() => {
     const input = inputRef.current;
@@ -115,8 +123,15 @@ export function TerminalCommandMenu() {
       />
       <div className={commandListShellClass}>
         <CommandList
+          ref={assetListRef}
           label={showAssetSuggestions ? 'Markets and commands' : 'Commands'}
-          className={commandListClass}
+          className={cn(
+            commandListClass,
+            showAssetSuggestions && commandListOverflowFadeClass,
+          )}
+          data-overflow-fade={
+            showAssetSuggestions && showAssetListFade ? true : undefined
+          }
         >
           <CommandEmpty>No results found.</CommandEmpty>
           {showAssetSuggestions ? (

@@ -70,6 +70,14 @@ export const commandListShellClass =
 
 export const commandListClass = 'min-w-0 self-stretch overflow-visible p-0';
 
+/** Bottom fade on the asset picker list when content overflows (see `data-overflow-fade`). */
+export const commandListOverflowFadeClass = cn(
+  '[--command-list-fade-height:14px]',
+  '[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+  'data-[overflow-fade]:[-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--command-list-fade-height)),transparent_100%)]',
+  'data-[overflow-fade]:[mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--command-list-fade-height)),transparent_100%)]',
+);
+
 export const commandEmptyClass = cn(
   'self-stretch py-6 text-center text-[12px] leading-[15px] text-[#FFFFFF80]',
 );

@@ -4,7 +4,7 @@ import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
 export const orderFeedPanelRootClass = cn(
   'box-border h-[488px]',
   cardModuleWidth365Class,
-  '[--order-feed-fade-height:28px] [--order-feed-row-push-ms:65ms]',
+  '[--order-feed-fade-height:10px] [--order-feed-row-push-ms:65ms]',
   '[--order-feed-row-fade-ms:140ms]',
 );
 

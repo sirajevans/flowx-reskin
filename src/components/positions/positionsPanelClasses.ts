@@ -4,6 +4,7 @@ import { cardModuleWidth960Class } from '../ui/cardModuleClasses';
 export const positionsPanelRootClass = cn(
   'positions-panel box-border h-[255px] min-h-[255px] max-h-[255px]',
   cardModuleWidth960Class,
+  '[--positions-panel-fade-height:14px]',
 );
 
 export const positionsPanelTabViewportClass = cn(
@@ -42,8 +43,10 @@ export const positionsPanelColActionsHeaderClass = cn(
 );
 
 export const positionsPanelRowsClass = cn(
-  'box-border flex h-full min-h-0 flex-col self-stretch overflow-y-auto',
-  '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+  'box-border flex h-full min-h-0 flex-col self-stretch overflow-x-clip overflow-y-auto',
+  '[-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+  'data-[overflow-fade]:[-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--positions-panel-fade-height)),transparent_100%)]',
+  'data-[overflow-fade]:[mask-image:linear-gradient(to_bottom,#000_0%,#000_calc(100%-var(--positions-panel-fade-height)),transparent_100%)]',
   '[&_[role=rowgroup]]:flex [&_[role=rowgroup]]:flex-col [&_[role=rowgroup]]:gap-0.5 [&_[role=rowgroup]]:self-stretch',
 );
 

@@ -1,6 +1,10 @@
 import { AnimatedLiquidationValue } from '../AnimatedLiquidationValue';
 import { ExchangeLiquidationIcon } from '../../icons';
-import { CardModule, cardModuleBodyGap18Class, cardModuleHeaderTextClass } from '../../ui';
+import {
+  CardModule,
+  cardModuleBodyFlexFillClass,
+  cardModuleHeaderTextClass,
+} from '../../ui';
 import { cn } from '../../../lib/utils';
 import { getComparisonBarWidths } from './comparisonBars';
 import {
@@ -87,7 +91,7 @@ export function ExchangeLiquidationsPanel({
   return (
     <CardModule
       className={cn(exchangeLiquidationsPanelRootClass, className)}
-      bodyClassName={cardModuleBodyGap18Class}
+      bodyClassName={cardModuleBodyFlexFillClass}
       ariaLabel="Exchange liquidations"
       onClose={onClose}
       header={<span className={cardModuleHeaderTextClass}>Exchange liq.</span>}
