@@ -2,7 +2,7 @@ import { cn } from '../../lib/utils';
 import { cardModuleGradientBorder } from './cardModuleClasses';
 
 export const commandFontClass =
-  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased";
+  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif]";
 
 export const commandDialogOverlayClass = cn(
   'fixed inset-0 z-50 bg-black/55 backdrop-blur-[2px]',

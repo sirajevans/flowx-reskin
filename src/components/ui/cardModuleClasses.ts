@@ -5,7 +5,7 @@ export const cardModuleGradientBorder =
 
 export const cardModuleChromeClass = cn(
   'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] backdrop-blur-[4px]',
-  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
+  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif]",
   'gradient-border',
   cardModuleGradientBorder,
 );

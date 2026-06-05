@@ -6,7 +6,7 @@ const gradientBorder =
 export const terminalStatsRootClass = cn(
   'gradient-border box-border flex max-h-[52px] select-none items-center justify-between gap-3 overflow-clip rounded-[10px]',
   'bg-[#0A0A0A] py-2.5 px-4',
-  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif] [font-synthesis:none] antialiased",
+  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif]",
   gradientBorder,
 );
 

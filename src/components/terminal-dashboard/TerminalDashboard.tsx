@@ -280,7 +280,6 @@ function ChartPlaceholder({ symbol }: { symbol: string }) {
         className={cn(
           'gradient-border box-border absolute left-2 top-2 flex max-w-[calc(100%-16px)] items-center gap-6 overflow-clip rounded-lg px-2.5 py-[9px]',
           'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] [backdrop-filter:blur(5px)] [box-shadow:#00000080_0px_2px_20px]',
-          '[font-synthesis:none] antialiased',
           cardModuleGradientBorder,
         )}
       >

@@ -105,6 +105,17 @@ body[data-skin='whales'] {
   background-color: color-mix(in srgb, var(--color-sell), transparent 95%);
 }
 
+/* Font smoothing is not inherited. Firefox also keeps subpixel AA on text inside
+   backdrop-filter unless each node uses grayscale smoothing (bugzilla 1957806). */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
 html,
 body {
   margin: 0;
@@ -113,6 +124,7 @@ body {
   color: var(--flowx-text);
   background: var(--flowx-shell);
   font-family: var(--font-sans);
+  font-synthesis: none;
 }
 
 html[data-theme='light'],
