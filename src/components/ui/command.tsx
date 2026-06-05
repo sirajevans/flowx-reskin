@@ -16,6 +16,7 @@ import {
   commandEmptyClass,
   commandGroupClass,
   commandInputClass,
+  commandInputRowClass,
   commandInputWrapperClass,
   commandItemClass,
   commandListClass,
@@ -51,7 +52,10 @@ const CommandInput = forwardRef<
 >(function CommandInput({ className, ...props }, ref) {
   return (
     <div className={commandInputWrapperClass}>
-      <CommandInputPrimitive ref={ref} className={cn(commandInputClass, className)} {...props} />
+      <div className={commandInputRowClass}>
+        <CommandInputPrimitive ref={ref} className={cn(commandInputClass, className)} {...props} />
+      </div>
+      <CommandInputDivider />
     </div>
   );
 });

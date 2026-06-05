@@ -11,7 +11,6 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandInputDivider,
   CommandItem,
   CommandList,
   CommandShortcut,
@@ -114,7 +113,6 @@ export function TerminalCommandMenu() {
         onFocus={handleInputFocus}
         onSelect={handleInputSelect}
       />
-      <CommandInputDivider />
       <div className={commandListShellClass}>
         <CommandList
           label={showAssetSuggestions ? 'Markets and commands' : 'Commands'}

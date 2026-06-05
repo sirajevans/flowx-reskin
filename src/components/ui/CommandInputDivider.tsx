@@ -1,33 +1,40 @@
-import { commandInputDividerClass } from './commandClasses';
-
-const GRADIENT_ID = 'command-menu-divider-gradient';
+import { useId } from 'react';
+import { commandInputDividerClass, commandInputDividerWrapperClass } from './commandClasses';
 
 export function CommandInputDivider() {
+  const gradientId = useId();
+
   return (
-    <svg
-      viewBox="0 0 488 1"
-      preserveAspectRatio="none"
+    <div className={commandInputDividerWrapperClass}>
+      <svg
       width="488"
       height="1"
+      viewBox="0 0 488 1"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={commandInputDividerClass}
       aria-hidden
     >
-      <defs>
-        <linearGradient id={GRADIENT_ID} gradientUnits="objectBoundingBox" x1="0" y1="0.5" x2="1" y2="0.5">
-          <stop offset="0" stopColor="rgba(43, 43, 43, 0)" />
-          <stop offset="0.1" stopColor="#2b2b2b" />
-          <stop offset="0.9" stopColor="#2b2b2b" />
-          <stop offset="1" stopColor="rgba(43, 43, 43, 0)" />
-        </linearGradient>
-      </defs>
       <path
-        d="M0 0H488"
-        vectorEffect="non-scaling-stroke"
-        fill="none"
-        stroke={`url(#${GRADIENT_ID})`}
+        d="M0 0.5L488 0.500043"
+        stroke={`url(#${gradientId})`}
         strokeLinecap="round"
       />
+      <defs>
+        <linearGradient
+          id={gradientId}
+          x1="-4.37114e-08"
+          y1="1"
+          x2="488"
+          y2="1.00004"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#2B2B2B" stopOpacity="0" />
+          <stop offset="0.5" stopColor="#2B2B2B" />
+          <stop offset="1" stopColor="#2B2B2B" stopOpacity="0" />
+        </linearGradient>
+      </defs>
     </svg>
+    </div>
   );
 }

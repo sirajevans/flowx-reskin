@@ -50,10 +50,20 @@ export const commandInputClass = cn(
 );
 
 export const commandInputWrapperClass = cn(
+  'box-border flex min-w-0 flex-col items-start self-stretch overflow-clip',
+);
+
+export const commandInputRowClass = cn(
   'box-border flex min-w-0 items-center gap-2 self-stretch overflow-clip px-2 pt-1.5',
 );
 
-export const commandInputDividerClass = cn('h-px min-h-px min-w-0 shrink-0 self-stretch');
+export const commandInputDividerWrapperClass = cn(
+  'mt-[14px] box-border flex min-w-0 self-stretch',
+);
+
+export const commandInputDividerClass = cn(
+  'h-px min-h-px w-full min-w-0 shrink-0 self-stretch',
+);
 
 export const commandListShellClass =
   'box-border flex min-w-0 flex-col items-start self-stretch overflow-clip';
