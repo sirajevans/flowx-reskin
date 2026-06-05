@@ -59,8 +59,6 @@ const DEFAULT_STATS: ReadonlyArray<TerminalNavStat> = [
 ];
 
 const DEFAULT_USER_MENU_ITEMS: ReadonlyArray<TerminalStatsUserMenuItem> = [
-  { id: 'profile', label: 'Profile', shortcut: '⇧⌘P' },
-  { id: 'billing', label: 'Billing', shortcut: '⌘B' },
   { id: 'settings', label: 'Settings', shortcut: '⌘S' },
   { id: 'logout', label: 'Log out', shortcut: '⇧⌘Q', variant: 'destructive' },
 ];
