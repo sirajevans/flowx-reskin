@@ -16,6 +16,8 @@ import {
   CommandShortcut,
 } from '../ui/command';
 import {
+  commandAssetFavouriteButtonClass,
+  commandAssetKindClass,
   commandGroupClass,
   commandGroupHeadingCenterClass,
   commandGroupHeadingStartClass,
@@ -28,14 +30,69 @@ import {
 } from '../ui/commandClasses';
 import { cn } from '../../lib/utils';
 import { useOverflowBottomFade } from '../../hooks/useOverflowBottomFade';
+import { useTerminalAssetFavourites } from '../../hooks/useTerminalAssetFavourites';
 import { useCommandMenu } from './commandMenuContext';
 import { getCoinIconUrl } from '../../lib/coinIcons';
-import { CommandMenuIcon } from './CommandMenuIcons';
-import { TERMINAL_ASSET_SUGGESTIONS, TERMINAL_COMMAND_GROUPS } from './terminalCommands';
+import { CommandMenuFavourites } from './CommandMenuFavourites';
+import { CommandMenuIcon, CommandMenuStarIcon } from './CommandMenuIcons';
+import {
+  TERMINAL_ASSET_SUGGESTIONS,
+  TERMINAL_COMMAND_GROUPS,
+  type TerminalAssetSuggestion,
+} from './terminalCommands';
 
 function placeCaretAtEnd(input: HTMLInputElement) {
   const end = input.value.length;
   input.setSelectionRange(end, end);
+}
+
+type AssetCommandItemProps = {
+  asset: TerminalAssetSuggestion;
+  isFavourite: boolean;
+  onSelect: (value: string) => void;
+  onToggleFavourite: (coinId: string) => void;
+};
+
+function AssetCommandItem({
+  asset,
+  isFavourite,
+  onSelect,
+  onToggleFavourite,
+}: AssetCommandItemProps) {
+  return (
+    <CommandItem
+      value={asset.value}
+      keywords={asset.keywords}
+      onSelect={() => onSelect(asset.value)}
+    >
+      <img
+        src={getCoinIconUrl(asset.coinId)}
+        alt=""
+        className={cn(commandItemIconClass, 'rounded-full object-cover')}
+      />
+      <span className={commandItemLabelClass}>{asset.label}</span>
+      <span className={commandAssetKindClass}>
+        <button
+          type="button"
+          className={commandAssetFavouriteButtonClass}
+          aria-label={
+            isFavourite
+              ? `Remove ${asset.label} from favourites`
+              : `Add ${asset.label} to favourites`
+          }
+          aria-pressed={isFavourite}
+          onClick={(event) => {
+            event.stopPropagation();
+            onToggleFavourite(asset.coinId);
+          }}
+          onPointerDown={(event) => event.stopPropagation()}
+        >
+          <CommandMenuStarIcon filled={isFavourite} />
+        </button>
+        <span>Perpetual</span>
+      </span>
+    </CommandItem>
+  );
 }
 
 function collapseInputSelection(input: HTMLInputElement) {
@@ -60,9 +117,11 @@ export function TerminalCommandMenu() {
     handleOpenChange,
     handleCommandSelect,
   } = useCommandMenu();
+  const { favouriteCoinIds, isFavourite, toggleFavourite } = useTerminalAssetFavourites();
   const inputRef = useRef<HTMLInputElement>(null);
   const assetListRef = useRef<HTMLDivElement>(null);
   const showAssetSuggestions = variant === 'assets';
+  const showFavourites = search.trim().length === 0;
   const showAssetListFade = useOverflowBottomFade(assetListRef, [
     open,
     showAssetSuggestions,
@@ -121,6 +180,12 @@ export function TerminalCommandMenu() {
         onFocus={handleInputFocus}
         onSelect={handleInputSelect}
       />
+      {showFavourites ? (
+        <CommandMenuFavourites
+          favouriteCoinIds={favouriteCoinIds}
+          onSelect={handleCommandSelect}
+        />
+      ) : null}
       <div className={commandListShellClass}>
         <CommandList
           ref={assetListRef}
@@ -140,20 +205,13 @@ export function TerminalCommandMenu() {
               className={cn(commandGroupClass, commandGroupHeadingStartClass)}
             >
               {TERMINAL_ASSET_SUGGESTIONS.map((asset) => (
-                <CommandItem
+                <AssetCommandItem
                   key={asset.value}
-                  value={asset.value}
-                  keywords={asset.keywords}
-                  onSelect={() => handleCommandSelect(asset.value)}
-                >
-                  <img
-                    src={getCoinIconUrl(asset.coinId)}
-                    alt=""
-                    className={cn(commandItemIconClass, 'rounded-full object-cover')}
-                  />
-                  <span className={commandItemLabelClass}>{asset.label}</span>
-                  <CommandShortcut>Perpetual</CommandShortcut>
-                </CommandItem>
+                  asset={asset}
+                  isFavourite={isFavourite(asset.coinId)}
+                  onSelect={handleCommandSelect}
+                  onToggleFavourite={toggleFavourite}
+                />
               ))}
             </CommandGroup>
           ) : null}

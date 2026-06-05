@@ -1,6 +1,8 @@
 export type { TerminalAssetSuggestion } from '../../generated/coinCatalog';
 export { TERMINAL_ASSET_SUGGESTIONS } from '../../generated/coinCatalog';
 
+export const TERMINAL_FAVOURITE_COIN_IDS = ['btc', 'eth', 'sol', 'bnb', 'xrp'] as const;
+
 export type TerminalCommandItem = {
   value: string;
   label: string;

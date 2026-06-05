@@ -84,7 +84,13 @@ export const commandEmptyClass = cn(
 
 export const commandGroupClass = 'overflow-visible p-0';
 
-export const commandGroupHeadingStartClass = '[&_[cmdk-group-heading]]:flex [&_[cmdk-group-heading]]:items-start';
+export const commandGroupHeadingClass = cn(
+  'box-border w-max shrink-0 px-2 py-1',
+  'text-[10px] leading-[12px] tracking-[0.02em] text-[#FFFFFF80]',
+);
+
+export const commandGroupHeadingStartClass =
+  '[&_[cmdk-group-heading]]:flex [&_[cmdk-group-heading]]:items-start';
 
 export const commandGroupHeadingCenterClass =
   '[&_[cmdk-group-heading]]:flex [&_[cmdk-group-heading]]:items-center';
@@ -110,4 +116,35 @@ export const commandItemLabelClass = cn(
 
 export const commandShortcutClass = cn(
   'w-max shrink-0 font-inherit text-[12px] leading-[15px] text-[#F4F4F580]',
+);
+
+export const commandFavouritesSectionClass = cn(
+  'box-border flex min-w-0 flex-col items-start gap-2 self-stretch overflow-clip',
+);
+
+export const commandFavouritesHeadingClass = cn(
+  'box-border w-max shrink-0 px-[8px] py-[4px]',
+  'text-[10px] leading-[12px] tracking-[0.02em] text-[#FFFFFF80]',
+);
+
+export const commandFavouritesChipsClass =
+  'flex min-w-0 flex-wrap items-center gap-1.5 self-stretch';
+
+export const commandFavouriteChipClass = cn(
+  'box-border flex h-8 min-w-0 shrink-0 cursor-pointer select-none items-center gap-1.5 overflow-clip rounded-lg',
+  'bg-transparent px-2 outline-none',
+  'text-[12px] leading-[15px] text-[#F4F4F5]',
+  'transition-colors duration-150 ease-in-out motion-reduce:transition-none',
+  '[@media(hover:hover)]:hover:bg-[#1D1D1D80] [@media(hover:hover)]:hover:text-white',
+);
+
+export const commandAssetKindClass = cn(
+  'flex w-max shrink-0 items-center gap-1.5',
+  'font-inherit text-[12px] leading-[15px] text-[#F4F4F580]',
+);
+
+export const commandAssetFavouriteButtonClass = cn(
+  'flex size-3.5 shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 outline-none',
+  'transition-opacity duration-150 ease-in-out motion-reduce:transition-none',
+  '[@media(hover:hover)]:hover:opacity-70',
 );

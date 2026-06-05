@@ -1,7 +1,33 @@
+import { cn } from '../../lib/utils';
 import type { TerminalCommandItem } from './terminalCommands';
 import { commandItemIconClass } from '../ui/commandClasses';
 
 const STROKE = '#808080';
+
+type CommandMenuStarIconProps = {
+  filled?: boolean;
+  className?: string;
+};
+
+export function CommandMenuStarIcon({ filled = false, className }: CommandMenuStarIconProps) {
+  return (
+    <svg
+      viewBox="0 0 14 14"
+      width="14"
+      height="14"
+      className={cn('size-3.5 shrink-0', className)}
+      aria-hidden
+    >
+      <path
+        d="M7 1.75L8.472 5.528L12.25 5.611L9.375 8.361L10.278 12.111L7 10.278L3.722 12.111L4.625 8.361L1.75 5.611L5.528 5.528L7 1.75Z"
+        fill={filled ? STROKE : 'none'}
+        stroke={STROKE}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 type IconProps = {
   icon: TerminalCommandItem['icon'];
