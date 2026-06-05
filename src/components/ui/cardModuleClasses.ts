@@ -22,6 +22,11 @@ export const cardModuleRootClass = cn(
   cardModuleChromeClass,
 );
 
+export const cardModuleClosingClass = 'card-module-is-closing pointer-events-none';
+
+/** Applied to the react-grid-layout item so resize handles close in sync with the module. */
+export const cardModuleGridItemClosingClass = 'card-module-grid-item-closing';
+
 export const cardModuleHeaderClass =
   'box-border flex min-w-0 items-center gap-2 self-stretch';
 

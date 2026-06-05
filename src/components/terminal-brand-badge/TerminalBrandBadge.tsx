@@ -8,14 +8,22 @@ import {
 
 export type TerminalBrandBadgeProps = {
   className?: string;
+  imageClassName?: string;
+  imageSrc?: string;
+  label?: string;
 };
 
-export function TerminalBrandBadge({ className }: TerminalBrandBadgeProps) {
+export function TerminalBrandBadge({
+  className,
+  imageClassName = terminalBrandBadgeImageClass,
+  imageSrc = chentoBrandBadge,
+  label = 'Brand badge',
+}: TerminalBrandBadgeProps) {
   return (
-    <div className={cn(terminalBrandBadgeRootClass, className)} aria-label="Brand badge">
+    <div className={cn(terminalBrandBadgeRootClass, className)} aria-label={label}>
       <div
-        className={terminalBrandBadgeImageClass}
-        style={{ backgroundImage: `url(${chentoBrandBadge})` }}
+        className={imageClassName}
+        style={{ backgroundImage: `url(${imageSrc})` }}
         aria-hidden
       />
       <div className={terminalBrandBadgeBorderClass} aria-hidden />

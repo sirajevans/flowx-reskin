@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type Ref } from 'react';
 import { repairLayouts } from './layoutRepair';
+import { useDashboardUndo } from './useDashboardUndo';
 import {
   Responsive,
   WidthProvider,
@@ -17,6 +18,7 @@ import { OrderPanel } from '../order';
 import { PositionsPanel } from '../positions';
 import { TerminalBrandBadgeModule } from '../terminal-brand-badge';
 import { terminalBrandBadgeSlotClass } from '../terminal-brand-badge/terminalBrandBadgeClasses';
+import { TerminalFlowxLogoModule } from '../terminal-flowx-logo';
 import { getCoinIconUrlFromSymbol } from '../../lib/coinIcons';
 import { TerminalStatsModule } from '../terminal-stats';
 import { cardModuleGradientBorder } from '../ui/cardModuleClasses';
@@ -324,6 +326,7 @@ function renderResizeHandle(axis: ResizeHandleAxis, ref: Ref<HTMLElement>) {
 export function TerminalDashboard() {
   const [symbol, setSymbol] = useState('BTCUSDT');
   const [layouts, setLayouts] = useState<ResponsiveLayouts>(loadStoredLayouts);
+  const [closedModules, setClosedModules] = useState<Set<string>>(() => new Set());
   const [gridMetrics, setGridMetrics] = useState<{ width: number; breakpoint: DashboardBreakpoint }>({
     width: 0,
     breakpoint: 'xxl',
@@ -338,6 +341,33 @@ export function TerminalDashboard() {
     },
     [],
   );
+
+  const restoreDashboardSnapshot = useCallback(
+    (snapshot: { layouts: ResponsiveLayouts; closedModules: string[] }) => {
+      setClosedModules(new Set(snapshot.closedModules));
+
+      if (gridMetrics.width <= 0) {
+        setLayouts(snapshot.layouts);
+        persistLayouts(snapshot.layouts);
+        return;
+      }
+
+      const restored = finalizeLayouts(
+        snapshot.layouts,
+        gridMetrics.width,
+        gridMetrics.breakpoint,
+      );
+      setLayouts(restored);
+      persistLayouts(restored);
+    },
+    [finalizeLayouts, gridMetrics.width, gridMetrics.breakpoint],
+  );
+
+  const { pushUndoSnapshot, beginInteractionSnapshot, endInteractionSnapshot } = useDashboardUndo({
+    layouts,
+    closedModules,
+    onRestore: restoreDashboardSnapshot,
+  });
 
   const commitLayouts = useCallback(
     (nextLayouts: ResponsiveLayouts) => {
@@ -367,10 +397,12 @@ export function TerminalDashboard() {
 
   const handleInteractionStart = () => {
     isInteractingRef.current = true;
+    beginInteractionSnapshot();
   };
 
   const handleInteractionStop = (currentLayout: Layout) => {
     isInteractingRef.current = false;
+    endInteractionSnapshot();
     setLayouts((prev) => {
       const nextLayouts = {
         ...prev,
@@ -401,13 +433,40 @@ export function TerminalDashboard() {
     }));
   };
 
-  const noopClose = () => undefined;
+  const handleCloseModule = useCallback(
+    (moduleId: string) => {
+      pushUndoSnapshot();
+      setClosedModules((prev) => new Set([...prev, moduleId]));
+    setLayouts((prev) => {
+      const nextLayouts = Object.fromEntries(
+        Object.entries(prev).map(([breakpoint, layout]) => [
+          breakpoint,
+          (layout ?? []).filter((item) => item.i !== moduleId),
+        ]),
+      ) as ResponsiveLayouts;
+
+      persistLayouts(nextLayouts);
+      return nextLayouts;
+    });
+    },
+    [pushUndoSnapshot],
+  );
+
+  const isModuleOpen = useCallback(
+    (moduleId: string) => !closedModules.has(moduleId),
+    [closedModules],
+  );
 
   return (
     <main className="terminal-dashboard flex min-h-dvh flex-col gap-1 overflow-x-hidden px-2 py-2">
       <div className="terminal-dashboard__header flex max-h-[52px] min-w-0 flex-col gap-1 md:flex-row md:items-start">
-        <div className={terminalBrandBadgeSlotClass}>
-          <TerminalBrandBadgeModule />
+        <div className="flex min-w-0 shrink-0 gap-1 overflow-visible">
+          <div className={cn(terminalBrandBadgeSlotClass, 'basis-[157px]')}>
+            <TerminalBrandBadgeModule />
+          </div>
+          <div className={cn(terminalBrandBadgeSlotClass, 'basis-[157px]')}>
+            <TerminalFlowxLogoModule />
+          </div>
         </div>
         <div className="terminal-dashboard-stats max-h-[52px] min-h-[52px] min-w-0 flex-1">
           <TerminalStatsModule
@@ -440,27 +499,41 @@ export function TerminalDashboard() {
         onWidthChange={handleWidthChange}
         onBreakpointChange={handleBreakpointChange}
       >
-        <div key="liquidations">
-          <LiquidationsPanel onClose={noopClose} />
-        </div>
-        <div key="exchange-liquidations">
-          <ExchangeLiquidationsPanel onClose={noopClose} />
-        </div>
-        <div key="money-flow">
-          <MoneyFlowPanel onClose={noopClose} />
-        </div>
-        <div key="chart">
-          <ChartPlaceholder symbol={symbol} />
-        </div>
-        <div key="positions">
-          <PositionsPanel onClose={noopClose} />
-        </div>
-        <div key="order">
-          <OrderPanel />
-        </div>
-        <div key="order-feed">
-          <OrderFeedPanel onClose={noopClose} />
-        </div>
+        {isModuleOpen('liquidations') ? (
+          <div key="liquidations">
+            <LiquidationsPanel onClose={() => handleCloseModule('liquidations')} />
+          </div>
+        ) : null}
+        {isModuleOpen('exchange-liquidations') ? (
+          <div key="exchange-liquidations">
+            <ExchangeLiquidationsPanel onClose={() => handleCloseModule('exchange-liquidations')} />
+          </div>
+        ) : null}
+        {isModuleOpen('money-flow') ? (
+          <div key="money-flow">
+            <MoneyFlowPanel onClose={() => handleCloseModule('money-flow')} />
+          </div>
+        ) : null}
+        {isModuleOpen('chart') ? (
+          <div key="chart">
+            <ChartPlaceholder symbol={symbol} />
+          </div>
+        ) : null}
+        {isModuleOpen('positions') ? (
+          <div key="positions">
+            <PositionsPanel onClose={() => handleCloseModule('positions')} />
+          </div>
+        ) : null}
+        {isModuleOpen('order') ? (
+          <div key="order">
+            <OrderPanel />
+          </div>
+        ) : null}
+        {isModuleOpen('order-feed') ? (
+          <div key="order-feed">
+            <OrderFeedPanel onClose={() => handleCloseModule('order-feed')} />
+          </div>
+        ) : null}
       </ResponsiveGridLayout>
     </main>
   );
