@@ -30,28 +30,28 @@ export function CommandMenuFavourites({
 }: CommandMenuFavouritesProps) {
   const favouriteAssets = resolveFavouriteAssets(favouriteCoinIds);
 
+  if (favouriteAssets.length === 0) return null;
+
   return (
     <section aria-label="Favourites" className={commandFavouritesSectionClass}>
       <span className={commandFavouritesHeadingClass}>FAVOURITES</span>
-      {favouriteAssets.length > 0 ? (
-        <div className={commandFavouritesChipsClass}>
-          {favouriteAssets.map((asset) => (
-            <button
-              key={asset.value}
-              type="button"
-              className={commandFavouriteChipClass}
-              onClick={() => onSelect(asset.value)}
-            >
-              <img
-                src={getCoinIconUrl(asset.coinId)}
-                alt=""
-                className={cn(commandItemIconClass, 'rounded-full object-cover')}
-              />
-              <span>{asset.label.replace(/USDT$/, '')}</span>
-            </button>
-          ))}
-        </div>
-      ) : null}
+      <div className={commandFavouritesChipsClass}>
+        {favouriteAssets.map((asset) => (
+          <button
+            key={asset.value}
+            type="button"
+            className={commandFavouriteChipClass}
+            onClick={() => onSelect(asset.value)}
+          >
+            <img
+              src={getCoinIconUrl(asset.coinId)}
+              alt=""
+              className={cn(commandItemIconClass, 'rounded-full object-cover')}
+            />
+            <span>{asset.label.replace(/USDT$/, '')}</span>
+          </button>
+        ))}
+      </div>
     </section>
   );
 }
