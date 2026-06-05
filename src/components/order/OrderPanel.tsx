@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
-import { SwapCurrencyIcon, RiskManagementExpandIcon, OrderWarningIcon } from '../icons';
+import {
+  HyperflowXExternalLinkIcon,
+  SwapCurrencyIcon,
+  RiskManagementExpandIcon,
+  OrderWarningIcon,
+} from '../icons';
 import {
   CardModule,
   CardModuleTabContent,
   cardModuleTabClass,
-  cardModuleTabListClass,
 } from '../ui';
 import { cn } from '../../lib/utils';
 import { OrderAmountSlider } from './OrderAmountSlider';
@@ -20,6 +24,8 @@ import {
   orderPanelFieldShellAmountClass,
   orderPanelFieldShellLimitClass,
   orderPanelFieldShellRiskClass,
+  orderPanelHeaderTabsClass,
+  orderPanelHyperflowXTabLinkClass,
   orderPanelLabelClass,
   orderPanelLimitFieldClass,
   orderPanelLimitFieldsClass,
@@ -54,6 +60,8 @@ const TABS: { id: OrderTab; label: string }[] = [
 
 const TAB_IDS = TABS.map((tab) => tab.id);
 
+const HYPERFLOWX_URL = 'https://hyperflowx.trade';
+
 const BUY_SIDE_LABELS = ['Buy', 'Long'] as const;
 const SELL_SIDE_LABELS = ['Sell', 'Short'] as const;
 
@@ -87,7 +95,6 @@ export function OrderPanel({
   cost,
   margin,
   price = '73,244.6',
-  onClose,
   onPlaceOrder,
   onSwapCurrency,
 }: OrderPanelProps) {
@@ -225,24 +232,34 @@ export function OrderPanel({
       className={cn(orderPanelRootClass, className)}
       bodyClassName={orderPanelBodyGapClass}
       ariaLabel="Order widget"
-      onClose={onClose}
       header={
-        <Tabs
-          selectedKey={activeTab}
-          onSelectionChange={(key) => handleTabChange(key as OrderTab)}
-          className="min-w-0"
-        >
-          <TabList aria-label="Order type" className={cardModuleTabListClass}>
+        <div className={orderPanelHeaderTabsClass}>
+          <Tabs
+            selectedKey={activeTab}
+            onSelectionChange={(key) => handleTabChange(key as OrderTab)}
+            className="min-w-0"
+          >
+            <TabList aria-label="Order type" className="flex items-center gap-4">
+              {TABS.map((tab) => (
+                <Tab key={tab.id} id={tab.id} className={cardModuleTabClass}>
+                  {tab.label}
+                </Tab>
+              ))}
+            </TabList>
             {TABS.map((tab) => (
-              <Tab key={tab.id} id={tab.id} className={cardModuleTabClass}>
-                {tab.label}
-              </Tab>
+              <TabPanel key={tab.id} id={tab.id} className="hidden" />
             ))}
-          </TabList>
-          {TABS.map((tab) => (
-            <TabPanel key={tab.id} id={tab.id} className="hidden" />
-          ))}
-        </Tabs>
+          </Tabs>
+          <a
+            href={HYPERFLOWX_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={orderPanelHyperflowXTabLinkClass}
+          >
+            HyperflowX
+            <HyperflowXExternalLinkIcon />
+          </a>
+        </div>
       }
     >
       <div className={orderPanelSideToggleClass} role="group" aria-label="Order side">

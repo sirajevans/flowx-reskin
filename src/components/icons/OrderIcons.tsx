@@ -69,6 +69,35 @@ export function RiskManagementExpandIcon({ className = '' }: IconProps) {
   );
 }
 
+/** Order panel: HyperflowX external link tab */
+export function HyperflowXExternalLinkIcon({ className = ICON_CLASS }: IconProps) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden
+    >
+      <path
+        d="M6.89478 7.05772L10.955 2.99756M7.98372 2.99756L10.955 2.99756V5.9688"
+        stroke="#2B2B2B"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M10.2578 8.92706L10.2578 9.00313C10.2578 10.1077 9.36235 11.0031 8.25778 11.0031H5.04517C3.9406 11.0031 3.04517 10.1077 3.04517 9.00313V5.79053C3.04517 4.68596 3.9406 3.79053 5.04517 3.79053H5.11336"
+        stroke="#2B2B2B"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 /** Order form: submit warning icon */
 export function OrderWarningIcon({ className = '' }: IconProps) {
   return (

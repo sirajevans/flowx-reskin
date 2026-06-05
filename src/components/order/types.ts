@@ -27,7 +27,6 @@ export type OrderPanelProps = {
   cost?: string;
   margin?: string;
   price?: string;
-  onClose?: () => void;
   onPlaceOrder?: () => void;
   onSwapCurrency?: () => void;
 };

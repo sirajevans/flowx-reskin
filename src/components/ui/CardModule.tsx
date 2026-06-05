@@ -4,7 +4,6 @@ import { cn } from '../../lib/utils';
 import {
   cardModuleBodyClass,
   cardModuleCloseBtnClass,
-  cardModuleCloseIconClass,
   cardModuleDragHandleClass,
   cardModuleHeaderClass,
   cardModuleHeaderMainClass,
@@ -56,11 +55,7 @@ export function CardModule({
           >
             <CloseModuleIcon />
           </button>
-        ) : (
-          <span className={cardModuleCloseIconClass} aria-hidden>
-            <CloseModuleIcon />
-          </span>
-        )}
+        ) : null}
       </header>
       <div className={cn(cardModuleBodyClass, bodyClassName)}>{children}</div>
     </section>

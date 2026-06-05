@@ -15,6 +15,7 @@ export {
   SwapCurrencyIcon,
   RiskCheckIcon,
   RiskManagementExpandIcon,
+  HyperflowXExternalLinkIcon,
   OrderWarningIcon,
 } from './OrderIcons';
 export { OrderFeedAssetIcon } from './OrderFeedIcons';

@@ -1,5 +1,5 @@
 import { cn } from '../../lib/utils';
-import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
+import { cardModuleTabClass, cardModuleWidth365Class } from '../ui/cardModuleClasses';
 
 const fieldShellBase = cn(
   'order-panel-field-shell box-border flex h-[30px] min-w-0 items-center self-stretch overflow-clip rounded-lg bg-[#1d1d1d80]',
@@ -7,6 +7,13 @@ const fieldShellBase = cn(
 );
 
 export const orderPanelRootClass = cardModuleWidth365Class;
+
+export const orderPanelHeaderTabsClass = 'box-border flex h-[18px] min-w-0 items-center gap-4';
+
+export const orderPanelHyperflowXTabLinkClass = cn(
+  cardModuleTabClass,
+  '[font-synthesis:none] flex items-center gap-0.75 antialiased no-underline',
+);
 
 export const orderPanelBodyGapClass = 'gap-[16px]';
 

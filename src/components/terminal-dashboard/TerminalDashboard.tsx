@@ -456,7 +456,7 @@ export function TerminalDashboard() {
           <PositionsPanel onClose={noopClose} />
         </div>
         <div key="order">
-          <OrderPanel onClose={noopClose} />
+          <OrderPanel />
         </div>
         <div key="order-feed">
           <OrderFeedPanel onClose={noopClose} />
