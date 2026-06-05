@@ -22,7 +22,7 @@ export const terminalStatsSymbolGroupClass = cn(
 export const terminalStatsSymbolIconClass =
   'h-[18.25px] w-[18.25px] shrink-0 bg-cover bg-center bg-no-repeat';
 
-export const terminalStatsSymbolMetaClass = 'flex w-[59px] shrink-0 flex-col items-start';
+export const terminalStatsSymbolMetaClass = 'flex w-[59px] shrink-0 flex-col items-start gap-1';
 
 export const terminalStatsSymbolTypeClass =
   'w-max text-[10px] leading-3 tracking-[0.05em] text-[var(--widget-tab-inactive)]';
