@@ -3,11 +3,13 @@ import { cn } from '../../lib/utils';
 export const cardModuleGradientBorder =
   '[--gradient-border:linear-gradient(180deg,oklch(25%_0_0)_0%,oklch(22.5%_0_0)_50%,oklch(20%_0_0)_100%)]';
 
-export const cardModuleChromeClass = cn(
+/** Shared module shell — matches command dialog outer frame (blur, gradient border, padding). */
+export const commandModuleParentClass = cn(
+  'box-border flex select-none flex-col items-start overflow-clip rounded-[10px] p-3',
   'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] backdrop-blur-[4px]',
-  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif]",
   'gradient-border',
   cardModuleGradientBorder,
+  "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif]",
 );
 
 /** Standard widget column width (matches legacy `--card-module-width: 365px`). */
@@ -17,9 +19,8 @@ export const cardModuleWidth365Class = '[--card-module-width:365px]';
 export const cardModuleWidth960Class = '[--card-module-width:960px]';
 
 export const cardModuleRootClass = cn(
-  'group box-border flex w-[var(--card-module-width,auto)] select-none flex-col items-start gap-[18px] overflow-clip rounded-[10px]',
-  'p-3',
-  cardModuleChromeClass,
+  'group w-[var(--card-module-width,auto)] gap-[18px]',
+  commandModuleParentClass,
 );
 
 export const cardModuleClosingClass = 'card-module-is-closing pointer-events-none';

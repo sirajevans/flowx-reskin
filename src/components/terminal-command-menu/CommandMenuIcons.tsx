@@ -186,6 +186,17 @@ export function CommandMenuIcon({ icon }: IconProps) {
           />
         </svg>
       ) : null}
+      {icon === 'chat' ? (
+        <svg viewBox="0 0 14 14" width="14" height="14" className="absolute left-0 top-0 size-3.5">
+          <path
+            d="M11.9977 6.99997C11.9977 9.45107 9.45107 11.9977 6.99997 11.9977C6.22097 11.9977 5.48107 11.8081 4.82812 11.4707L1.54623 12.4537L2.5293 9.17178C2.19189 8.51883 2.00223 7.77893 2.00223 6.99997C2.00223 4.54887 4.54887 2.00223 6.99997 2.00223C9.45107 2.00223 11.9977 4.54887 11.9977 6.99997Z"
+            fill="none"
+            stroke={STROKE}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ) : null}
       {icon === 'reset' ? (
         <svg viewBox="0 0 14 14" width="14" height="14" className="absolute left-0 top-0 size-3.5">
           <path

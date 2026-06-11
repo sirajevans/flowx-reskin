@@ -1,5 +1,5 @@
 import { cn } from '../../lib/utils';
-import { cardModuleGradientBorder } from './cardModuleClasses';
+import { commandModuleParentClass } from './cardModuleClasses';
 
 export const commandFontClass =
   "font-['CoinbaseText-Regular','Coinbase_Text',system-ui,sans-serif]";
@@ -13,12 +13,9 @@ export const commandDialogOverlayClass = cn(
 /** Outer panel — matches Paper root frame (padding only, no inner gap). */
 export const commandDialogContentClass = cn(
   'fixed top-[18%] left-1/2 z-50 w-[512px] max-w-[calc(100%-2rem)] -translate-x-1/2',
-  'box-border flex select-none flex-col items-start overflow-clip rounded-[10px] p-3 outline-none',
-  'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] backdrop-blur-[4px]',
-  'gradient-border',
-  cardModuleGradientBorder,
+  commandModuleParentClass,
+  'outline-none',
   '[box-shadow:#00000073_0px_16px_48px]',
-  commandFontClass,
   'data-[state=open]:animate-dropdown-in data-[state=closed]:animate-dropdown-out',
   'motion-reduce:animate-none',
 );

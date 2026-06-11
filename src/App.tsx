@@ -1,3 +1,4 @@
+import { TerminalChatDialog } from './components/chat';
 import { TerminalDashboard } from './components/terminal-dashboard';
 import {
   CommandMenuProvider,
@@ -10,6 +11,7 @@ export default function App() {
     <CommandMenuProvider>
       <TerminalDashboard />
       <TerminalCommandMenu />
+      <TerminalChatDialog />
       <StartupOverlay />
     </CommandMenuProvider>
   );

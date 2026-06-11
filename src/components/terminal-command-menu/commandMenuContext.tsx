@@ -20,10 +20,14 @@ type CommandMenuContextValue = {
   setSearch: Dispatch<SetStateAction<string>>;
   variant: CommandMenuVariant;
   isTypeaheadSession: boolean;
+  chatOpen: boolean;
   openMenu: () => void;
   openAssetPicker: (onSelect?: (symbol: string) => void) => void;
   closeMenu: () => void;
+  openChat: () => void;
+  closeChat: () => void;
   handleOpenChange: (nextOpen: boolean) => void;
+  handleChatOpenChange: (nextOpen: boolean) => void;
   handleCommandSelect: (value: string) => void;
 };
 
@@ -31,6 +35,7 @@ const CommandMenuContext = createContext<CommandMenuContextValue | null>(null);
 
 export function CommandMenuProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [variant, setVariant] = useState<CommandMenuVariant>('default');
   const assetOnSelectRef = useRef<((symbol: string) => void) | undefined>(undefined);
@@ -74,6 +79,18 @@ export function CommandMenuProvider({ children }: { children: ReactNode }) {
     [closeMenu],
   );
 
+  const openChat = useCallback(() => {
+    setChatOpen(true);
+  }, []);
+
+  const closeChat = useCallback(() => {
+    setChatOpen(false);
+  }, []);
+
+  const handleChatOpenChange = useCallback((nextOpen: boolean) => {
+    setChatOpen(nextOpen);
+  }, []);
+
   const handleCommandSelect = useCallback(
     (value: string) => {
       if (isTerminalAssetCommand(value)) {
@@ -83,10 +100,16 @@ export function CommandMenuProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      if (value === 'action-open-whale-room-chat') {
+        closeMenu();
+        openChat();
+        return;
+      }
+
       runTerminalCommand(value);
       closeMenu();
     },
-    [closeMenu],
+    [closeMenu, openChat],
   );
 
   const value = useMemo<CommandMenuContextValue>(
@@ -96,10 +119,14 @@ export function CommandMenuProvider({ children }: { children: ReactNode }) {
       setSearch,
       variant,
       isTypeaheadSession,
+      chatOpen,
       openMenu,
       openAssetPicker,
       closeMenu,
+      openChat,
+      closeChat,
       handleOpenChange,
+      handleChatOpenChange,
       handleCommandSelect,
     }),
     [
@@ -107,10 +134,14 @@ export function CommandMenuProvider({ children }: { children: ReactNode }) {
       search,
       variant,
       isTypeaheadSession,
+      chatOpen,
       openMenu,
       openAssetPicker,
       closeMenu,
+      openChat,
+      closeChat,
       handleOpenChange,
+      handleChatOpenChange,
       handleCommandSelect,
     ],
   );

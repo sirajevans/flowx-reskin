@@ -409,13 +409,6 @@ function ChartModule({ symbol }: { symbol: string }) {
       1,
     );
 
-    volumeSeries.priceScale().applyOptions({
-      scaleMargins: {
-        top: 0.5,
-        bottom: 0,
-      },
-    });
-
     candlestickSeries.setData(BTCUSDT_5M_MAY_2026);
     volumeSeries.setData(toVolumeSeriesData(BTCUSDT_5M_MAY_2026));
     chart.timeScale().fitContent();

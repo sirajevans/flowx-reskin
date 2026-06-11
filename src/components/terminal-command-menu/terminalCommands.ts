@@ -6,7 +6,15 @@ export const TERMINAL_FAVOURITE_COIN_IDS = ['btc', 'eth', 'sol', 'bnb', 'xrp'] a
 export type TerminalCommandItem = {
   value: string;
   label: string;
-  icon: 'positions' | 'trade-panel' | 'order-feed' | 'liquidations' | 'money-flow' | 'chart' | 'reset';
+  icon:
+    | 'positions'
+    | 'trade-panel'
+    | 'order-feed'
+    | 'liquidations'
+    | 'money-flow'
+    | 'chart'
+    | 'chat'
+    | 'reset';
   kind: 'Module' | 'Command';
   keywords?: string[];
 };
@@ -64,6 +72,13 @@ export const TERMINAL_COMMAND_GROUPS: TerminalCommandGroup[] = [
     heading: 'ACTIONS',
     headingAlign: 'center',
     items: [
+      {
+        value: 'action-open-whale-room-chat',
+        label: 'Open whale room chat',
+        icon: 'chat',
+        kind: 'Command',
+        keywords: ['chat', 'room', 'whale', 'message'],
+      },
       {
         value: 'action-reset-layout',
         label: 'Reset dashboard layout',
