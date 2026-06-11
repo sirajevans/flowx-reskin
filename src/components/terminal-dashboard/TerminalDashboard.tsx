@@ -1,4 +1,13 @@
 import { useCallback, useEffect, useRef, useState, type Ref } from 'react';
+import {
+  CandlestickSeries,
+  ColorType,
+  CrosshairMode,
+  createChart,
+  HistogramSeries,
+  type HistogramData,
+  type Time,
+} from 'lightweight-charts';
 import { repairLayouts } from './layoutRepair';
 import { useDashboardUndo } from './useDashboardUndo';
 import {
@@ -19,6 +28,10 @@ import { PositionsPanel } from '../positions';
 import { TerminalBrandBadgeModule } from '../terminal-brand-badge';
 import { terminalBrandBadgeSlotClass } from '../terminal-brand-badge/terminalBrandBadgeClasses';
 import { getCoinIconUrlFromSymbol } from '../../lib/coinIcons';
+import {
+  BTCUSDT_5M_MAY_2026,
+  type ChartCandlePoint,
+} from '../../lib/parseOhlcvCsv';
 import { TerminalStatsModule } from '../terminal-stats';
 import { cardModuleGradientBorder } from '../ui/cardModuleClasses';
 import { cn } from '../../lib/utils';
@@ -29,13 +42,47 @@ const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v16';
 const FIXED_HEADER_LAYOUT_ITEMS = new Set(['brand-badge', 'stats']);
 const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
 const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
-const CHART_OHLCV_ITEMS = [
-  ['O', '78703.3'],
-  ['H', '78703.3'],
-  ['L', '78703.3'],
-  ['C', '78703.3'],
-  ['V', '78703.3'],
-] as const;
+const CHART_UP_COLOR = '#06b470';
+const CHART_DOWN_COLOR = '#f23645';
+const CHART_VOLUME_UP_COLOR = 'rgba(6, 180, 112, 0.25)';
+const CHART_VOLUME_DOWN_COLOR = 'rgba(242, 54, 69, 0.25)';
+const CHART_VOLUME_PANE_STRETCH = 0.22;
+const CHART_CANDLE_PANE_STRETCH = 0.78;
+
+function formatChartValue(value: number) {
+  return value.toLocaleString('en-US', {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+}
+
+function getChartOhlcvItems(candle: ChartCandlePoint | undefined) {
+  if (!candle) {
+    return [
+      ['O', '—'],
+      ['H', '—'],
+      ['L', '—'],
+      ['C', '—'],
+      ['V', '—'],
+    ] as const;
+  }
+
+  return [
+    ['O', formatChartValue(candle.open)],
+    ['H', formatChartValue(candle.high)],
+    ['L', formatChartValue(candle.low)],
+    ['C', formatChartValue(candle.close)],
+    ['V', formatChartValue(candle.volume)],
+  ] as const;
+}
+
+function toVolumeSeriesData(candles: ChartCandlePoint[]): HistogramData<Time>[] {
+  return candles.map(({ time, open, close, volume }) => ({
+    time,
+    value: volume,
+    color: close >= open ? CHART_VOLUME_UP_COLOR : CHART_VOLUME_DOWN_COLOR,
+  }));
+}
 
 const BREAKPOINTS = {
   xxl: 1280,
@@ -271,15 +318,136 @@ function persistLayouts(layouts: ResponsiveLayouts) {
   window.localStorage.setItem(DASHBOARD_LAYOUT_STORAGE_KEY, JSON.stringify(layouts));
 }
 
-function ChartPlaceholder({ symbol }: { symbol: string }) {
+function ChartModule({ symbol }: { symbol: string }) {
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const latestCandle = BTCUSDT_5M_MAY_2026[BTCUSDT_5M_MAY_2026.length - 1];
+  const chartOhlcvItems = getChartOhlcvItems(latestCandle);
+
+  useEffect(() => {
+    const container = chartContainerRef.current;
+    if (!container) return;
+
+    const rootStyle = getComputedStyle(document.documentElement);
+    const backgroundColor = '#0A0A0A';
+    const textColor = rootStyle.getPropertyValue('--flowx-muted').trim() || '#a1a1aa';
+    const borderColor = 'rgba(255, 255, 255, 0.08)';
+
+    const chart = createChart(container, {
+      width: container.clientWidth,
+      height: container.clientHeight,
+      layout: {
+        background: { type: ColorType.Solid, color: backgroundColor },
+        textColor,
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+        fontSize: 11,
+        attributionLogo: false,
+        panes: {
+          separatorColor: '#2b2b2b',
+        },
+      },
+      grid: {
+        vertLines: { visible: false },
+        horzLines: { visible: false },
+      },
+      crosshair: {
+        mode: CrosshairMode.Normal,
+        vertLine: {
+          color: 'rgba(255, 255, 255, 0.22)',
+          labelBackgroundColor: 'rgba(14, 14, 14, 0.95)',
+        },
+        horzLine: {
+          color: 'rgba(255, 255, 255, 0.22)',
+          labelBackgroundColor: 'rgba(14, 14, 14, 0.95)',
+        },
+      },
+      rightPriceScale: {
+        borderColor,
+        scaleMargins: {
+          top: 0.14,
+          bottom: 0.04,
+        },
+      },
+      timeScale: {
+        borderColor,
+        timeVisible: true,
+        secondsVisible: false,
+        rightOffset: 6,
+        barSpacing: 12,
+      },
+    });
+
+    const volumePane = chart.addPane();
+    const [candlePane] = chart.panes();
+
+    candlePane.setStretchFactor(CHART_CANDLE_PANE_STRETCH);
+    volumePane.setStretchFactor(CHART_VOLUME_PANE_STRETCH);
+
+    const candlestickSeries = chart.addSeries(
+      CandlestickSeries,
+      {
+        upColor: CHART_UP_COLOR,
+        downColor: CHART_DOWN_COLOR,
+        borderUpColor: CHART_UP_COLOR,
+        borderDownColor: CHART_DOWN_COLOR,
+        wickUpColor: CHART_UP_COLOR,
+        wickDownColor: CHART_DOWN_COLOR,
+        priceLineColor: CHART_UP_COLOR,
+        lastValueVisible: true,
+        priceLineVisible: true,
+      },
+      0,
+    );
+
+    const volumeSeries = chart.addSeries(
+      HistogramSeries,
+      {
+        color: CHART_VOLUME_UP_COLOR,
+        priceFormat: { type: 'volume' },
+        lastValueVisible: false,
+        priceLineVisible: false,
+      },
+      1,
+    );
+
+    volumeSeries.priceScale().applyOptions({
+      scaleMargins: {
+        top: 0.5,
+        bottom: 0,
+      },
+    });
+
+    candlestickSeries.setData(BTCUSDT_5M_MAY_2026);
+    volumeSeries.setData(toVolumeSeriesData(BTCUSDT_5M_MAY_2026));
+    chart.timeScale().fitContent();
+
+    const resizeChart = () => {
+      chart.resize(container.clientWidth, container.clientHeight);
+      chart.timeScale().fitContent();
+    };
+
+    const resizeObserver = new ResizeObserver(resizeChart);
+    resizeObserver.observe(container);
+
+    return () => {
+      resizeObserver.disconnect();
+      chart.remove();
+    };
+  }, []);
+
   return (
     <section
-      className="module-drag-handle terminal-dashboard-chart gradient-border"
+      className="module-drag-handle terminal-dashboard-chart gradient-border p-[6px]"
       aria-label="Chart module"
     >
       <div
+        ref={chartContainerRef}
+        className="absolute inset-[6px] z-0 min-h-0 min-w-0"
+        data-no-drag
+        aria-hidden
+      />
+      <div
         className={cn(
-          'gradient-border box-border absolute left-2 top-2 flex max-w-[calc(100%-16px)] items-center gap-6 overflow-clip rounded-lg px-2.5 py-[9px]',
+          'gradient-border box-border absolute left-2 top-2 z-10 flex max-w-[calc(100%-16px)] items-center gap-6 overflow-clip rounded-lg px-2.5 py-[9px]',
           'bg-[color-mix(in_srgb,var(--widget-chrome-bg)_75%,transparent)] [backdrop-filter:blur(5px)] [box-shadow:#00000080_0px_2px_20px]',
           cardModuleGradientBorder,
         )}
@@ -292,14 +460,14 @@ function ChartPlaceholder({ symbol }: { symbol: string }) {
           />
           <div className="flex min-w-0 items-center gap-0.5">
             <div className="shrink-0 text-[13px] leading-4 text-white">{symbol}</div>
-            <div className="truncate text-[13px] leading-4 text-white">Blofin · 1h</div>
+            <div className="truncate text-[13px] leading-4 text-white">Blofin · 5m</div>
           </div>
         </div>
         <div className="flex min-w-0 items-center gap-5 [font-variant-numeric:tabular-nums]">
-          {CHART_OHLCV_ITEMS.map(([label, value]) => (
+          {chartOhlcvItems.map(([label, value]) => (
             <div key={label} className="flex shrink-0 items-center gap-[5px]">
               <div className="text-[13px] leading-4 text-white">{label}</div>
-              <div className="text-[13px] leading-4 text-[#06B470]">{value}</div>
+              <div className="text-[13px] leading-4 text-[#06b470]">{value}</div>
             </div>
           ))}
         </div>
@@ -510,7 +678,7 @@ export function TerminalDashboard() {
         ) : null}
         {isModuleOpen('chart') ? (
           <div key="chart">
-            <ChartPlaceholder symbol={symbol} />
+            <ChartModule symbol={symbol} />
           </div>
         ) : null}
         {isModuleOpen('positions') ? (
