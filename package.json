@@ -26,6 +26,9 @@
     "react-dom": "^19.2.0",
     "react-grid-layout": "^2.2.3"
   },
+  "overrides": {
+    "react-draggable": "4.5.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@tailwindcss/vite": "^4.1.18",

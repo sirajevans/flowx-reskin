@@ -9,15 +9,21 @@ import {
   type Time,
 } from 'lightweight-charts';
 import { repairLayouts } from './layoutRepair';
+import { setDashboardOpenModuleHandler } from './dashboardModuleBridge';
 import { useDashboardUndo } from './useDashboardUndo';
 import {
   Responsive,
-  WidthProvider,
+  useContainerWidth,
   type Layout,
   type LayoutItem,
   type ResizeHandleAxis,
   type ResponsiveLayouts,
-} from 'react-grid-layout/legacy';
+} from 'react-grid-layout';
+import {
+  containerBounds,
+  defaultConstraints,
+  getCompactor,
+} from 'react-grid-layout/core';
 import { ResizeHandleLeftIcon, ResizeHandleRightIcon } from '../icons';
 import { ExchangeLiquidationsPanel } from '../liquidations/exchange-liquidations';
 import { LiquidationsPanel } from '../liquidations';
@@ -36,11 +42,14 @@ import { TerminalStatsModule } from '../terminal-stats';
 import { cardModuleGradientBorder } from '../ui/cardModuleClasses';
 import { cn } from '../../lib/utils';
 
-const ResponsiveGridLayout = WidthProvider(Responsive);
+const DASHBOARD_GRID_COMPACTOR = getCompactor(null, false, true);
+const DASHBOARD_GRID_CONSTRAINTS = [...defaultConstraints, containerBounds];
+const DASHBOARD_DRAG_CANCEL =
+  'button,input,textarea,select,a,[role=button],[role=tab],[data-no-drag]';
 
-const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v16';
+const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v19';
 const FIXED_HEADER_LAYOUT_ITEMS = new Set(['brand-badge', 'stats']);
-const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v13';
+const PREVIOUS_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v18';
 const LEGACY_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v9';
 const CHART_UP_COLOR = '#06b470';
 const CHART_DOWN_COLOR = '#f23645';
@@ -487,11 +496,35 @@ export function TerminalDashboard() {
   const [symbol, setSymbol] = useState('BTCUSDT');
   const [layouts, setLayouts] = useState<ResponsiveLayouts>(loadStoredLayouts);
   const [closedModules, setClosedModules] = useState<Set<string>>(() => new Set());
+  const { width: observedGridWidth, containerRef, mounted: gridMounted } = useContainerWidth();
   const [gridMetrics, setGridMetrics] = useState<{ width: number; breakpoint: DashboardBreakpoint }>({
     width: 0,
     breakpoint: 'xxl',
   });
   const isInteractingRef = useRef(false);
+  const gridMetricsRef = useRef(gridMetrics);
+
+  useEffect(() => {
+    gridMetricsRef.current = gridMetrics;
+    // #region agent log
+    fetch('http://127.0.0.1:7713/ingest/5e13ff40-aefa-4d16-9906-b5e26ae12fd5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'fe40c4'},body:JSON.stringify({sessionId:'fe40c4',location:'TerminalDashboard.tsx:gridMetrics',message:'grid metrics updated',data:{width:gridMetrics.width,breakpoint:gridMetrics.breakpoint,observedGridWidth,gridMounted},timestamp:Date.now(),hypothesisId:'H2',runId:'post-fix'})}).catch(()=>{});
+    // #endregion
+  }, [gridMetrics, observedGridWidth, gridMounted]);
+
+  useEffect(() => {
+    if (observedGridWidth <= 0) return;
+    setGridMetrics((prev) =>
+      prev.width === observedGridWidth ? prev : { ...prev, width: observedGridWidth },
+    );
+  }, [observedGridWidth]);
+
+  useEffect(() => {
+    const bp = gridMetrics.breakpoint;
+    const layout = layouts[bp] ?? [];
+    // #region agent log
+    fetch('http://127.0.0.1:7713/ingest/5e13ff40-aefa-4d16-9906-b5e26ae12fd5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'fe40c4'},body:JSON.stringify({sessionId:'fe40c4',location:'TerminalDashboard.tsx:layoutFlags',message:'layout item flags',data:{breakpoint:bp,items:layout.map((item)=>({i:item.i,static:item.static,isDraggable:item.isDraggable,isResizable:item.isResizable,x:item.x,y:item.y,w:item.w,h:item.h}))},timestamp:Date.now(),hypothesisId:'H4'})}).catch(()=>{});
+    // #endregion
+  }, [layouts, gridMetrics.breakpoint]);
 
   const finalizeLayouts = useCallback(
     (nextLayouts: ResponsiveLayouts, containerWidth: number, breakpoint: DashboardBreakpoint) => {
@@ -555,31 +588,56 @@ export function TerminalDashboard() {
     commitLayouts(nextLayouts);
   };
 
-  const handleInteractionStart = () => {
+  const handleInteractionStart = (...args: unknown[]) => {
     isInteractingRef.current = true;
     beginInteractionSnapshot();
+    // #region agent log
+    fetch('http://127.0.0.1:7713/ingest/5e13ff40-aefa-4d16-9906-b5e26ae12fd5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'fe40c4'},body:JSON.stringify({sessionId:'fe40c4',location:'TerminalDashboard.tsx:interactionStart',message:'drag/resize started',data:{argCount:args.length,gridWidth:gridMetricsRef.current.width,breakpoint:gridMetricsRef.current.breakpoint},timestamp:Date.now(),hypothesisId:'H3',runId:'post-fix'})}).catch(()=>{});
+    // #endregion
   };
 
-  const handleInteractionStop = (currentLayout: Layout) => {
+  const handleInteractionStop = (currentLayout: Layout, ...rest: unknown[]) => {
+    const bp = gridMetricsRef.current.breakpoint;
+    const prevItem = layouts[bp]?.[0];
+    const nextItem = currentLayout?.[0];
     isInteractingRef.current = false;
     endInteractionSnapshot();
+    let reverted = false;
     setLayouts((prev) => {
       const nextLayouts = {
         ...prev,
-        [gridMetrics.breakpoint]: currentLayout,
+        [bp]: currentLayout,
       };
-      if (gridMetrics.width <= 0) return prev;
+      if (gridMetricsRef.current.width <= 0) {
+        reverted = true;
+        return prev;
+      }
       const finalized = finalizeLayouts(
         nextLayouts,
-        gridMetrics.width,
-        gridMetrics.breakpoint,
+        gridMetricsRef.current.width,
+        gridMetricsRef.current.breakpoint,
       );
+      const finalizedFirst = finalized[bp]?.[0];
+      if (
+        finalizedFirst &&
+        nextItem &&
+        (finalizedFirst.x !== nextItem.x ||
+          finalizedFirst.y !== nextItem.y ||
+          finalizedFirst.w !== nextItem.w ||
+          finalizedFirst.h !== nextItem.h)
+      ) {
+        reverted = true;
+      }
       persistLayouts(finalized);
       return finalized;
     });
+    // #region agent log
+    fetch('http://127.0.0.1:7713/ingest/5e13ff40-aefa-4d16-9906-b5e26ae12fd5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'fe40c4'},body:JSON.stringify({sessionId:'fe40c4',location:'TerminalDashboard.tsx:interactionStop',message:'drag/resize stopped',data:{argCount:rest.length+1,gridWidth:gridMetricsRef.current.width,breakpoint:bp,prevFirst:prevItem?{i:prevItem.i,x:prevItem.x,y:prevItem.y,w:prevItem.w,h:prevItem.h}:null,nextFirst:nextItem?{i:nextItem.i,x:nextItem.x,y:nextItem.y,w:nextItem.w,h:nextItem.h}:null,reverted},timestamp:Date.now(),hypothesisId:'H5',runId:'post-fix'})}).catch(()=>{});
+    // #endregion
   };
 
   const handleWidthChange = (containerWidth: number) => {
+    if (containerWidth <= 0) return;
     setGridMetrics((prev) => ({
       ...prev,
       width: containerWidth,
@@ -612,6 +670,68 @@ export function TerminalDashboard() {
     [pushUndoSnapshot],
   );
 
+  const handleOpenModule = useCallback(
+    (moduleId: string) => {
+      pushUndoSnapshot();
+
+      setClosedModules((prev) => {
+        if (!prev.has(moduleId)) return prev;
+        const next = new Set(prev);
+        next.delete(moduleId);
+        return next;
+      });
+
+      setLayouts((prev) => {
+        const moduleIsOnGrid = Object.values(prev).some((layout) =>
+          (layout ?? []).some((item) => item.i === moduleId),
+        );
+        if (moduleIsOnGrid) return prev;
+
+        const nextLayouts = Object.fromEntries(
+          Object.entries(DEFAULT_LAYOUTS).map(([breakpoint, defaultLayout]) => {
+            const current = prev[breakpoint as DashboardBreakpoint] ?? [];
+            const defaultItem = (defaultLayout ?? []).find((item) => item.i === moduleId);
+            if (!defaultItem) return [breakpoint, current];
+            return [breakpoint, [...current, { ...defaultItem }]];
+          }),
+        ) as ResponsiveLayouts;
+
+        const { width, breakpoint } = gridMetricsRef.current;
+        if (width > 0) {
+          const finalized = finalizeLayouts(nextLayouts, width, breakpoint);
+          persistLayouts(finalized);
+          return finalized;
+        }
+
+        persistLayouts(nextLayouts);
+        return nextLayouts;
+      });
+    },
+    [finalizeLayouts, pushUndoSnapshot],
+  );
+
+  useEffect(() => {
+    setDashboardOpenModuleHandler(handleOpenModule);
+    return () => setDashboardOpenModuleHandler(null);
+  }, [handleOpenModule]);
+
+  useEffect(() => {
+    const onDocMouseDown = (event: MouseEvent) => {
+      const target = event.target;
+      const overlayPresent = document.querySelector('.startup-overlay') !== null;
+      const onDragHandle =
+        target instanceof Element && target.closest('.module-drag-handle') !== null;
+      const onResizeHandle =
+        target instanceof Element && target.closest('.react-resizable-handle') !== null;
+      if (!onDragHandle && !onResizeHandle) return;
+      // #region agent log
+      fetch('http://127.0.0.1:7713/ingest/5e13ff40-aefa-4d16-9906-b5e26ae12fd5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'fe40c4'},body:JSON.stringify({sessionId:'fe40c4',location:'TerminalDashboard.tsx:docMouseDown',message:'mousedown on grid chrome',data:{overlayPresent,onDragHandle,onResizeHandle,targetTag:target instanceof Element?target.tagName:null},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
+    };
+    document.addEventListener('mousedown', onDocMouseDown);
+    return () => document.removeEventListener('mousedown', onDocMouseDown);
+  }, []);
+
   const isModuleOpen = useCallback(
     (moduleId: string) => !closedModules.has(moduleId),
     [closedModules],
@@ -631,29 +751,39 @@ export function TerminalDashboard() {
           />
         </div>
       </div>
-      <ResponsiveGridLayout
-        className="terminal-dashboard__grid min-h-0 min-w-0 flex-1"
-        layouts={layouts}
-        breakpoints={BREAKPOINTS}
-        cols={COLS}
-        rowHeight={ROW_HEIGHT}
-        margin={GRID_MARGIN}
-        containerPadding={[0, 0]}
-        compactType={null}
-        preventCollision
-        isBounded
-        draggableHandle=".module-drag-handle"
-        draggableCancel="button,input,textarea,select,a,[role='button'],[role='tab'],[data-no-drag]"
-        resizeHandles={['se', 'sw']}
-        resizeHandle={renderResizeHandle}
-        onLayoutChange={handleLayoutChange}
-        onDragStart={handleInteractionStart}
-        onResizeStart={handleInteractionStart}
-        onDragStop={handleInteractionStop}
-        onResizeStop={handleInteractionStop}
-        onWidthChange={handleWidthChange}
-        onBreakpointChange={handleBreakpointChange}
-      >
+      <div ref={containerRef} className="terminal-dashboard__grid min-h-0 min-w-0 flex-1">
+        {gridMounted && observedGridWidth > 0 ? (
+          <Responsive
+            className="h-full min-h-0 min-w-0"
+            width={observedGridWidth}
+            layouts={layouts}
+            breakpoints={BREAKPOINTS}
+            cols={COLS}
+            rowHeight={ROW_HEIGHT}
+            margin={GRID_MARGIN}
+            containerPadding={[0, 0]}
+            compactor={DASHBOARD_GRID_COMPACTOR}
+            constraints={DASHBOARD_GRID_CONSTRAINTS}
+            dragConfig={{
+              enabled: true,
+              bounded: true,
+              handle: '.module-drag-handle',
+              cancel: DASHBOARD_DRAG_CANCEL,
+              threshold: 0,
+            }}
+            resizeConfig={{
+              enabled: true,
+              handles: ['se', 'sw'],
+              handleComponent: renderResizeHandle,
+            }}
+            onLayoutChange={handleLayoutChange}
+            onDragStart={handleInteractionStart}
+            onResizeStart={handleInteractionStart}
+            onDragStop={handleInteractionStop}
+            onResizeStop={handleInteractionStop}
+            onWidthChange={handleWidthChange}
+            onBreakpointChange={handleBreakpointChange}
+          >
         {isModuleOpen('liquidations') ? (
           <div key="liquidations">
             <LiquidationsPanel onClose={() => handleCloseModule('liquidations')} />
@@ -689,7 +819,9 @@ export function TerminalDashboard() {
             <OrderFeedPanel onClose={() => handleCloseModule('order-feed')} />
           </div>
         ) : null}
-      </ResponsiveGridLayout>
+          </Responsive>
+        ) : null}
+      </div>
     </main>
   );
 }

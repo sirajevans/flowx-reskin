@@ -42,7 +42,14 @@ export function StartupOverlay() {
   }, []);
 
   useEffect(() => {
+    // #region agent log
+    fetch('http://127.0.0.1:7713/ingest/5e13ff40-aefa-4d16-9906-b5e26ae12fd5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'fe40c4'},body:JSON.stringify({sessionId:'fe40c4',location:'StartupOverlay.tsx:mount',message:'startup overlay visible',data:{durationMs:STARTUP_OVERLAY_DURATION_MS},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
+    // #endregion
+
     const timeoutId = window.setTimeout(() => {
+      // #region agent log
+      fetch('http://127.0.0.1:7713/ingest/5e13ff40-aefa-4d16-9906-b5e26ae12fd5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'fe40c4'},body:JSON.stringify({sessionId:'fe40c4',location:'StartupOverlay.tsx:hide',message:'startup overlay hidden',data:{},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
       setIsVisible(false);
     }, STARTUP_OVERLAY_DURATION_MS);
 

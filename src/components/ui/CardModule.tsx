@@ -86,7 +86,29 @@ export function CardModule({
     >
       <header className={cardModuleHeaderClass}>
         <div className={cardModuleHeaderMainClass}>
-          <span className={cardModuleDragHandleClass} aria-hidden>
+          <span
+            className={cardModuleDragHandleClass}
+            aria-hidden
+          onMouseDown={(event) => {
+            const gridItem = sectionRef.current?.closest('.react-grid-item');
+            const target = event.target;
+            const cancelSelectors =
+              '.react-resizable-handle,button,input,textarea,select,a,[role=button],[role=tab],[data-no-drag]';
+            let cancelMatch: string | null = null;
+            if (target instanceof Element && gridItem instanceof HTMLElement) {
+              let node: Element | null = target;
+              while (node && node !== gridItem) {
+                for (const sel of cancelSelectors.split(',')) {
+                  if (node.matches(sel)) cancelMatch = sel;
+                }
+                node = node.parentElement;
+              }
+            }
+            // #region agent log
+            fetch('http://127.0.0.1:7713/ingest/5e13ff40-aefa-4d16-9906-b5e26ae12fd5',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'fe40c4'},body:JSON.stringify({sessionId:'fe40c4',location:'CardModule.tsx:dragHandle',message:'drag handle mousedown',data:{ariaLabel,cancelMatch,gridItemClass:gridItem instanceof HTMLElement?gridItem.className:null,offsetParentTag:gridItem instanceof HTMLElement&&gridItem.offsetParent instanceof Element?gridItem.offsetParent.tagName:null,hasReactDraggable:gridItem instanceof HTMLElement?gridItem.classList.contains('react-draggable'):false,targetTag:target instanceof Element?target.tagName:null},timestamp:Date.now(),hypothesisId:'H3'})}).catch(()=>{});
+            // #endregion
+          }}
+          >
             <DragModuleIcon />
           </span>
           {header}

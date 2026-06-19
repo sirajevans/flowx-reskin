@@ -15,6 +15,9 @@ const publicDir = fs.existsSync(localPublicDir)
     : localPublicDir;
 
 export default defineConfig({
+  define: {
+    'process.env.DRAGGABLE_DEBUG': 'false',
+  },
   plugins: [react(), tailwindcss()],
   publicDir,
 });

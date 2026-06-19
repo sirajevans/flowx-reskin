@@ -90,7 +90,7 @@ export const TERMINAL_COMMAND_GROUPS: TerminalCommandGroup[] = [
   },
 ];
 
-const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v16';
+const DASHBOARD_LAYOUT_STORAGE_KEY = 'flowx-terminal-dashboard-layout:v19';
 
 export function isTerminalAssetCommand(value: string) {
   return value.startsWith('asset-');

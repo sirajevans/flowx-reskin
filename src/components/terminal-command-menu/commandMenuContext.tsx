@@ -10,6 +10,11 @@ import {
   type SetStateAction,
 } from 'react';
 import { useCommandMenuTypeahead } from '../../hooks/useCommandMenuTypeahead';
+import {
+  isTerminalModuleCommand,
+  openDashboardModule,
+  resolveTerminalModuleId,
+} from '../terminal-dashboard/dashboardModuleBridge';
 import { isTerminalAssetCommand, resolveTerminalAssetSymbol, runTerminalCommand } from './terminalCommands';
 
 export type CommandMenuVariant = 'default' | 'assets';
@@ -103,6 +108,12 @@ export function CommandMenuProvider({ children }: { children: ReactNode }) {
       if (value === 'action-open-whale-room-chat') {
         closeMenu();
         openChat();
+        return;
+      }
+
+      if (isTerminalModuleCommand(value)) {
+        openDashboardModule(resolveTerminalModuleId(value));
+        closeMenu();
         return;
       }
 
