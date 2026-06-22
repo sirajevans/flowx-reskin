@@ -478,6 +478,7 @@ html[data-theme='light'] body {
 .terminal-dashboard .react-grid-item .positions-panel,
 .terminal-dashboard .react-grid-item [aria-label='Order feed'],
 .terminal-dashboard .react-grid-item [aria-label='Exchange liquidations'],
+.terminal-dashboard .react-grid-item [aria-label='Funding rates'],
 .terminal-dashboard .react-grid-item [aria-label='Money flow'] {
   height: 100%;
   min-height: 0;

@@ -1,7 +1,10 @@
 import { cn } from '../../lib/utils';
 import { cardModuleWidth365Class } from '../ui/cardModuleClasses';
 
-export const fundingRatesPanelRootClass = cardModuleWidth365Class;
+export const fundingRatesPanelRootClass = cn(
+  cardModuleWidth365Class,
+  'box-border h-full min-h-0 max-h-none w-full min-w-0',
+);
 
 export const fundingRatesPanelBodyClass = 'gap-2 min-h-0';
 
@@ -9,7 +12,7 @@ export const fundingRatesPanelLegendClass =
   'flex min-w-0 flex-col gap-1 pt-1';
 
 export const fundingRatesPanelLegendItemClass = cn(
-  'flex w-full min-w-0 items-center justify-between gap-3 rounded-[8px] border border-transparent px-2 py-1.5 text-left',
+  'flex w-full min-w-0 cursor-pointer items-center justify-between gap-3 rounded-[8px] border border-transparent px-2 py-1.5 text-left',
   'transition-[border-color,background-color] duration-150 ease-in-out motion-reduce:transition-none',
   'data-[selected=true]:border-[rgba(255,255,255,0.12)] data-[selected=true]:bg-[rgba(255,255,255,0.04)]',
   '[@media(hover:hover)]:hover:bg-[rgba(255,255,255,0.03)]',
