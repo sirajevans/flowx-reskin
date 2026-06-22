@@ -114,6 +114,13 @@ The interface is designed as a UI sandbox. Default values and mock rows live nex
 
 Persistent browser state is limited to dashboard layout in `localStorage`. Selecting an asset updates React state for the current session; it is not persisted across reloads.
 
+## Email Content
+
+Standalone email templates live in `email-content/` at the repo root.
+
+- `email-content/flowx-wallet-ready.html` is a FlowX-branded funding confirmation email adapted from the supplied Evership template.
+- Keep this folder for raw email HTML assets that should stay separate from the React dashboard modules.
+
 ## Building New Modules
 
 New dashboard widgets must use `CardModule` from `src/components/ui/CardModule.tsx` (also exported from `src/components/ui`) as their shell. Do not build standalone module chrome with custom headers; `CardModule` provides the drag handle, title or tab header slot, optional close control, and body layout consistent with the rest of the terminal.

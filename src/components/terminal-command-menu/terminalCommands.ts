@@ -12,6 +12,7 @@ export type TerminalCommandItem = {
     | 'order-feed'
     | 'liquidations'
     | 'money-flow'
+    | 'funding-rates'
     | 'chart'
     | 'chat'
     | 'reset';
@@ -64,6 +65,13 @@ export const TERMINAL_COMMAND_GROUPS: TerminalCommandGroup[] = [
         icon: 'money-flow',
         kind: 'Module',
         keywords: ['flow'],
+      },
+      {
+        value: 'module-funding-rates',
+        label: 'Funding rates',
+        icon: 'funding-rates',
+        kind: 'Module',
+        keywords: ['funding', 'rates', 'exchange'],
       },
       { value: 'module-chart', label: 'Chart', icon: 'chart', kind: 'Module', keywords: ['price'] },
     ],

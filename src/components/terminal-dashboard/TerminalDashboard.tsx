@@ -26,6 +26,7 @@ import {
 } from 'react-grid-layout/core';
 import { ResizeHandleLeftIcon, ResizeHandleRightIcon } from '../icons';
 import { ExchangeLiquidationsPanel } from '../liquidations/exchange-liquidations';
+import { FundingRatesPanel } from '../funding-rates';
 import { LiquidationsPanel } from '../liquidations';
 import { MoneyFlowPanel } from '../money-flow';
 import { OrderFeedPanel } from '../order-feed';
@@ -211,6 +212,7 @@ const MODULE_MIN_SIZES_PX: Partial<Record<string, { width: number; height: numbe
   liquidations: { width: 302, height: 174 },
   'exchange-liquidations': { width: 302, height: 133 },
   'money-flow': { width: 302, height: 154 },
+  'funding-rates': { width: 302, height: 206 },
   positions: { width: 794, height: 154 },
   order: { width: 315, height: 374 },
   'order-feed': { width: 315, height: 206 },
@@ -221,6 +223,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'liquidations', x: 0, y: 0, w: 26, h: 17, minW: 24, minH: 17 },
     { i: 'exchange-liquidations', x: 0, y: 17, w: 26, h: 22, minW: 24, minH: 13 },
     { i: 'money-flow', x: 0, y: 39, w: 26, h: 39, minW: 26, minH: 15 },
+    { i: 'funding-rates', x: 0, y: 78, w: 26, h: 20, minW: 24, minH: 20 },
     { i: 'chart', x: 26, y: 0, w: 60, h: 59, minW: 16, minH: 24 },
     { i: 'positions', x: 26, y: 59, w: 60, h: 19, minW: 60, minH: 15 },
     { i: 'order', x: 86, y: 0, w: 26, h: 36, minW: 25, minH: 36 },
@@ -230,6 +233,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'liquidations', x: 0, y: 0, w: 12, h: 12, minW: 12, minH: 12 },
     { i: 'exchange-liquidations', x: 0, y: 12, w: 12, h: 16, minW: 12, minH: 12 },
     { i: 'money-flow', x: 0, y: 28, w: 12, h: 28, minW: 12, minH: 20 },
+    { i: 'funding-rates', x: 0, y: 56, w: 12, h: 20, minW: 12, minH: 20 },
     { i: 'chart', x: 12, y: 0, w: 24, h: 40, minW: 16, minH: 24 },
     { i: 'positions', x: 12, y: 40, w: 24, h: 16, minW: 16, minH: 12 },
     { i: 'order', x: 36, y: 0, w: 12, h: 28, minW: 12, minH: 24 },
@@ -243,6 +247,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'liquidations', x: 0, y: 52, w: 12, h: 12, minW: 12, minH: 12 },
     { i: 'exchange-liquidations', x: 12, y: 52, w: 12, h: 16, minW: 12, minH: 12 },
     { i: 'money-flow', x: 0, y: 68, w: 14, h: 40, minW: 14, minH: 40 },
+    { i: 'funding-rates', x: 14, y: 68, w: 10, h: 20, minW: 10, minH: 20 },
   ],
   sm: [
     { i: 'chart', x: 0, y: 0, w: 1, h: 36, minW: 1, minH: 24 },
@@ -252,6 +257,7 @@ const DEFAULT_LAYOUTS: ResponsiveLayouts = {
     { i: 'liquidations', x: 0, y: 112, w: 1, h: 12, minW: 1, minH: 12 },
     { i: 'exchange-liquidations', x: 0, y: 124, w: 1, h: 16, minW: 1, minH: 12 },
     { i: 'money-flow', x: 0, y: 140, w: 1, h: 40, minW: 1, minH: 40 },
+    { i: 'funding-rates', x: 0, y: 180, w: 1, h: 20, minW: 1, minH: 20 },
   ],
 };
 
@@ -797,6 +803,11 @@ export function TerminalDashboard() {
         {isModuleOpen('money-flow') ? (
           <div key="money-flow">
             <MoneyFlowPanel onClose={() => handleCloseModule('money-flow')} />
+          </div>
+        ) : null}
+        {isModuleOpen('funding-rates') ? (
+          <div key="funding-rates">
+            <FundingRatesPanel onClose={() => handleCloseModule('funding-rates')} />
           </div>
         ) : null}
         {isModuleOpen('chart') ? (

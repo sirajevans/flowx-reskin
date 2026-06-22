@@ -168,6 +168,32 @@ export function CommandMenuIcon({ icon }: IconProps) {
           />
         </svg>
       ) : null}
+      {icon === 'funding-rates' ? (
+        <svg viewBox="0 0 14 14" width="14" height="14" className="absolute left-0 top-0 size-3.5">
+          <path
+            d="M1.54623 11.2717H12.4538"
+            fill="none"
+            stroke={STROKE}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M1.54623 8.34592L4.20124 6.71252L6.33584 7.31509L9.29188 3.69556L12.4538 5.11219"
+            fill="none"
+            stroke={STROKE}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M1.54623 3.01453L3.12344 4.15155L5.11429 2.72839L7.17557 4.52763L9.0647 2.72839L10.8074 4.15155L12.4538 3.01453"
+            fill="none"
+            stroke={STROKE}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            opacity="0.7"
+          />
+        </svg>
+      ) : null}
       {icon === 'chart' ? (
         <svg viewBox="0 0 14 14" width="14" height="14" className="absolute left-0 top-0 size-3.5">
           <path
