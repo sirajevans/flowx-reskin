@@ -23,8 +23,10 @@ export {
 export {
   removeAllPreviewTradeLevels,
   removePreviewTradeLevel,
+  removeTradeLevelDragFill,
   renderTradeLevelOverlay,
   updateDraggableTradeLevel,
+  updateTradeLevelDragFill,
   upsertTradeLevelVisual,
 } from './tradeLevelOverlay';
 

@@ -7,8 +7,10 @@ import {
   isLevelPriceValid,
   normalizePosition,
   removeAllPreviewTradeLevels,
+  removeTradeLevelDragFill,
   renderTradeLevelOverlay,
   updateDraggableTradeLevel,
+  updateTradeLevelDragFill,
   type DraggableLevelKind,
 } from './tradeLevelOverlay';
 
@@ -95,6 +97,15 @@ export function useTradeLevelOverlay({
         preview,
         onAmountPointerDown,
         onRemoveLevel,
+      });
+
+      updateTradeLevelDragFill({
+        overlay,
+        candleSeries,
+        entryPrice: position.entryPrice,
+        levelPrice: price,
+        kind,
+        panelHeight: getPanelHeight(),
       });
     };
 
@@ -183,6 +194,7 @@ export function useTradeLevelOverlay({
       window.removeEventListener('pointercancel', onDragPointerUp);
       overlay.classList.remove('is-dragging');
       removeAllPreviewTradeLevels(overlay);
+      removeTradeLevelDragFill(overlay);
 
       const rawPrice = dragPrice ?? priceFromPointer(event.clientY);
       if (rawPrice !== null) {
@@ -373,6 +385,7 @@ export function useTradeLevelOverlay({
       window.removeEventListener('pointercancel', onDragPointerUp);
       overlay.classList.remove('is-dragging');
       removeAllPreviewTradeLevels(overlay);
+      removeTradeLevelDragFill(overlay);
       chartParent.removeEventListener('pointerdown', onPointerDown);
       chartParent.removeEventListener('wheel', onWheel);
       chartParent.removeEventListener('dblclick', onDoubleClick);

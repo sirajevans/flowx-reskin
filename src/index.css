@@ -582,6 +582,22 @@ html[data-theme='light'] body {
   pointer-events: auto;
 }
 
+.trade-level-overlay .trade-level-drag-fill {
+  position: absolute;
+  left: 0;
+  right: 12px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.trade-level-overlay .trade-level-drag-fill.stop {
+  background: rgba(242, 54, 69, 0.1);
+}
+
+.trade-level-overlay .trade-level-drag-fill.take {
+  background: rgba(6, 180, 112, 0.1);
+}
+
 .trade-level-overlay .trade-level-entry-group {
   position: absolute;
   left: 0;

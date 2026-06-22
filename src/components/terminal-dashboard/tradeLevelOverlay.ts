@@ -220,6 +220,59 @@ export function removeAllPreviewTradeLevels(overlay: HTMLDivElement) {
   overlay.querySelectorAll('.trade-level-group.preview').forEach((node) => node.remove());
 }
 
+export function updateTradeLevelDragFill({
+  overlay,
+  candleSeries,
+  entryPrice,
+  levelPrice,
+  kind,
+  panelHeight,
+}: {
+  overlay: HTMLDivElement;
+  candleSeries: ISeriesApi<'Candlestick', Time>;
+  entryPrice: number;
+  levelPrice: number;
+  kind: DraggableLevelKind;
+  panelHeight: number;
+}) {
+  const entryRawY = candleSeries.priceToCoordinate(entryPrice);
+  const levelRawY = candleSeries.priceToCoordinate(levelPrice);
+  if (entryRawY === null || levelRawY === null) return;
+
+  const entryY = Math.min(Math.max(entryRawY, 0), panelHeight - 1);
+  const levelY = Math.min(Math.max(levelRawY, 0), panelHeight - 1);
+
+  if (Math.abs(entryY - levelY) < 1) {
+    removeTradeLevelDragFill(overlay, kind);
+    return;
+  }
+
+  const top = Math.min(entryY, levelY);
+  const height = Math.abs(entryY - levelY);
+
+  let fill = overlay.querySelector<HTMLElement>(`.trade-level-drag-fill.${kind}`);
+  if (!fill) {
+    fill = document.createElement('div');
+    fill.className = `trade-level-drag-fill ${kind}`;
+    overlay.prepend(fill);
+  }
+
+  fill.style.top = `${top}px`;
+  fill.style.height = `${height}px`;
+}
+
+export function removeTradeLevelDragFill(
+  overlay: HTMLDivElement,
+  kind?: DraggableLevelKind,
+) {
+  if (kind) {
+    overlay.querySelector(`.trade-level-drag-fill.${kind}`)?.remove();
+    return;
+  }
+
+  overlay.querySelectorAll('.trade-level-drag-fill').forEach((node) => node.remove());
+}
+
 export function upsertTradeLevelVisual({
   overlay,
   candleSeries,
