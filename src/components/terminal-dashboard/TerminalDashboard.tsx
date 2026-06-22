@@ -6,6 +6,9 @@ import {
   createChart,
   HistogramSeries,
   type HistogramData,
+  type IChartApi,
+  type IPaneApi,
+  type ISeriesApi,
   type Time,
 } from 'lightweight-charts';
 import { repairLayouts } from './layoutRepair';
@@ -42,6 +45,8 @@ import {
 import { TerminalStatsModule } from '../terminal-stats';
 import { cardModuleGradientBorder } from '../ui/cardModuleClasses';
 import { cn } from '../../lib/utils';
+import { createDemoPosition, type ActivePosition } from './tradeLevelConfig';
+import { useTradeLevelOverlay } from './useTradeLevelOverlay';
 
 const DASHBOARD_GRID_COMPACTOR = getCompactor(null, false, true);
 const DASHBOARD_GRID_CONSTRAINTS = [...defaultConstraints, containerBounds];
@@ -92,6 +97,15 @@ function toVolumeSeriesData(candles: ChartCandlePoint[]): HistogramData<Time>[] 
     value: volume,
     color: close >= open ? CHART_VOLUME_UP_COLOR : CHART_VOLUME_DOWN_COLOR,
   }));
+}
+
+const CHART_DEMO_POSITION_SIDE: 'long' | 'short' = 'long';
+
+function getChartDemoPosition(candles: ChartCandlePoint[]): ActivePosition | null {
+  const latest = candles[candles.length - 1];
+  if (!latest) return null;
+
+  return createDemoPosition(CHART_DEMO_POSITION_SIDE, Math.round(latest.close * 0.992 * 10) / 10);
 }
 
 const BREAKPOINTS = {
@@ -334,9 +348,35 @@ function persistLayouts(layouts: ResponsiveLayouts) {
 }
 
 function ChartModule({ symbol }: { symbol: string }) {
+  const chartMountRef = useRef<HTMLDivElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
-  const latestCandle = BTCUSDT_5M_MAY_2026[BTCUSDT_5M_MAY_2026.length - 1];
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const chartApiRef = useRef<IChartApi | null>(null);
+  const candleSeriesRef = useRef<ISeriesApi<'Candlestick', Time> | null>(null);
+  const candlePaneRef = useRef<IPaneApi<Time> | null>(null);
+  const [chartReady, setChartReady] = useState(false);
+  const chartCandles = BTCUSDT_5M_MAY_2026;
+  const [activePosition, setActivePosition] = useState<ActivePosition | null>(() =>
+    symbol === 'BTCUSDT' ? getChartDemoPosition(chartCandles) : null,
+  );
+  const latestCandle = chartCandles[chartCandles.length - 1];
   const chartOhlcvItems = getChartOhlcvItems(latestCandle);
+
+  useEffect(() => {
+    setActivePosition(symbol === 'BTCUSDT' ? getChartDemoPosition(chartCandles) : null);
+  }, [symbol, chartCandles]);
+
+  useTradeLevelOverlay({
+    chartRef: chartApiRef,
+    candleSeriesRef,
+    candlePaneRef,
+    overlayRef,
+    chartParentRef: chartMountRef,
+    position: activePosition,
+    onPositionChange: setActivePosition,
+    candles: chartCandles,
+    chartReady,
+  });
 
   useEffect(() => {
     const container = chartContainerRef.current;
@@ -424,9 +464,14 @@ function ChartModule({ symbol }: { symbol: string }) {
       1,
     );
 
-    candlestickSeries.setData(BTCUSDT_5M_MAY_2026);
-    volumeSeries.setData(toVolumeSeriesData(BTCUSDT_5M_MAY_2026));
+    candlestickSeries.setData(chartCandles);
+    volumeSeries.setData(toVolumeSeriesData(chartCandles));
     chart.timeScale().fitContent();
+
+    chartApiRef.current = chart;
+    candleSeriesRef.current = candlestickSeries;
+    candlePaneRef.current = candlePane;
+    setChartReady(true);
 
     const resizeChart = () => {
       chart.resize(container.clientWidth, container.clientHeight);
@@ -438,9 +483,13 @@ function ChartModule({ symbol }: { symbol: string }) {
 
     return () => {
       resizeObserver.disconnect();
+      chartApiRef.current = null;
+      candleSeriesRef.current = null;
+      candlePaneRef.current = null;
+      setChartReady(false);
       chart.remove();
     };
-  }, []);
+  }, [chartCandles]);
 
   return (
     <section
@@ -448,11 +497,19 @@ function ChartModule({ symbol }: { symbol: string }) {
       aria-label="Chart module"
     >
       <div
-        ref={chartContainerRef}
+        ref={chartMountRef}
         className="absolute inset-[6px] z-0 min-h-0 min-w-0"
         data-no-drag
-        aria-hidden
-      />
+      >
+        <div className="relative h-full w-full">
+          <div ref={chartContainerRef} className="absolute inset-0" aria-hidden />
+          <div
+            ref={overlayRef}
+            className="trade-level-overlay absolute inset-0 z-[100]"
+            aria-hidden
+          />
+        </div>
+      </div>
       <div
         className={cn(
           'gradient-border box-border absolute left-2 top-2 z-10 flex max-w-[calc(100%-16px)] items-center gap-6 overflow-clip rounded-lg px-2.5 py-[9px]',

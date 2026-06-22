@@ -563,14 +563,299 @@ html[data-theme='light'] body {
   box-sizing: border-box;
   overflow: hidden;
   user-select: none;
-  cursor: grab;
+  cursor: crosshair;
   border-radius: 10px;
   background: color-mix(in srgb, var(--widget-chrome-bg) 75%, transparent);
   backdrop-filter: blur(4px);
 }
 
 .terminal-dashboard-chart:active {
+  cursor: crosshair;
+}
+
+.trade-level-overlay {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.trade-level-overlay.is-dragging {
+  pointer-events: auto;
+}
+
+.trade-level-overlay .trade-level-entry-group {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.trade-level-overlay .trade-level-entry-left {
+  position: absolute;
+  right: 95px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  transform: translateY(-50%);
+  pointer-events: auto;
+}
+
+.trade-level-overlay .trade-level-add-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 4px;
+  padding: 0 8px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  opacity: 0;
+  pointer-events: none;
+  cursor: grab;
+  touch-action: none;
+  transition: opacity 120ms ease-out;
+  font-family: 'CoinbaseText-Regular', 'Coinbase Text', system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 150%;
+  white-space: nowrap;
+}
+
+.trade-level-overlay .trade-level-entry-group:hover .trade-level-add-chip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.trade-level-overlay .trade-level-add-chip.stop {
+  background: #251214;
+  outline: 1px solid #f23645;
+  outline-offset: -1px;
+  color: #ff838d;
+}
+
+.trade-level-overlay .trade-level-add-chip.take {
+  background: #022014;
+  outline: 1px solid #06b470;
+  outline-offset: -1px;
+  color: #95efcb;
+}
+
+.trade-level-overlay .trade-level-add-chip-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translate(-50%, 4px);
+  opacity: 0;
+  pointer-events: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(10, 10, 10, 0.95);
+  color: #f4f4f5;
+  font-family: 'CoinbaseText-Regular', 'Coinbase Text', system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 150%;
+  white-space: nowrap;
+  transition:
+    opacity 150ms cubic-bezier(0.215, 0.61, 0.355, 1),
+    transform 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.trade-level-overlay .trade-level-add-chip:hover .trade-level-add-chip-tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.trade-level-overlay.is-dragging .trade-level-add-chip {
   cursor: grabbing;
+}
+
+.trade-level-overlay.is-dragging .trade-level-add-chip-tooltip {
+  opacity: 0;
+}
+
+.trade-level-overlay .trade-level-group.preview {
+  opacity: 1;
+  pointer-events: none;
+}
+
+.trade-level-overlay .trade-level-group {
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 120ms ease-out;
+}
+
+.trade-level-overlay .trade-level-group:hover,
+.trade-level-overlay.is-dragging .trade-level-group {
+  opacity: 1;
+}
+
+.trade-level-overlay .trade-level-entry-group .trade-level-label.entry {
+  position: absolute;
+  pointer-events: auto;
+}
+
+.trade-level-overlay .trade-level-entry-group .trade-level-amount.entry {
+  position: relative;
+  right: auto;
+  top: auto;
+  transform: none;
+  pointer-events: none;
+}
+
+.trade-level-overlay .trade-level,
+.trade-level-overlay .trade-level-label,
+.trade-level-overlay .trade-level-amount.entry {
+  position: absolute;
+  pointer-events: none;
+}
+
+.trade-level-overlay .trade-level-amount.stop,
+.trade-level-overlay .trade-level-amount.take {
+  position: absolute;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  z-index: 2;
+}
+
+.trade-level-overlay.is-dragging .trade-level-amount.stop,
+.trade-level-overlay.is-dragging .trade-level-amount.take {
+  cursor: grabbing;
+}
+
+.trade-level-overlay .trade-level {
+  left: 0;
+  right: 12px;
+  height: 0;
+  border-top: 1px dotted;
+}
+
+.trade-level-overlay .trade-level.entry {
+  border-color: rgba(226, 226, 226, 0.9);
+}
+
+.trade-level-overlay .trade-level.stop {
+  border-color: rgba(255, 84, 74, 0.92);
+}
+
+.trade-level-overlay .trade-level.take {
+  border-color: #06b470;
+}
+
+.trade-level-overlay .trade-level-label,
+.trade-level-overlay .trade-level-amount {
+  transform: translateY(-50%);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  line-height: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.trade-level-overlay .trade-level-label {
+  right: 6px;
+  background: rgba(10, 10, 10, 0.92);
+  color: #f4f4f5;
+}
+
+.trade-level-overlay .trade-level-label.stop {
+  border: 1px solid rgba(255, 84, 74, 0.55);
+}
+
+.trade-level-overlay .trade-level-label.take {
+  border: 1px solid rgba(6, 180, 112, 0.55);
+}
+
+.trade-level-overlay .trade-level-label.entry {
+  border: 1px solid rgba(226, 226, 226, 0.45);
+}
+
+.trade-level-overlay .trade-level-amount {
+  right: 95px;
+  background: rgba(10, 10, 10, 0.92);
+  color: #d4d4d8;
+}
+
+.trade-level-overlay .trade-level-amount.entry,
+.trade-level-overlay .trade-level-amount.stop,
+.trade-level-overlay .trade-level-amount.take {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 0 4px 0 10px;
+  border-radius: 4px;
+  border: none;
+  outline-offset: -1px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.trade-level-overlay .trade-level-amount.entry {
+  background: #2b2b2b;
+  outline: 1px solid #9b9b9b;
+}
+
+.trade-level-overlay .trade-level-amount.stop {
+  background: #251214;
+  outline: 1px solid #f23645;
+}
+
+.trade-level-overlay .trade-level-amount.take {
+  background: #022014;
+  outline: 1px solid #06b470;
+}
+
+.trade-level-overlay .trade-level-amount.entry .trade-level-amount-text,
+.trade-level-overlay .trade-level-amount.stop .trade-level-amount-text,
+.trade-level-overlay .trade-level-amount.take .trade-level-amount-text {
+  width: max-content;
+  flex-shrink: 0;
+  font-family: 'CoinbaseText-Regular', 'Coinbase Text', system-ui, sans-serif;
+  font-size: 10px;
+  line-height: 150%;
+}
+
+.trade-level-overlay .trade-level-amount.entry .trade-level-amount-text {
+  color: #ffffff;
+}
+
+.trade-level-overlay .trade-level-amount.stop .trade-level-amount-text {
+  color: #ff838d;
+}
+
+.trade-level-overlay .trade-level-amount.take .trade-level-amount-text {
+  color: #95efcb;
+}
+
+.trade-level-overlay .trade-level-amount.stop .trade-level-amount-icon,
+.trade-level-overlay .trade-level-amount.take .trade-level-amount-icon {
+  cursor: pointer;
+}
+
+.trade-level-overlay .trade-level-amount.entry .trade-level-amount-icon,
+.trade-level-overlay .trade-level-amount.stop .trade-level-amount-icon,
+.trade-level-overlay .trade-level-amount.take .trade-level-amount-icon {
+  position: relative;
+  overflow: clip;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
+
+.trade-level-overlay .trade-level-amount.entry .trade-level-amount-icon svg,
+.trade-level-overlay .trade-level-amount.stop .trade-level-amount-icon svg,
+.trade-level-overlay .trade-level-amount.take .trade-level-amount-icon svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  overflow: visible;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -579,6 +864,12 @@ html[data-theme='light'] body {
   .terminal-dashboard .react-grid-item > .react-resizable-handle,
   .terminal-dashboard .react-grid-item.card-module-grid-item-closing {
     animation: none;
+    transition: none;
+  }
+
+  .trade-level-overlay .trade-level-group,
+  .trade-level-overlay .trade-level-add-chip,
+  .trade-level-overlay .trade-level-add-chip-tooltip {
     transition: none;
   }
 }
